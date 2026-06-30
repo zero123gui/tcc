@@ -5,9 +5,7 @@
 package com.tcc.raft.grpc.proto;
 
 public final class RaftProto {
-  private RaftProto() {
-  }
-
+  private RaftProto() {}
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistryLite registry) {
   }
@@ -17,7 +15,6 @@ public final class RaftProto {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
-
   public interface RequestVoteRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:raft.RequestVoteRequest)
       com.google.protobuf.MessageOrBuilder {
@@ -29,7 +26,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 term = 1;</code>
-     * 
      * @return The term.
      */
     long getTerm();
@@ -40,21 +36,19 @@ public final class RaftProto {
      * </pre>
      *
      * <code>string candidate_id = 2;</code>
-     * 
      * @return The candidateId.
      */
     java.lang.String getCandidateId();
-
     /**
      * <pre>
      * Identificador único do nó que está pedindo o voto.
      * </pre>
      *
      * <code>string candidate_id = 2;</code>
-     * 
      * @return The bytes for candidateId.
      */
-    com.google.protobuf.ByteString getCandidateIdBytes();
+    com.google.protobuf.ByteString
+        getCandidateIdBytes();
 
     /**
      * <pre>
@@ -63,7 +57,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 last_log_index = 3;</code>
-     * 
      * @return The lastLogIndex.
      */
     long getLastLogIndex();
@@ -75,12 +68,10 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 last_log_term = 4;</code>
-     * 
      * @return The lastLogTerm.
      */
     long getLastLogTerm();
   }
-
   /**
    * Protobuf type {@code raft.RequestVoteRequest}
    */
@@ -88,38 +79,37 @@ public final class RaftProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:raft.RequestVoteRequest)
       RequestVoteRequestOrBuilder {
-    private static final long serialVersionUID = 0L;
-
+  private static final long serialVersionUID = 0L;
     // Use RequestVoteRequest.newBuilder() to construct.
     private RequestVoteRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private RequestVoteRequest() {
       candidateId_ = "";
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
       return new RequestVoteRequest();
     }
 
-    public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
       return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_RequestVoteRequest_descriptor;
     }
 
     @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
       return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_RequestVoteRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest.class,
-              com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest.Builder.class);
+              com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest.class, com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest.Builder.class);
     }
 
     public static final int TERM_FIELD_NUMBER = 1;
     private long term_ = 0L;
-
     /**
      * <pre>
      * Mandato do candidato. Se maior que o mandato atual do receptor,
@@ -127,7 +117,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 term = 1;</code>
-     * 
      * @return The term.
      */
     @java.lang.Override
@@ -136,15 +125,14 @@ public final class RaftProto {
     }
 
     public static final int CANDIDATE_ID_FIELD_NUMBER = 2;
+    @SuppressWarnings("serial")
     private volatile java.lang.Object candidateId_ = "";
-
     /**
      * <pre>
      * Identificador único do nó que está pedindo o voto.
      * </pre>
      *
      * <code>string candidate_id = 2;</code>
-     * 
      * @return The candidateId.
      */
     @java.lang.Override
@@ -153,28 +141,29 @@ public final class RaftProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         candidateId_ = s;
         return s;
       }
     }
-
     /**
      * <pre>
      * Identificador único do nó que está pedindo o voto.
      * </pre>
      *
      * <code>string candidate_id = 2;</code>
-     * 
      * @return The bytes for candidateId.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString getCandidateIdBytes() {
+    public com.google.protobuf.ByteString
+        getCandidateIdBytes() {
       java.lang.Object ref = candidateId_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-            (java.lang.String) ref);
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
         candidateId_ = b;
         return b;
       } else {
@@ -184,7 +173,6 @@ public final class RaftProto {
 
     public static final int LAST_LOG_INDEX_FIELD_NUMBER = 3;
     private long lastLogIndex_ = 0L;
-
     /**
      * <pre>
      * Índice da última entrada no log do candidato.
@@ -192,7 +180,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 last_log_index = 3;</code>
-     * 
      * @return The lastLogIndex.
      */
     @java.lang.Override
@@ -202,7 +189,6 @@ public final class RaftProto {
 
     public static final int LAST_LOG_TERM_FIELD_NUMBER = 4;
     private long lastLogTerm_ = 0L;
-
     /**
      * <pre>
      * Mandato da última entrada no log do candidato.
@@ -210,7 +196,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 last_log_term = 4;</code>
-     * 
      * @return The lastLogTerm.
      */
     @java.lang.Override
@@ -219,14 +204,11 @@ public final class RaftProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1)
-        return true;
-      if (isInitialized == 0)
-        return false;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -234,7 +216,7 @@ public final class RaftProto {
 
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-        throws java.io.IOException {
+                        throws java.io.IOException {
       if (term_ != 0L) {
         output.writeInt64(1, term_);
       }
@@ -253,24 +235,23 @@ public final class RaftProto {
     @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
-      if (size != -1)
-        return size;
+      if (size != -1) return size;
 
       size = 0;
       if (term_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(1, term_);
+          .computeInt64Size(1, term_);
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(candidateId_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, candidateId_);
       }
       if (lastLogIndex_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(3, lastLogIndex_);
+          .computeInt64Size(3, lastLogIndex_);
       }
       if (lastLogTerm_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(4, lastLogTerm_);
+          .computeInt64Size(4, lastLogTerm_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -280,24 +261,22 @@ public final class RaftProto {
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
       if (!(obj instanceof com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest)) {
         return super.equals(obj);
       }
       com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest other = (com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest) obj;
 
-      if (getTerm() != other.getTerm())
-        return false;
+      if (getTerm()
+          != other.getTerm()) return false;
       if (!getCandidateId()
-          .equals(other.getCandidateId()))
-        return false;
-      if (getLastLogIndex() != other.getLastLogIndex())
-        return false;
-      if (getLastLogTerm() != other.getLastLogTerm())
-        return false;
-      if (!getUnknownFields().equals(other.getUnknownFields()))
-        return false;
+          .equals(other.getCandidateId())) return false;
+      if (getLastLogIndex()
+          != other.getLastLogIndex()) return false;
+      if (getLastLogTerm()
+          != other.getLastLogTerm()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -329,45 +308,38 @@ public final class RaftProto {
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -389,14 +361,12 @@ public final class RaftProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -406,23 +376,17 @@ public final class RaftProto {
     }
 
     @java.lang.Override
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-          ? new Builder()
-          : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
     @java.lang.Override
@@ -431,7 +395,6 @@ public final class RaftProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code raft.RequestVoteRequest}
      */
@@ -439,20 +402,20 @@ public final class RaftProto {
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:raft.RequestVoteRequest)
         com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequestOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
         return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_RequestVoteRequest_descriptor;
       }
 
       @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
         return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_RequestVoteRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest.class,
-                com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest.Builder.class);
+                com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest.class, com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest.Builder.class);
       }
 
-      // Construct using
-      // com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest.newBuilder()
+      // Construct using com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest.newBuilder()
       private Builder() {
 
       }
@@ -462,7 +425,6 @@ public final class RaftProto {
         super(parent);
 
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -475,7 +437,8 @@ public final class RaftProto {
       }
 
       @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
         return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_RequestVoteRequest_descriptor;
       }
 
@@ -495,11 +458,8 @@ public final class RaftProto {
 
       @java.lang.Override
       public com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest buildPartial() {
-        com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest result = new com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest(
-            this);
-        if (bitField0_ != 0) {
-          buildPartial0(result);
-        }
+        com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest result = new com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
@@ -524,44 +484,38 @@ public final class RaftProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest) {
-          return mergeFrom((com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest) other);
+          return mergeFrom((com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
@@ -569,8 +523,7 @@ public final class RaftProto {
       }
 
       public Builder mergeFrom(com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest other) {
-        if (other == com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest.getDefaultInstance())
-          return this;
+        if (other == com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest.getDefaultInstance()) return this;
         if (other.getTerm() != 0L) {
           setTerm(other.getTerm());
         }
@@ -646,11 +599,9 @@ public final class RaftProto {
         } // finally
         return this;
       }
-
       private int bitField0_;
 
-      private long term_;
-
+      private long term_ ;
       /**
        * <pre>
        * Mandato do candidato. Se maior que o mandato atual do receptor,
@@ -658,14 +609,12 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 term = 1;</code>
-       * 
        * @return The term.
        */
       @java.lang.Override
       public long getTerm() {
         return term_;
       }
-
       /**
        * <pre>
        * Mandato do candidato. Se maior que o mandato atual do receptor,
@@ -673,7 +622,6 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 term = 1;</code>
-       * 
        * @param value The term to set.
        * @return This builder for chaining.
        */
@@ -684,7 +632,6 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Mandato do candidato. Se maior que o mandato atual do receptor,
@@ -692,7 +639,6 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 term = 1;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearTerm() {
@@ -703,20 +649,19 @@ public final class RaftProto {
       }
 
       private java.lang.Object candidateId_ = "";
-
       /**
        * <pre>
        * Identificador único do nó que está pedindo o voto.
        * </pre>
        *
        * <code>string candidate_id = 2;</code>
-       * 
        * @return The candidateId.
        */
       public java.lang.String getCandidateId() {
         java.lang.Object ref = candidateId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           candidateId_ = s;
           return s;
@@ -724,56 +669,50 @@ public final class RaftProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <pre>
        * Identificador único do nó que está pedindo o voto.
        * </pre>
        *
        * <code>string candidate_id = 2;</code>
-       * 
        * @return The bytes for candidateId.
        */
-      public com.google.protobuf.ByteString getCandidateIdBytes() {
+      public com.google.protobuf.ByteString
+          getCandidateIdBytes() {
         java.lang.Object ref = candidateId_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
           candidateId_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <pre>
        * Identificador único do nó que está pedindo o voto.
        * </pre>
        *
        * <code>string candidate_id = 2;</code>
-       * 
        * @param value The candidateId to set.
        * @return This builder for chaining.
        */
       public Builder setCandidateId(
           java.lang.String value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         candidateId_ = value;
         bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Identificador único do nó que está pedindo o voto.
        * </pre>
        *
        * <code>string candidate_id = 2;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearCandidateId() {
@@ -782,22 +721,18 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Identificador único do nó que está pedindo o voto.
        * </pre>
        *
        * <code>string candidate_id = 2;</code>
-       * 
        * @param value The bytes for candidateId to set.
        * @return This builder for chaining.
        */
       public Builder setCandidateIdBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         checkByteStringIsUtf8(value);
         candidateId_ = value;
         bitField0_ |= 0x00000002;
@@ -805,8 +740,7 @@ public final class RaftProto {
         return this;
       }
 
-      private long lastLogIndex_;
-
+      private long lastLogIndex_ ;
       /**
        * <pre>
        * Índice da última entrada no log do candidato.
@@ -814,14 +748,12 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 last_log_index = 3;</code>
-       * 
        * @return The lastLogIndex.
        */
       @java.lang.Override
       public long getLastLogIndex() {
         return lastLogIndex_;
       }
-
       /**
        * <pre>
        * Índice da última entrada no log do candidato.
@@ -829,7 +761,6 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 last_log_index = 3;</code>
-       * 
        * @param value The lastLogIndex to set.
        * @return This builder for chaining.
        */
@@ -840,7 +771,6 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Índice da última entrada no log do candidato.
@@ -848,7 +778,6 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 last_log_index = 3;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearLastLogIndex() {
@@ -858,8 +787,7 @@ public final class RaftProto {
         return this;
       }
 
-      private long lastLogTerm_;
-
+      private long lastLogTerm_ ;
       /**
        * <pre>
        * Mandato da última entrada no log do candidato.
@@ -867,14 +795,12 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 last_log_term = 4;</code>
-       * 
        * @return The lastLogTerm.
        */
       @java.lang.Override
       public long getLastLogTerm() {
         return lastLogTerm_;
       }
-
       /**
        * <pre>
        * Mandato da última entrada no log do candidato.
@@ -882,7 +808,6 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 last_log_term = 4;</code>
-       * 
        * @param value The lastLogTerm to set.
        * @return This builder for chaining.
        */
@@ -893,7 +818,6 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Mandato da última entrada no log do candidato.
@@ -901,7 +825,6 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 last_log_term = 4;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearLastLogTerm() {
@@ -910,7 +833,6 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -922,6 +844,7 @@ public final class RaftProto {
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
+
 
       // @@protoc_insertion_point(builder_scope:raft.RequestVoteRequest)
     }
@@ -936,7 +859,8 @@ public final class RaftProto {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<RequestVoteRequest> PARSER = new com.google.protobuf.AbstractParser<RequestVoteRequest>() {
+    private static final com.google.protobuf.Parser<RequestVoteRequest>
+        PARSER = new com.google.protobuf.AbstractParser<RequestVoteRequest>() {
       @java.lang.Override
       public RequestVoteRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
@@ -984,7 +908,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 term = 1;</code>
-     * 
      * @return The term.
      */
     long getTerm();
@@ -995,12 +918,10 @@ public final class RaftProto {
      * </pre>
      *
      * <code>bool vote_granted = 2;</code>
-     * 
      * @return The voteGranted.
      */
     boolean getVoteGranted();
   }
-
   /**
    * Protobuf type {@code raft.RequestVoteResponse}
    */
@@ -1008,37 +929,36 @@ public final class RaftProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:raft.RequestVoteResponse)
       RequestVoteResponseOrBuilder {
-    private static final long serialVersionUID = 0L;
-
+  private static final long serialVersionUID = 0L;
     // Use RequestVoteResponse.newBuilder() to construct.
     private RequestVoteResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private RequestVoteResponse() {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
       return new RequestVoteResponse();
     }
 
-    public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
       return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_RequestVoteResponse_descriptor;
     }
 
     @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
       return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_RequestVoteResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse.class,
-              com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse.Builder.class);
+              com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse.class, com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse.Builder.class);
     }
 
     public static final int TERM_FIELD_NUMBER = 1;
     private long term_ = 0L;
-
     /**
      * <pre>
      * Mandato atual do respondente. Se maior que o do candidato,
@@ -1046,7 +966,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 term = 1;</code>
-     * 
      * @return The term.
      */
     @java.lang.Override
@@ -1056,14 +975,12 @@ public final class RaftProto {
 
     public static final int VOTE_GRANTED_FIELD_NUMBER = 2;
     private boolean voteGranted_ = false;
-
     /**
      * <pre>
      * true se o voto foi concedido ao candidato.
      * </pre>
      *
      * <code>bool vote_granted = 2;</code>
-     * 
      * @return The voteGranted.
      */
     @java.lang.Override
@@ -1072,14 +989,11 @@ public final class RaftProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1)
-        return true;
-      if (isInitialized == 0)
-        return false;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -1087,7 +1001,7 @@ public final class RaftProto {
 
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-        throws java.io.IOException {
+                        throws java.io.IOException {
       if (term_ != 0L) {
         output.writeInt64(1, term_);
       }
@@ -1100,17 +1014,16 @@ public final class RaftProto {
     @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
-      if (size != -1)
-        return size;
+      if (size != -1) return size;
 
       size = 0;
       if (term_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(1, term_);
+          .computeInt64Size(1, term_);
       }
       if (voteGranted_ != false) {
         size += com.google.protobuf.CodedOutputStream
-            .computeBoolSize(2, voteGranted_);
+          .computeBoolSize(2, voteGranted_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1120,19 +1033,18 @@ public final class RaftProto {
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
       if (!(obj instanceof com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse)) {
         return super.equals(obj);
       }
       com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse other = (com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse) obj;
 
-      if (getTerm() != other.getTerm())
-        return false;
-      if (getVoteGranted() != other.getVoteGranted())
-        return false;
-      if (!getUnknownFields().equals(other.getUnknownFields()))
-        return false;
+      if (getTerm()
+          != other.getTerm()) return false;
+      if (getVoteGranted()
+          != other.getVoteGranted()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -1159,45 +1071,38 @@ public final class RaftProto {
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1219,14 +1124,12 @@ public final class RaftProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1236,23 +1139,17 @@ public final class RaftProto {
     }
 
     @java.lang.Override
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-          ? new Builder()
-          : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
     @java.lang.Override
@@ -1261,7 +1158,6 @@ public final class RaftProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code raft.RequestVoteResponse}
      */
@@ -1269,20 +1165,20 @@ public final class RaftProto {
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:raft.RequestVoteResponse)
         com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponseOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
         return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_RequestVoteResponse_descriptor;
       }
 
       @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
         return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_RequestVoteResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse.class,
-                com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse.Builder.class);
+                com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse.class, com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse.Builder.class);
       }
 
-      // Construct using
-      // com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse.newBuilder()
+      // Construct using com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse.newBuilder()
       private Builder() {
 
       }
@@ -1292,7 +1188,6 @@ public final class RaftProto {
         super(parent);
 
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -1303,7 +1198,8 @@ public final class RaftProto {
       }
 
       @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
         return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_RequestVoteResponse_descriptor;
       }
 
@@ -1323,11 +1219,8 @@ public final class RaftProto {
 
       @java.lang.Override
       public com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse buildPartial() {
-        com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse result = new com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse(
-            this);
-        if (bitField0_ != 0) {
-          buildPartial0(result);
-        }
+        com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse result = new com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
@@ -1346,44 +1239,38 @@ public final class RaftProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse) {
-          return mergeFrom((com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse) other);
+          return mergeFrom((com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
@@ -1391,8 +1278,7 @@ public final class RaftProto {
       }
 
       public Builder mergeFrom(com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse other) {
-        if (other == com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse.getDefaultInstance())
-          return this;
+        if (other == com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse.getDefaultInstance()) return this;
         if (other.getTerm() != 0L) {
           setTerm(other.getTerm());
         }
@@ -1450,11 +1336,9 @@ public final class RaftProto {
         } // finally
         return this;
       }
-
       private int bitField0_;
 
-      private long term_;
-
+      private long term_ ;
       /**
        * <pre>
        * Mandato atual do respondente. Se maior que o do candidato,
@@ -1462,14 +1346,12 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 term = 1;</code>
-       * 
        * @return The term.
        */
       @java.lang.Override
       public long getTerm() {
         return term_;
       }
-
       /**
        * <pre>
        * Mandato atual do respondente. Se maior que o do candidato,
@@ -1477,7 +1359,6 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 term = 1;</code>
-       * 
        * @param value The term to set.
        * @return This builder for chaining.
        */
@@ -1488,7 +1369,6 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Mandato atual do respondente. Se maior que o do candidato,
@@ -1496,7 +1376,6 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 term = 1;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearTerm() {
@@ -1506,29 +1385,25 @@ public final class RaftProto {
         return this;
       }
 
-      private boolean voteGranted_;
-
+      private boolean voteGranted_ ;
       /**
        * <pre>
        * true se o voto foi concedido ao candidato.
        * </pre>
        *
        * <code>bool vote_granted = 2;</code>
-       * 
        * @return The voteGranted.
        */
       @java.lang.Override
       public boolean getVoteGranted() {
         return voteGranted_;
       }
-
       /**
        * <pre>
        * true se o voto foi concedido ao candidato.
        * </pre>
        *
        * <code>bool vote_granted = 2;</code>
-       * 
        * @param value The voteGranted to set.
        * @return This builder for chaining.
        */
@@ -1539,14 +1414,12 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * true se o voto foi concedido ao candidato.
        * </pre>
        *
        * <code>bool vote_granted = 2;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearVoteGranted() {
@@ -1555,7 +1428,6 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -1567,6 +1439,7 @@ public final class RaftProto {
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
+
 
       // @@protoc_insertion_point(builder_scope:raft.RequestVoteResponse)
     }
@@ -1581,7 +1454,8 @@ public final class RaftProto {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<RequestVoteResponse> PARSER = new com.google.protobuf.AbstractParser<RequestVoteResponse>() {
+    private static final com.google.protobuf.Parser<RequestVoteResponse>
+        PARSER = new com.google.protobuf.AbstractParser<RequestVoteResponse>() {
       @java.lang.Override
       public RequestVoteResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
@@ -1628,7 +1502,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 index = 1;</code>
-     * 
      * @return The index.
      */
     long getIndex();
@@ -1639,7 +1512,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 term = 2;</code>
-     * 
      * @return The term.
      */
     long getTerm();
@@ -1650,18 +1522,15 @@ public final class RaftProto {
      * </pre>
      *
      * <code>.raft.LogEntry.EntryType type = 3;</code>
-     * 
      * @return The enum numeric value on the wire for type.
      */
     int getTypeValue();
-
     /**
      * <pre>
      * Tipo da entrada, define como o campo 'data' deve ser interpretado.
      * </pre>
      *
      * <code>.raft.LogEntry.EntryType type = 3;</code>
-     * 
      * @return The type.
      */
     com.tcc.raft.grpc.proto.RaftProto.LogEntry.EntryType getType();
@@ -1675,12 +1544,10 @@ public final class RaftProto {
      * </pre>
      *
      * <code>bytes data = 4;</code>
-     * 
      * @return The data.
      */
     com.google.protobuf.ByteString getData();
   }
-
   /**
    * <pre>
    * Representa uma entrada no log do Raft.
@@ -1692,34 +1559,34 @@ public final class RaftProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:raft.LogEntry)
       LogEntryOrBuilder {
-    private static final long serialVersionUID = 0L;
-
+  private static final long serialVersionUID = 0L;
     // Use LogEntry.newBuilder() to construct.
     private LogEntry(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private LogEntry() {
       type_ = 0;
       data_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
       return new LogEntry();
     }
 
-    public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
       return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_LogEntry_descriptor;
     }
 
     @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
       return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_LogEntry_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.tcc.raft.grpc.proto.RaftProto.LogEntry.class,
-              com.tcc.raft.grpc.proto.RaftProto.LogEntry.Builder.class);
+              com.tcc.raft.grpc.proto.RaftProto.LogEntry.class, com.tcc.raft.grpc.proto.RaftProto.LogEntry.Builder.class);
     }
 
     /**
@@ -1787,6 +1654,7 @@ public final class RaftProto {
        */
       public static final int CONFIG_CHANGE_VALUE = 2;
 
+
       public final int getNumber() {
         if (this == UNRECOGNIZED) {
           throw new java.lang.IllegalArgumentException(
@@ -1811,40 +1679,39 @@ public final class RaftProto {
        */
       public static EntryType forNumber(int value) {
         switch (value) {
-          case 0:
-            return NO_OP;
-          case 1:
-            return FAILOVER;
-          case 2:
-            return CONFIG_CHANGE;
-          default:
-            return null;
+          case 0: return NO_OP;
+          case 1: return FAILOVER;
+          case 2: return CONFIG_CHANGE;
+          default: return null;
         }
       }
 
-      public static com.google.protobuf.Internal.EnumLiteMap<EntryType> internalGetValueMap() {
+      public static com.google.protobuf.Internal.EnumLiteMap<EntryType>
+          internalGetValueMap() {
         return internalValueMap;
       }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          EntryType> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<EntryType>() {
+              public EntryType findValueByNumber(int number) {
+                return EntryType.forNumber(number);
+              }
+            };
 
-      private static final com.google.protobuf.Internal.EnumLiteMap<EntryType> internalValueMap = new com.google.protobuf.Internal.EnumLiteMap<EntryType>() {
-        public EntryType findValueByNumber(int number) {
-          return EntryType.forNumber(number);
-        }
-      };
-
-      public final com.google.protobuf.Descriptors.EnumValueDescriptor getValueDescriptor() {
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
         if (this == UNRECOGNIZED) {
           throw new java.lang.IllegalStateException(
               "Can't get the descriptor of an unrecognized enum value.");
         }
         return getDescriptor().getValues().get(ordinal());
       }
-
-      public final com.google.protobuf.Descriptors.EnumDescriptor getDescriptorForType() {
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
         return getDescriptor();
       }
-
-      public static final com.google.protobuf.Descriptors.EnumDescriptor getDescriptor() {
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
         return com.tcc.raft.grpc.proto.RaftProto.LogEntry.getDescriptor().getEnumTypes().get(0);
       }
 
@@ -1854,7 +1721,7 @@ public final class RaftProto {
           com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
         if (desc.getType() != getDescriptor()) {
           throw new java.lang.IllegalArgumentException(
-              "EnumValueDescriptor is not for this type.");
+            "EnumValueDescriptor is not for this type.");
         }
         if (desc.getIndex() == -1) {
           return UNRECOGNIZED;
@@ -1873,14 +1740,12 @@ public final class RaftProto {
 
     public static final int INDEX_FIELD_NUMBER = 1;
     private long index_ = 0L;
-
     /**
      * <pre>
      * Posição desta entrada no log (começa em 1).
      * </pre>
      *
      * <code>int64 index = 1;</code>
-     * 
      * @return The index.
      */
     @java.lang.Override
@@ -1890,14 +1755,12 @@ public final class RaftProto {
 
     public static final int TERM_FIELD_NUMBER = 2;
     private long term_ = 0L;
-
     /**
      * <pre>
      * Mandato em que esta entrada foi criada pelo líder.
      * </pre>
      *
      * <code>int64 term = 2;</code>
-     * 
      * @return The term.
      */
     @java.lang.Override
@@ -1907,40 +1770,32 @@ public final class RaftProto {
 
     public static final int TYPE_FIELD_NUMBER = 3;
     private int type_ = 0;
-
     /**
      * <pre>
      * Tipo da entrada, define como o campo 'data' deve ser interpretado.
      * </pre>
      *
      * <code>.raft.LogEntry.EntryType type = 3;</code>
-     * 
      * @return The enum numeric value on the wire for type.
      */
-    @java.lang.Override
-    public int getTypeValue() {
+    @java.lang.Override public int getTypeValue() {
       return type_;
     }
-
     /**
      * <pre>
      * Tipo da entrada, define como o campo 'data' deve ser interpretado.
      * </pre>
      *
      * <code>.raft.LogEntry.EntryType type = 3;</code>
-     * 
      * @return The type.
      */
-    @java.lang.Override
-    public com.tcc.raft.grpc.proto.RaftProto.LogEntry.EntryType getType() {
-      com.tcc.raft.grpc.proto.RaftProto.LogEntry.EntryType result = com.tcc.raft.grpc.proto.RaftProto.LogEntry.EntryType
-          .forNumber(type_);
+    @java.lang.Override public com.tcc.raft.grpc.proto.RaftProto.LogEntry.EntryType getType() {
+      com.tcc.raft.grpc.proto.RaftProto.LogEntry.EntryType result = com.tcc.raft.grpc.proto.RaftProto.LogEntry.EntryType.forNumber(type_);
       return result == null ? com.tcc.raft.grpc.proto.RaftProto.LogEntry.EntryType.UNRECOGNIZED : result;
     }
 
     public static final int DATA_FIELD_NUMBER = 4;
     private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
-
     /**
      * <pre>
      * Conteúdo da entrada serializado. O tipo define o schema dos dados.
@@ -1950,7 +1805,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>bytes data = 4;</code>
-     * 
      * @return The data.
      */
     @java.lang.Override
@@ -1959,14 +1813,11 @@ public final class RaftProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1)
-        return true;
-      if (isInitialized == 0)
-        return false;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -1974,7 +1825,7 @@ public final class RaftProto {
 
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-        throws java.io.IOException {
+                        throws java.io.IOException {
       if (index_ != 0L) {
         output.writeInt64(1, index_);
       }
@@ -1993,25 +1844,24 @@ public final class RaftProto {
     @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
-      if (size != -1)
-        return size;
+      if (size != -1) return size;
 
       size = 0;
       if (index_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(1, index_);
+          .computeInt64Size(1, index_);
       }
       if (term_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(2, term_);
+          .computeInt64Size(2, term_);
       }
       if (type_ != com.tcc.raft.grpc.proto.RaftProto.LogEntry.EntryType.NO_OP.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-            .computeEnumSize(3, type_);
+          .computeEnumSize(3, type_);
       }
       if (!data_.isEmpty()) {
         size += com.google.protobuf.CodedOutputStream
-            .computeBytesSize(4, data_);
+          .computeBytesSize(4, data_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -2021,24 +1871,21 @@ public final class RaftProto {
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
       if (!(obj instanceof com.tcc.raft.grpc.proto.RaftProto.LogEntry)) {
         return super.equals(obj);
       }
       com.tcc.raft.grpc.proto.RaftProto.LogEntry other = (com.tcc.raft.grpc.proto.RaftProto.LogEntry) obj;
 
-      if (getIndex() != other.getIndex())
-        return false;
-      if (getTerm() != other.getTerm())
-        return false;
-      if (type_ != other.type_)
-        return false;
+      if (getIndex()
+          != other.getIndex()) return false;
+      if (getTerm()
+          != other.getTerm()) return false;
+      if (type_ != other.type_) return false;
       if (!getData()
-          .equals(other.getData()))
-        return false;
-      if (!getUnknownFields().equals(other.getUnknownFields()))
-        return false;
+          .equals(other.getData())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -2069,45 +1916,38 @@ public final class RaftProto {
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.LogEntry parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.LogEntry parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.LogEntry parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.LogEntry parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.LogEntry parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.LogEntry parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.LogEntry parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2129,14 +1969,12 @@ public final class RaftProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.LogEntry parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.LogEntry parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2146,23 +1984,17 @@ public final class RaftProto {
     }
 
     @java.lang.Override
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.tcc.raft.grpc.proto.RaftProto.LogEntry prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-          ? new Builder()
-          : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
     @java.lang.Override
@@ -2171,7 +2003,6 @@ public final class RaftProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * <pre>
      * Representa uma entrada no log do Raft.
@@ -2183,16 +2014,17 @@ public final class RaftProto {
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:raft.LogEntry)
         com.tcc.raft.grpc.proto.RaftProto.LogEntryOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
         return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_LogEntry_descriptor;
       }
 
       @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
         return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_LogEntry_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.tcc.raft.grpc.proto.RaftProto.LogEntry.class,
-                com.tcc.raft.grpc.proto.RaftProto.LogEntry.Builder.class);
+                com.tcc.raft.grpc.proto.RaftProto.LogEntry.class, com.tcc.raft.grpc.proto.RaftProto.LogEntry.Builder.class);
       }
 
       // Construct using com.tcc.raft.grpc.proto.RaftProto.LogEntry.newBuilder()
@@ -2205,7 +2037,6 @@ public final class RaftProto {
         super(parent);
 
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -2218,7 +2049,8 @@ public final class RaftProto {
       }
 
       @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
         return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_LogEntry_descriptor;
       }
 
@@ -2239,9 +2071,7 @@ public final class RaftProto {
       @java.lang.Override
       public com.tcc.raft.grpc.proto.RaftProto.LogEntry buildPartial() {
         com.tcc.raft.grpc.proto.RaftProto.LogEntry result = new com.tcc.raft.grpc.proto.RaftProto.LogEntry(this);
-        if (bitField0_ != 0) {
-          buildPartial0(result);
-        }
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
@@ -2266,44 +2096,38 @@ public final class RaftProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.tcc.raft.grpc.proto.RaftProto.LogEntry) {
-          return mergeFrom((com.tcc.raft.grpc.proto.RaftProto.LogEntry) other);
+          return mergeFrom((com.tcc.raft.grpc.proto.RaftProto.LogEntry)other);
         } else {
           super.mergeFrom(other);
           return this;
@@ -2311,8 +2135,7 @@ public final class RaftProto {
       }
 
       public Builder mergeFrom(com.tcc.raft.grpc.proto.RaftProto.LogEntry other) {
-        if (other == com.tcc.raft.grpc.proto.RaftProto.LogEntry.getDefaultInstance())
-          return this;
+        if (other == com.tcc.raft.grpc.proto.RaftProto.LogEntry.getDefaultInstance()) return this;
         if (other.getIndex() != 0L) {
           setIndex(other.getIndex());
         }
@@ -2386,32 +2209,27 @@ public final class RaftProto {
         } // finally
         return this;
       }
-
       private int bitField0_;
 
-      private long index_;
-
+      private long index_ ;
       /**
        * <pre>
        * Posição desta entrada no log (começa em 1).
        * </pre>
        *
        * <code>int64 index = 1;</code>
-       * 
        * @return The index.
        */
       @java.lang.Override
       public long getIndex() {
         return index_;
       }
-
       /**
        * <pre>
        * Posição desta entrada no log (começa em 1).
        * </pre>
        *
        * <code>int64 index = 1;</code>
-       * 
        * @param value The index to set.
        * @return This builder for chaining.
        */
@@ -2422,14 +2240,12 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Posição desta entrada no log (começa em 1).
        * </pre>
        *
        * <code>int64 index = 1;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearIndex() {
@@ -2439,29 +2255,25 @@ public final class RaftProto {
         return this;
       }
 
-      private long term_;
-
+      private long term_ ;
       /**
        * <pre>
        * Mandato em que esta entrada foi criada pelo líder.
        * </pre>
        *
        * <code>int64 term = 2;</code>
-       * 
        * @return The term.
        */
       @java.lang.Override
       public long getTerm() {
         return term_;
       }
-
       /**
        * <pre>
        * Mandato em que esta entrada foi criada pelo líder.
        * </pre>
        *
        * <code>int64 term = 2;</code>
-       * 
        * @param value The term to set.
        * @return This builder for chaining.
        */
@@ -2472,14 +2284,12 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Mandato em que esta entrada foi criada pelo líder.
        * </pre>
        *
        * <code>int64 term = 2;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearTerm() {
@@ -2490,28 +2300,23 @@ public final class RaftProto {
       }
 
       private int type_ = 0;
-
       /**
        * <pre>
        * Tipo da entrada, define como o campo 'data' deve ser interpretado.
        * </pre>
        *
        * <code>.raft.LogEntry.EntryType type = 3;</code>
-       * 
        * @return The enum numeric value on the wire for type.
        */
-      @java.lang.Override
-      public int getTypeValue() {
+      @java.lang.Override public int getTypeValue() {
         return type_;
       }
-
       /**
        * <pre>
        * Tipo da entrada, define como o campo 'data' deve ser interpretado.
        * </pre>
        *
        * <code>.raft.LogEntry.EntryType type = 3;</code>
-       * 
        * @param value The enum numeric value on the wire for type to set.
        * @return This builder for chaining.
        */
@@ -2521,30 +2326,25 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Tipo da entrada, define como o campo 'data' deve ser interpretado.
        * </pre>
        *
        * <code>.raft.LogEntry.EntryType type = 3;</code>
-       * 
        * @return The type.
        */
       @java.lang.Override
       public com.tcc.raft.grpc.proto.RaftProto.LogEntry.EntryType getType() {
-        com.tcc.raft.grpc.proto.RaftProto.LogEntry.EntryType result = com.tcc.raft.grpc.proto.RaftProto.LogEntry.EntryType
-            .forNumber(type_);
+        com.tcc.raft.grpc.proto.RaftProto.LogEntry.EntryType result = com.tcc.raft.grpc.proto.RaftProto.LogEntry.EntryType.forNumber(type_);
         return result == null ? com.tcc.raft.grpc.proto.RaftProto.LogEntry.EntryType.UNRECOGNIZED : result;
       }
-
       /**
        * <pre>
        * Tipo da entrada, define como o campo 'data' deve ser interpretado.
        * </pre>
        *
        * <code>.raft.LogEntry.EntryType type = 3;</code>
-       * 
        * @param value The type to set.
        * @return This builder for chaining.
        */
@@ -2557,14 +2357,12 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Tipo da entrada, define como o campo 'data' deve ser interpretado.
        * </pre>
        *
        * <code>.raft.LogEntry.EntryType type = 3;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearType() {
@@ -2575,7 +2373,6 @@ public final class RaftProto {
       }
 
       private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
-
       /**
        * <pre>
        * Conteúdo da entrada serializado. O tipo define o schema dos dados.
@@ -2585,14 +2382,12 @@ public final class RaftProto {
        * </pre>
        *
        * <code>bytes data = 4;</code>
-       * 
        * @return The data.
        */
       @java.lang.Override
       public com.google.protobuf.ByteString getData() {
         return data_;
       }
-
       /**
        * <pre>
        * Conteúdo da entrada serializado. O tipo define o schema dos dados.
@@ -2602,20 +2397,16 @@ public final class RaftProto {
        * </pre>
        *
        * <code>bytes data = 4;</code>
-       * 
        * @param value The data to set.
        * @return This builder for chaining.
        */
       public Builder setData(com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         data_ = value;
         bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Conteúdo da entrada serializado. O tipo define o schema dos dados.
@@ -2625,7 +2416,6 @@ public final class RaftProto {
        * </pre>
        *
        * <code>bytes data = 4;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearData() {
@@ -2634,7 +2424,6 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -2646,6 +2435,7 @@ public final class RaftProto {
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
+
 
       // @@protoc_insertion_point(builder_scope:raft.LogEntry)
     }
@@ -2660,7 +2450,8 @@ public final class RaftProto {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<LogEntry> PARSER = new com.google.protobuf.AbstractParser<LogEntry>() {
+    private static final com.google.protobuf.Parser<LogEntry>
+        PARSER = new com.google.protobuf.AbstractParser<LogEntry>() {
       @java.lang.Override
       public LogEntry parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
@@ -2707,7 +2498,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 term = 1;</code>
-     * 
      * @return The term.
      */
     long getTerm();
@@ -2719,11 +2509,9 @@ public final class RaftProto {
      * </pre>
      *
      * <code>string leader_id = 2;</code>
-     * 
      * @return The leaderId.
      */
     java.lang.String getLeaderId();
-
     /**
      * <pre>
      * Identificador do líder. Seguidores usam isso para redirecionar
@@ -2731,10 +2519,10 @@ public final class RaftProto {
      * </pre>
      *
      * <code>string leader_id = 2;</code>
-     * 
      * @return The bytes for leaderId.
      */
-    com.google.protobuf.ByteString getLeaderIdBytes();
+    com.google.protobuf.ByteString
+        getLeaderIdBytes();
 
     /**
      * <pre>
@@ -2744,7 +2532,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 prev_log_index = 3;</code>
-     * 
      * @return The prevLogIndex.
      */
     long getPrevLogIndex();
@@ -2755,7 +2542,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 prev_log_term = 4;</code>
-     * 
      * @return The prevLogTerm.
      */
     long getPrevLogTerm();
@@ -2767,8 +2553,8 @@ public final class RaftProto {
      *
      * <code>repeated .raft.LogEntry entries = 5;</code>
      */
-    java.util.List<com.tcc.raft.grpc.proto.RaftProto.LogEntry> getEntriesList();
-
+    java.util.List<com.tcc.raft.grpc.proto.RaftProto.LogEntry> 
+        getEntriesList();
     /**
      * <pre>
      * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -2777,7 +2563,6 @@ public final class RaftProto {
      * <code>repeated .raft.LogEntry entries = 5;</code>
      */
     com.tcc.raft.grpc.proto.RaftProto.LogEntry getEntries(int index);
-
     /**
      * <pre>
      * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -2786,7 +2571,6 @@ public final class RaftProto {
      * <code>repeated .raft.LogEntry entries = 5;</code>
      */
     int getEntriesCount();
-
     /**
      * <pre>
      * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -2794,8 +2578,8 @@ public final class RaftProto {
      *
      * <code>repeated .raft.LogEntry entries = 5;</code>
      */
-    java.util.List<? extends com.tcc.raft.grpc.proto.RaftProto.LogEntryOrBuilder> getEntriesOrBuilderList();
-
+    java.util.List<? extends com.tcc.raft.grpc.proto.RaftProto.LogEntryOrBuilder> 
+        getEntriesOrBuilderList();
     /**
      * <pre>
      * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -2813,12 +2597,10 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 leader_commit = 6;</code>
-     * 
      * @return The leaderCommit.
      */
     long getLeaderCommit();
   }
-
   /**
    * Protobuf type {@code raft.AppendEntriesRequest}
    */
@@ -2826,46 +2608,44 @@ public final class RaftProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:raft.AppendEntriesRequest)
       AppendEntriesRequestOrBuilder {
-    private static final long serialVersionUID = 0L;
-
+  private static final long serialVersionUID = 0L;
     // Use AppendEntriesRequest.newBuilder() to construct.
     private AppendEntriesRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private AppendEntriesRequest() {
       leaderId_ = "";
       entries_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
       return new AppendEntriesRequest();
     }
 
-    public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
       return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_AppendEntriesRequest_descriptor;
     }
 
     @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
       return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_AppendEntriesRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest.class,
-              com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest.Builder.class);
+              com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest.class, com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest.Builder.class);
     }
 
     public static final int TERM_FIELD_NUMBER = 1;
     private long term_ = 0L;
-
     /**
      * <pre>
      * Mandato atual do líder.
      * </pre>
      *
      * <code>int64 term = 1;</code>
-     * 
      * @return The term.
      */
     @java.lang.Override
@@ -2874,8 +2654,8 @@ public final class RaftProto {
     }
 
     public static final int LEADER_ID_FIELD_NUMBER = 2;
+    @SuppressWarnings("serial")
     private volatile java.lang.Object leaderId_ = "";
-
     /**
      * <pre>
      * Identificador do líder. Seguidores usam isso para redirecionar
@@ -2883,7 +2663,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>string leader_id = 2;</code>
-     * 
      * @return The leaderId.
      */
     @java.lang.Override
@@ -2892,13 +2671,13 @@ public final class RaftProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         leaderId_ = s;
         return s;
       }
     }
-
     /**
      * <pre>
      * Identificador do líder. Seguidores usam isso para redirecionar
@@ -2906,15 +2685,16 @@ public final class RaftProto {
      * </pre>
      *
      * <code>string leader_id = 2;</code>
-     * 
      * @return The bytes for leaderId.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString getLeaderIdBytes() {
+    public com.google.protobuf.ByteString
+        getLeaderIdBytes() {
       java.lang.Object ref = leaderId_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-            (java.lang.String) ref);
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
         leaderId_ = b;
         return b;
       } else {
@@ -2924,7 +2704,6 @@ public final class RaftProto {
 
     public static final int PREV_LOG_INDEX_FIELD_NUMBER = 3;
     private long prevLogIndex_ = 0L;
-
     /**
      * <pre>
      * Índice da entrada no log imediatamente anterior às novas entradas.
@@ -2933,7 +2712,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 prev_log_index = 3;</code>
-     * 
      * @return The prevLogIndex.
      */
     @java.lang.Override
@@ -2943,14 +2721,12 @@ public final class RaftProto {
 
     public static final int PREV_LOG_TERM_FIELD_NUMBER = 4;
     private long prevLogTerm_ = 0L;
-
     /**
      * <pre>
      * Mandato da entrada em prev_log_index.
      * </pre>
      *
      * <code>int64 prev_log_term = 4;</code>
-     * 
      * @return The prevLogTerm.
      */
     @java.lang.Override
@@ -2959,8 +2735,8 @@ public final class RaftProto {
     }
 
     public static final int ENTRIES_FIELD_NUMBER = 5;
+    @SuppressWarnings("serial")
     private java.util.List<com.tcc.raft.grpc.proto.RaftProto.LogEntry> entries_;
-
     /**
      * <pre>
      * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -2972,7 +2748,6 @@ public final class RaftProto {
     public java.util.List<com.tcc.raft.grpc.proto.RaftProto.LogEntry> getEntriesList() {
       return entries_;
     }
-
     /**
      * <pre>
      * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -2981,10 +2756,10 @@ public final class RaftProto {
      * <code>repeated .raft.LogEntry entries = 5;</code>
      */
     @java.lang.Override
-    public java.util.List<? extends com.tcc.raft.grpc.proto.RaftProto.LogEntryOrBuilder> getEntriesOrBuilderList() {
+    public java.util.List<? extends com.tcc.raft.grpc.proto.RaftProto.LogEntryOrBuilder> 
+        getEntriesOrBuilderList() {
       return entries_;
     }
-
     /**
      * <pre>
      * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -2996,7 +2771,6 @@ public final class RaftProto {
     public int getEntriesCount() {
       return entries_.size();
     }
-
     /**
      * <pre>
      * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -3008,7 +2782,6 @@ public final class RaftProto {
     public com.tcc.raft.grpc.proto.RaftProto.LogEntry getEntries(int index) {
       return entries_.get(index);
     }
-
     /**
      * <pre>
      * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -3024,7 +2797,6 @@ public final class RaftProto {
 
     public static final int LEADER_COMMIT_FIELD_NUMBER = 6;
     private long leaderCommit_ = 0L;
-
     /**
      * <pre>
      * Índice da última entrada confirmada pelo líder (commitIndex do líder).
@@ -3032,7 +2804,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 leader_commit = 6;</code>
-     * 
      * @return The leaderCommit.
      */
     @java.lang.Override
@@ -3041,14 +2812,11 @@ public final class RaftProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1)
-        return true;
-      if (isInitialized == 0)
-        return false;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -3056,7 +2824,7 @@ public final class RaftProto {
 
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-        throws java.io.IOException {
+                        throws java.io.IOException {
       if (term_ != 0L) {
         output.writeInt64(1, term_);
       }
@@ -3081,32 +2849,31 @@ public final class RaftProto {
     @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
-      if (size != -1)
-        return size;
+      if (size != -1) return size;
 
       size = 0;
       if (term_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(1, term_);
+          .computeInt64Size(1, term_);
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(leaderId_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, leaderId_);
       }
       if (prevLogIndex_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(3, prevLogIndex_);
+          .computeInt64Size(3, prevLogIndex_);
       }
       if (prevLogTerm_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(4, prevLogTerm_);
+          .computeInt64Size(4, prevLogTerm_);
       }
       for (int i = 0; i < entries_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(5, entries_.get(i));
+          .computeMessageSize(5, entries_.get(i));
       }
       if (leaderCommit_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(6, leaderCommit_);
+          .computeInt64Size(6, leaderCommit_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -3116,29 +2883,26 @@ public final class RaftProto {
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
       if (!(obj instanceof com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest)) {
         return super.equals(obj);
       }
       com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest other = (com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest) obj;
 
-      if (getTerm() != other.getTerm())
-        return false;
+      if (getTerm()
+          != other.getTerm()) return false;
       if (!getLeaderId()
-          .equals(other.getLeaderId()))
-        return false;
-      if (getPrevLogIndex() != other.getPrevLogIndex())
-        return false;
-      if (getPrevLogTerm() != other.getPrevLogTerm())
-        return false;
+          .equals(other.getLeaderId())) return false;
+      if (getPrevLogIndex()
+          != other.getPrevLogIndex()) return false;
+      if (getPrevLogTerm()
+          != other.getPrevLogTerm()) return false;
       if (!getEntriesList()
-          .equals(other.getEntriesList()))
-        return false;
-      if (getLeaderCommit() != other.getLeaderCommit())
-        return false;
-      if (!getUnknownFields().equals(other.getUnknownFields()))
-        return false;
+          .equals(other.getEntriesList())) return false;
+      if (getLeaderCommit()
+          != other.getLeaderCommit()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -3177,45 +2941,38 @@ public final class RaftProto {
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3237,14 +2994,12 @@ public final class RaftProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3254,23 +3009,17 @@ public final class RaftProto {
     }
 
     @java.lang.Override
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-          ? new Builder()
-          : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
     @java.lang.Override
@@ -3279,7 +3028,6 @@ public final class RaftProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code raft.AppendEntriesRequest}
      */
@@ -3287,20 +3035,20 @@ public final class RaftProto {
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:raft.AppendEntriesRequest)
         com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequestOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
         return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_AppendEntriesRequest_descriptor;
       }
 
       @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
         return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_AppendEntriesRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest.class,
-                com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest.Builder.class);
+                com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest.class, com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest.Builder.class);
       }
 
-      // Construct using
-      // com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest.newBuilder()
+      // Construct using com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest.newBuilder()
       private Builder() {
 
       }
@@ -3310,7 +3058,6 @@ public final class RaftProto {
         super(parent);
 
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -3331,7 +3078,8 @@ public final class RaftProto {
       }
 
       @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
         return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_AppendEntriesRequest_descriptor;
       }
 
@@ -3351,12 +3099,9 @@ public final class RaftProto {
 
       @java.lang.Override
       public com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest buildPartial() {
-        com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest result = new com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest(
-            this);
+        com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest result = new com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest(this);
         buildPartialRepeatedFields(result);
-        if (bitField0_ != 0) {
-          buildPartial0(result);
-        }
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
@@ -3396,44 +3141,38 @@ public final class RaftProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest) {
-          return mergeFrom((com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest) other);
+          return mergeFrom((com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
@@ -3441,8 +3180,7 @@ public final class RaftProto {
       }
 
       public Builder mergeFrom(com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest other) {
-        if (other == com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest.getDefaultInstance())
-          return this;
+        if (other == com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest.getDefaultInstance()) return this;
         if (other.getTerm() != 0L) {
           setTerm(other.getTerm());
         }
@@ -3475,8 +3213,9 @@ public final class RaftProto {
               entriesBuilder_ = null;
               entries_ = other.entries_;
               bitField0_ = (bitField0_ & ~0x00000010);
-              entriesBuilder_ = com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ? getEntriesFieldBuilder()
-                  : null;
+              entriesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getEntriesFieldBuilder() : null;
             } else {
               entriesBuilder_.addAllMessages(other.entries_);
             }
@@ -3532,9 +3271,10 @@ public final class RaftProto {
                 break;
               } // case 32
               case 42: {
-                com.tcc.raft.grpc.proto.RaftProto.LogEntry m = input.readMessage(
-                    com.tcc.raft.grpc.proto.RaftProto.LogEntry.parser(),
-                    extensionRegistry);
+                com.tcc.raft.grpc.proto.RaftProto.LogEntry m =
+                    input.readMessage(
+                        com.tcc.raft.grpc.proto.RaftProto.LogEntry.parser(),
+                        extensionRegistry);
                 if (entriesBuilder_ == null) {
                   ensureEntriesIsMutable();
                   entries_.add(m);
@@ -3563,32 +3303,27 @@ public final class RaftProto {
         } // finally
         return this;
       }
-
       private int bitField0_;
 
-      private long term_;
-
+      private long term_ ;
       /**
        * <pre>
        * Mandato atual do líder.
        * </pre>
        *
        * <code>int64 term = 1;</code>
-       * 
        * @return The term.
        */
       @java.lang.Override
       public long getTerm() {
         return term_;
       }
-
       /**
        * <pre>
        * Mandato atual do líder.
        * </pre>
        *
        * <code>int64 term = 1;</code>
-       * 
        * @param value The term to set.
        * @return This builder for chaining.
        */
@@ -3599,14 +3334,12 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Mandato atual do líder.
        * </pre>
        *
        * <code>int64 term = 1;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearTerm() {
@@ -3617,7 +3350,6 @@ public final class RaftProto {
       }
 
       private java.lang.Object leaderId_ = "";
-
       /**
        * <pre>
        * Identificador do líder. Seguidores usam isso para redirecionar
@@ -3625,13 +3357,13 @@ public final class RaftProto {
        * </pre>
        *
        * <code>string leader_id = 2;</code>
-       * 
        * @return The leaderId.
        */
       public java.lang.String getLeaderId() {
         java.lang.Object ref = leaderId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           leaderId_ = s;
           return s;
@@ -3639,7 +3371,6 @@ public final class RaftProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <pre>
        * Identificador do líder. Seguidores usam isso para redirecionar
@@ -3647,21 +3378,21 @@ public final class RaftProto {
        * </pre>
        *
        * <code>string leader_id = 2;</code>
-       * 
        * @return The bytes for leaderId.
        */
-      public com.google.protobuf.ByteString getLeaderIdBytes() {
+      public com.google.protobuf.ByteString
+          getLeaderIdBytes() {
         java.lang.Object ref = leaderId_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
           leaderId_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <pre>
        * Identificador do líder. Seguidores usam isso para redirecionar
@@ -3669,21 +3400,17 @@ public final class RaftProto {
        * </pre>
        *
        * <code>string leader_id = 2;</code>
-       * 
        * @param value The leaderId to set.
        * @return This builder for chaining.
        */
       public Builder setLeaderId(
           java.lang.String value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         leaderId_ = value;
         bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Identificador do líder. Seguidores usam isso para redirecionar
@@ -3691,7 +3418,6 @@ public final class RaftProto {
        * </pre>
        *
        * <code>string leader_id = 2;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearLeaderId() {
@@ -3700,7 +3426,6 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Identificador do líder. Seguidores usam isso para redirecionar
@@ -3708,15 +3433,12 @@ public final class RaftProto {
        * </pre>
        *
        * <code>string leader_id = 2;</code>
-       * 
        * @param value The bytes for leaderId to set.
        * @return This builder for chaining.
        */
       public Builder setLeaderIdBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         checkByteStringIsUtf8(value);
         leaderId_ = value;
         bitField0_ |= 0x00000002;
@@ -3724,8 +3446,7 @@ public final class RaftProto {
         return this;
       }
 
-      private long prevLogIndex_;
-
+      private long prevLogIndex_ ;
       /**
        * <pre>
        * Índice da entrada no log imediatamente anterior às novas entradas.
@@ -3734,14 +3455,12 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 prev_log_index = 3;</code>
-       * 
        * @return The prevLogIndex.
        */
       @java.lang.Override
       public long getPrevLogIndex() {
         return prevLogIndex_;
       }
-
       /**
        * <pre>
        * Índice da entrada no log imediatamente anterior às novas entradas.
@@ -3750,7 +3469,6 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 prev_log_index = 3;</code>
-       * 
        * @param value The prevLogIndex to set.
        * @return This builder for chaining.
        */
@@ -3761,7 +3479,6 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Índice da entrada no log imediatamente anterior às novas entradas.
@@ -3770,7 +3487,6 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 prev_log_index = 3;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearPrevLogIndex() {
@@ -3780,29 +3496,25 @@ public final class RaftProto {
         return this;
       }
 
-      private long prevLogTerm_;
-
+      private long prevLogTerm_ ;
       /**
        * <pre>
        * Mandato da entrada em prev_log_index.
        * </pre>
        *
        * <code>int64 prev_log_term = 4;</code>
-       * 
        * @return The prevLogTerm.
        */
       @java.lang.Override
       public long getPrevLogTerm() {
         return prevLogTerm_;
       }
-
       /**
        * <pre>
        * Mandato da entrada em prev_log_index.
        * </pre>
        *
        * <code>int64 prev_log_term = 4;</code>
-       * 
        * @param value The prevLogTerm to set.
        * @return This builder for chaining.
        */
@@ -3813,14 +3525,12 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Mandato da entrada em prev_log_index.
        * </pre>
        *
        * <code>int64 prev_log_term = 4;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearPrevLogTerm() {
@@ -3830,16 +3540,17 @@ public final class RaftProto {
         return this;
       }
 
-      private java.util.List<com.tcc.raft.grpc.proto.RaftProto.LogEntry> entries_ = java.util.Collections.emptyList();
-
+      private java.util.List<com.tcc.raft.grpc.proto.RaftProto.LogEntry> entries_ =
+        java.util.Collections.emptyList();
       private void ensureEntriesIsMutable() {
         if (!((bitField0_ & 0x00000010) != 0)) {
           entries_ = new java.util.ArrayList<com.tcc.raft.grpc.proto.RaftProto.LogEntry>(entries_);
           bitField0_ |= 0x00000010;
-        }
+         }
       }
 
-      private com.google.protobuf.RepeatedFieldBuilderV3<com.tcc.raft.grpc.proto.RaftProto.LogEntry, com.tcc.raft.grpc.proto.RaftProto.LogEntry.Builder, com.tcc.raft.grpc.proto.RaftProto.LogEntryOrBuilder> entriesBuilder_;
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.tcc.raft.grpc.proto.RaftProto.LogEntry, com.tcc.raft.grpc.proto.RaftProto.LogEntry.Builder, com.tcc.raft.grpc.proto.RaftProto.LogEntryOrBuilder> entriesBuilder_;
 
       /**
        * <pre>
@@ -3855,7 +3566,6 @@ public final class RaftProto {
           return entriesBuilder_.getMessageList();
         }
       }
-
       /**
        * <pre>
        * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -3870,7 +3580,6 @@ public final class RaftProto {
           return entriesBuilder_.getCount();
         }
       }
-
       /**
        * <pre>
        * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -3885,7 +3594,6 @@ public final class RaftProto {
           return entriesBuilder_.getMessage(index);
         }
       }
-
       /**
        * <pre>
        * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -3907,7 +3615,6 @@ public final class RaftProto {
         }
         return this;
       }
-
       /**
        * <pre>
        * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -3926,7 +3633,6 @@ public final class RaftProto {
         }
         return this;
       }
-
       /**
        * <pre>
        * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -3947,7 +3653,6 @@ public final class RaftProto {
         }
         return this;
       }
-
       /**
        * <pre>
        * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -3969,7 +3674,6 @@ public final class RaftProto {
         }
         return this;
       }
-
       /**
        * <pre>
        * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -3988,7 +3692,6 @@ public final class RaftProto {
         }
         return this;
       }
-
       /**
        * <pre>
        * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -4007,7 +3710,6 @@ public final class RaftProto {
         }
         return this;
       }
-
       /**
        * <pre>
        * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -4027,7 +3729,6 @@ public final class RaftProto {
         }
         return this;
       }
-
       /**
        * <pre>
        * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -4045,7 +3746,6 @@ public final class RaftProto {
         }
         return this;
       }
-
       /**
        * <pre>
        * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -4063,7 +3763,6 @@ public final class RaftProto {
         }
         return this;
       }
-
       /**
        * <pre>
        * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -4075,7 +3774,6 @@ public final class RaftProto {
           int index) {
         return getEntriesFieldBuilder().getBuilder(index);
       }
-
       /**
        * <pre>
        * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -4086,12 +3784,10 @@ public final class RaftProto {
       public com.tcc.raft.grpc.proto.RaftProto.LogEntryOrBuilder getEntriesOrBuilder(
           int index) {
         if (entriesBuilder_ == null) {
-          return entries_.get(index);
-        } else {
+          return entries_.get(index);  } else {
           return entriesBuilder_.getMessageOrBuilder(index);
         }
       }
-
       /**
        * <pre>
        * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -4099,14 +3795,14 @@ public final class RaftProto {
        *
        * <code>repeated .raft.LogEntry entries = 5;</code>
        */
-      public java.util.List<? extends com.tcc.raft.grpc.proto.RaftProto.LogEntryOrBuilder> getEntriesOrBuilderList() {
+      public java.util.List<? extends com.tcc.raft.grpc.proto.RaftProto.LogEntryOrBuilder> 
+           getEntriesOrBuilderList() {
         if (entriesBuilder_ != null) {
           return entriesBuilder_.getMessageOrBuilderList();
         } else {
           return java.util.Collections.unmodifiableList(entries_);
         }
       }
-
       /**
        * <pre>
        * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -4118,7 +3814,6 @@ public final class RaftProto {
         return getEntriesFieldBuilder().addBuilder(
             com.tcc.raft.grpc.proto.RaftProto.LogEntry.getDefaultInstance());
       }
-
       /**
        * <pre>
        * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -4131,7 +3826,6 @@ public final class RaftProto {
         return getEntriesFieldBuilder().addBuilder(
             index, com.tcc.raft.grpc.proto.RaftProto.LogEntry.getDefaultInstance());
       }
-
       /**
        * <pre>
        * Entradas a serem adicionadas ao log. Vazio em heartbeats.
@@ -4139,24 +3833,26 @@ public final class RaftProto {
        *
        * <code>repeated .raft.LogEntry entries = 5;</code>
        */
-      public java.util.List<com.tcc.raft.grpc.proto.RaftProto.LogEntry.Builder> getEntriesBuilderList() {
+      public java.util.List<com.tcc.raft.grpc.proto.RaftProto.LogEntry.Builder> 
+           getEntriesBuilderList() {
         return getEntriesFieldBuilder().getBuilderList();
       }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<com.tcc.raft.grpc.proto.RaftProto.LogEntry, com.tcc.raft.grpc.proto.RaftProto.LogEntry.Builder, com.tcc.raft.grpc.proto.RaftProto.LogEntryOrBuilder> getEntriesFieldBuilder() {
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.tcc.raft.grpc.proto.RaftProto.LogEntry, com.tcc.raft.grpc.proto.RaftProto.LogEntry.Builder, com.tcc.raft.grpc.proto.RaftProto.LogEntryOrBuilder> 
+          getEntriesFieldBuilder() {
         if (entriesBuilder_ == null) {
-          entriesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<com.tcc.raft.grpc.proto.RaftProto.LogEntry, com.tcc.raft.grpc.proto.RaftProto.LogEntry.Builder, com.tcc.raft.grpc.proto.RaftProto.LogEntryOrBuilder>(
-              entries_,
-              ((bitField0_ & 0x00000010) != 0),
-              getParentForChildren(),
-              isClean());
+          entriesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              com.tcc.raft.grpc.proto.RaftProto.LogEntry, com.tcc.raft.grpc.proto.RaftProto.LogEntry.Builder, com.tcc.raft.grpc.proto.RaftProto.LogEntryOrBuilder>(
+                  entries_,
+                  ((bitField0_ & 0x00000010) != 0),
+                  getParentForChildren(),
+                  isClean());
           entries_ = null;
         }
         return entriesBuilder_;
       }
 
-      private long leaderCommit_;
-
+      private long leaderCommit_ ;
       /**
        * <pre>
        * Índice da última entrada confirmada pelo líder (commitIndex do líder).
@@ -4164,14 +3860,12 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 leader_commit = 6;</code>
-       * 
        * @return The leaderCommit.
        */
       @java.lang.Override
       public long getLeaderCommit() {
         return leaderCommit_;
       }
-
       /**
        * <pre>
        * Índice da última entrada confirmada pelo líder (commitIndex do líder).
@@ -4179,7 +3873,6 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 leader_commit = 6;</code>
-       * 
        * @param value The leaderCommit to set.
        * @return This builder for chaining.
        */
@@ -4190,7 +3883,6 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Índice da última entrada confirmada pelo líder (commitIndex do líder).
@@ -4198,7 +3890,6 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 leader_commit = 6;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearLeaderCommit() {
@@ -4207,7 +3898,6 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -4219,6 +3909,7 @@ public final class RaftProto {
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
+
 
       // @@protoc_insertion_point(builder_scope:raft.AppendEntriesRequest)
     }
@@ -4233,7 +3924,8 @@ public final class RaftProto {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<AppendEntriesRequest> PARSER = new com.google.protobuf.AbstractParser<AppendEntriesRequest>() {
+    private static final com.google.protobuf.Parser<AppendEntriesRequest>
+        PARSER = new com.google.protobuf.AbstractParser<AppendEntriesRequest>() {
       @java.lang.Override
       public AppendEntriesRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
@@ -4281,7 +3973,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 term = 1;</code>
-     * 
      * @return The term.
      */
     long getTerm();
@@ -4292,7 +3983,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>bool success = 2;</code>
-     * 
      * @return The success.
      */
     boolean getSuccess();
@@ -4305,12 +3995,10 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 match_index = 3;</code>
-     * 
      * @return The matchIndex.
      */
     long getMatchIndex();
   }
-
   /**
    * Protobuf type {@code raft.AppendEntriesResponse}
    */
@@ -4318,37 +4006,36 @@ public final class RaftProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:raft.AppendEntriesResponse)
       AppendEntriesResponseOrBuilder {
-    private static final long serialVersionUID = 0L;
-
+  private static final long serialVersionUID = 0L;
     // Use AppendEntriesResponse.newBuilder() to construct.
     private AppendEntriesResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private AppendEntriesResponse() {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
       return new AppendEntriesResponse();
     }
 
-    public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
       return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_AppendEntriesResponse_descriptor;
     }
 
     @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
       return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_AppendEntriesResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse.class,
-              com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse.Builder.class);
+              com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse.class, com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse.Builder.class);
     }
 
     public static final int TERM_FIELD_NUMBER = 1;
     private long term_ = 0L;
-
     /**
      * <pre>
      * Mandato atual do respondente. Se maior que o do líder,
@@ -4356,7 +4043,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 term = 1;</code>
-     * 
      * @return The term.
      */
     @java.lang.Override
@@ -4366,14 +4052,12 @@ public final class RaftProto {
 
     public static final int SUCCESS_FIELD_NUMBER = 2;
     private boolean success_ = false;
-
     /**
      * <pre>
      * true se o seguidor aceitou e adicionou as entradas ao seu log.
      * </pre>
      *
      * <code>bool success = 2;</code>
-     * 
      * @return The success.
      */
     @java.lang.Override
@@ -4383,7 +4067,6 @@ public final class RaftProto {
 
     public static final int MATCH_INDEX_FIELD_NUMBER = 3;
     private long matchIndex_ = 0L;
-
     /**
      * <pre>
      * Índice do último log replicado com sucesso neste nó.
@@ -4392,7 +4075,6 @@ public final class RaftProto {
      * </pre>
      *
      * <code>int64 match_index = 3;</code>
-     * 
      * @return The matchIndex.
      */
     @java.lang.Override
@@ -4401,14 +4083,11 @@ public final class RaftProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1)
-        return true;
-      if (isInitialized == 0)
-        return false;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -4416,7 +4095,7 @@ public final class RaftProto {
 
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-        throws java.io.IOException {
+                        throws java.io.IOException {
       if (term_ != 0L) {
         output.writeInt64(1, term_);
       }
@@ -4432,21 +4111,20 @@ public final class RaftProto {
     @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
-      if (size != -1)
-        return size;
+      if (size != -1) return size;
 
       size = 0;
       if (term_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(1, term_);
+          .computeInt64Size(1, term_);
       }
       if (success_ != false) {
         size += com.google.protobuf.CodedOutputStream
-            .computeBoolSize(2, success_);
+          .computeBoolSize(2, success_);
       }
       if (matchIndex_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(3, matchIndex_);
+          .computeInt64Size(3, matchIndex_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -4456,21 +4134,20 @@ public final class RaftProto {
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
       if (!(obj instanceof com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse)) {
         return super.equals(obj);
       }
       com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse other = (com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse) obj;
 
-      if (getTerm() != other.getTerm())
-        return false;
-      if (getSuccess() != other.getSuccess())
-        return false;
-      if (getMatchIndex() != other.getMatchIndex())
-        return false;
-      if (!getUnknownFields().equals(other.getUnknownFields()))
-        return false;
+      if (getTerm()
+          != other.getTerm()) return false;
+      if (getSuccess()
+          != other.getSuccess()) return false;
+      if (getMatchIndex()
+          != other.getMatchIndex()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -4500,45 +4177,38 @@ public final class RaftProto {
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4560,14 +4230,12 @@ public final class RaftProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4577,23 +4245,17 @@ public final class RaftProto {
     }
 
     @java.lang.Override
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-          ? new Builder()
-          : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
     @java.lang.Override
@@ -4602,7 +4264,6 @@ public final class RaftProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code raft.AppendEntriesResponse}
      */
@@ -4610,20 +4271,20 @@ public final class RaftProto {
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:raft.AppendEntriesResponse)
         com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponseOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
         return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_AppendEntriesResponse_descriptor;
       }
 
       @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
         return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_AppendEntriesResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse.class,
-                com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse.Builder.class);
+                com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse.class, com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse.Builder.class);
       }
 
-      // Construct using
-      // com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse.newBuilder()
+      // Construct using com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse.newBuilder()
       private Builder() {
 
       }
@@ -4633,7 +4294,6 @@ public final class RaftProto {
         super(parent);
 
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -4645,7 +4305,8 @@ public final class RaftProto {
       }
 
       @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
         return com.tcc.raft.grpc.proto.RaftProto.internal_static_raft_AppendEntriesResponse_descriptor;
       }
 
@@ -4665,11 +4326,8 @@ public final class RaftProto {
 
       @java.lang.Override
       public com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse buildPartial() {
-        com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse result = new com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse(
-            this);
-        if (bitField0_ != 0) {
-          buildPartial0(result);
-        }
+        com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse result = new com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
@@ -4691,44 +4349,38 @@ public final class RaftProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse) {
-          return mergeFrom((com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse) other);
+          return mergeFrom((com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
@@ -4736,8 +4388,7 @@ public final class RaftProto {
       }
 
       public Builder mergeFrom(com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse other) {
-        if (other == com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse.getDefaultInstance())
-          return this;
+        if (other == com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse.getDefaultInstance()) return this;
         if (other.getTerm() != 0L) {
           setTerm(other.getTerm());
         }
@@ -4803,11 +4454,9 @@ public final class RaftProto {
         } // finally
         return this;
       }
-
       private int bitField0_;
 
-      private long term_;
-
+      private long term_ ;
       /**
        * <pre>
        * Mandato atual do respondente. Se maior que o do líder,
@@ -4815,14 +4464,12 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 term = 1;</code>
-       * 
        * @return The term.
        */
       @java.lang.Override
       public long getTerm() {
         return term_;
       }
-
       /**
        * <pre>
        * Mandato atual do respondente. Se maior que o do líder,
@@ -4830,7 +4477,6 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 term = 1;</code>
-       * 
        * @param value The term to set.
        * @return This builder for chaining.
        */
@@ -4841,7 +4487,6 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Mandato atual do respondente. Se maior que o do líder,
@@ -4849,7 +4494,6 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 term = 1;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearTerm() {
@@ -4859,29 +4503,25 @@ public final class RaftProto {
         return this;
       }
 
-      private boolean success_;
-
+      private boolean success_ ;
       /**
        * <pre>
        * true se o seguidor aceitou e adicionou as entradas ao seu log.
        * </pre>
        *
        * <code>bool success = 2;</code>
-       * 
        * @return The success.
        */
       @java.lang.Override
       public boolean getSuccess() {
         return success_;
       }
-
       /**
        * <pre>
        * true se o seguidor aceitou e adicionou as entradas ao seu log.
        * </pre>
        *
        * <code>bool success = 2;</code>
-       * 
        * @param value The success to set.
        * @return This builder for chaining.
        */
@@ -4892,14 +4532,12 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * true se o seguidor aceitou e adicionou as entradas ao seu log.
        * </pre>
        *
        * <code>bool success = 2;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearSuccess() {
@@ -4909,8 +4547,7 @@ public final class RaftProto {
         return this;
       }
 
-      private long matchIndex_;
-
+      private long matchIndex_ ;
       /**
        * <pre>
        * Índice do último log replicado com sucesso neste nó.
@@ -4919,14 +4556,12 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 match_index = 3;</code>
-       * 
        * @return The matchIndex.
        */
       @java.lang.Override
       public long getMatchIndex() {
         return matchIndex_;
       }
-
       /**
        * <pre>
        * Índice do último log replicado com sucesso neste nó.
@@ -4935,7 +4570,6 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 match_index = 3;</code>
-       * 
        * @param value The matchIndex to set.
        * @return This builder for chaining.
        */
@@ -4946,7 +4580,6 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Índice do último log replicado com sucesso neste nó.
@@ -4955,7 +4588,6 @@ public final class RaftProto {
        * </pre>
        *
        * <code>int64 match_index = 3;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearMatchIndex() {
@@ -4964,7 +4596,6 @@ public final class RaftProto {
         onChanged();
         return this;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -4976,6 +4607,7 @@ public final class RaftProto {
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
+
 
       // @@protoc_insertion_point(builder_scope:raft.AppendEntriesResponse)
     }
@@ -4990,7 +4622,8 @@ public final class RaftProto {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<AppendEntriesResponse> PARSER = new com.google.protobuf.AbstractParser<AppendEntriesResponse>() {
+    private static final com.google.protobuf.Parser<AppendEntriesResponse>
+        PARSER = new com.google.protobuf.AbstractParser<AppendEntriesResponse>() {
       @java.lang.Override
       public AppendEntriesResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
@@ -5027,67 +4660,93 @@ public final class RaftProto {
 
   }
 
-  private static final com.google.protobuf.Descriptors.Descriptor internal_static_raft_RequestVoteRequest_descriptor;
-  private static final com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internal_static_raft_RequestVoteRequest_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor internal_static_raft_RequestVoteResponse_descriptor;
-  private static final com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internal_static_raft_RequestVoteResponse_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor internal_static_raft_LogEntry_descriptor;
-  private static final com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internal_static_raft_LogEntry_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor internal_static_raft_AppendEntriesRequest_descriptor;
-  private static final com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internal_static_raft_AppendEntriesRequest_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor internal_static_raft_AppendEntriesResponse_descriptor;
-  private static final com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internal_static_raft_AppendEntriesResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_raft_RequestVoteRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_raft_RequestVoteRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_raft_RequestVoteResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_raft_RequestVoteResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_raft_LogEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_raft_LogEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_raft_AppendEntriesRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_raft_AppendEntriesRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_raft_AppendEntriesResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_raft_AppendEntriesResponse_fieldAccessorTable;
 
-  public static com.google.protobuf.Descriptors.FileDescriptor getDescriptor() {
+  public static com.google.protobuf.Descriptors.FileDescriptor
+      getDescriptor() {
     return descriptor;
   }
-
-  private static com.google.protobuf.Descriptors.FileDescriptor descriptor;
+  private static  com.google.protobuf.Descriptors.FileDescriptor
+      descriptor;
   static {
     java.lang.String[] descriptorData = {
-        "\n\nraft.proto\022\004raft\"g\n\022RequestVoteRequest" +
-            "\022\014\n\004term\030\001 \001(\003\022\024\n\014candidate_id\030\002 \001(\t\022\026\n\016" +
-            "last_log_index\030\003 \001(\003\022\025\n\rlast_log_term\030\004 " +
-            "\001(\003\"9\n\023RequestVoteResponse\022\014\n\004term\030\001 \001(\003" +
-            "\022\024\n\014vote_granted\030\002 \001(\010\"\226\001\n\010LogEntry\022\r\n\005i" +
-            "ndex\030\001 \001(\003\022\014\n\004term\030\002 \001(\003\022&\n\004type\030\003 \001(\0162\030" +
-            ".raft.LogEntry.EntryType\022\014\n\004data\030\004 \001(\014\"7" +
-            "\n\tEntryType\022\t\n\005NO_OP\020\000\022\014\n\010FAILOVER\020\001\022\021\n\r" +
-            "CONFIG_CHANGE\020\002\"\236\001\n\024AppendEntriesRequest" +
-            "\022\014\n\004term\030\001 \001(\003\022\021\n\tleader_id\030\002 \001(\t\022\026\n\016pre" +
-            "v_log_index\030\003 \001(\003\022\025\n\rprev_log_term\030\004 \001(\003" +
-            "\022\037\n\007entries\030\005 \003(\0132\016.raft.LogEntry\022\025\n\rlea" +
-            "der_commit\030\006 \001(\003\"K\n\025AppendEntriesRespons" +
-            "e\022\014\n\004term\030\001 \001(\003\022\017\n\007success\030\002 \001(\010\022\023\n\013matc" +
-            "h_index\030\003 \001(\0032\233\001\n\013RaftService\022B\n\013Request" +
-            "Vote\022\030.raft.RequestVoteRequest\032\031.raft.Re" +
-            "questVoteResponse\022H\n\rAppendEntries\022\032.raf" +
-            "t.AppendEntriesRequest\032\033.raft.AppendEntr" +
-            "iesResponseB&\n\027com.tcc.raft.grpc.protoB\t" +
-            "RaftProtoP\000b\006proto3"
+      "\n\nraft.proto\022\004raft\"g\n\022RequestVoteRequest" +
+      "\022\014\n\004term\030\001 \001(\003\022\024\n\014candidate_id\030\002 \001(\t\022\026\n\016" +
+      "last_log_index\030\003 \001(\003\022\025\n\rlast_log_term\030\004 " +
+      "\001(\003\"9\n\023RequestVoteResponse\022\014\n\004term\030\001 \001(\003" +
+      "\022\024\n\014vote_granted\030\002 \001(\010\"\226\001\n\010LogEntry\022\r\n\005i" +
+      "ndex\030\001 \001(\003\022\014\n\004term\030\002 \001(\003\022&\n\004type\030\003 \001(\0162\030" +
+      ".raft.LogEntry.EntryType\022\014\n\004data\030\004 \001(\014\"7" +
+      "\n\tEntryType\022\t\n\005NO_OP\020\000\022\014\n\010FAILOVER\020\001\022\021\n\r" +
+      "CONFIG_CHANGE\020\002\"\236\001\n\024AppendEntriesRequest" +
+      "\022\014\n\004term\030\001 \001(\003\022\021\n\tleader_id\030\002 \001(\t\022\026\n\016pre" +
+      "v_log_index\030\003 \001(\003\022\025\n\rprev_log_term\030\004 \001(\003" +
+      "\022\037\n\007entries\030\005 \003(\0132\016.raft.LogEntry\022\025\n\rlea" +
+      "der_commit\030\006 \001(\003\"K\n\025AppendEntriesRespons" +
+      "e\022\014\n\004term\030\001 \001(\003\022\017\n\007success\030\002 \001(\010\022\023\n\013matc" +
+      "h_index\030\003 \001(\0032\233\001\n\013RaftService\022B\n\013Request" +
+      "Vote\022\030.raft.RequestVoteRequest\032\031.raft.Re" +
+      "questVoteResponse\022H\n\rAppendEntries\022\032.raf" +
+      "t.AppendEntriesRequest\032\033.raft.AppendEntr" +
+      "iesResponseB&\n\027com.tcc.raft.grpc.protoB\t" +
+      "RaftProtoP\000b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
-        .internalBuildGeneratedFileFrom(descriptorData,
-            new com.google.protobuf.Descriptors.FileDescriptor[] {
-            });
-    internal_static_raft_RequestVoteRequest_descriptor = getDescriptor().getMessageTypes().get(0);
-    internal_static_raft_RequestVoteRequest_fieldAccessorTable = new com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+      .internalBuildGeneratedFileFrom(descriptorData,
+        new com.google.protobuf.Descriptors.FileDescriptor[] {
+        });
+    internal_static_raft_RequestVoteRequest_descriptor =
+      getDescriptor().getMessageTypes().get(0);
+    internal_static_raft_RequestVoteRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_raft_RequestVoteRequest_descriptor,
         new java.lang.String[] { "Term", "CandidateId", "LastLogIndex", "LastLogTerm", });
-    internal_static_raft_RequestVoteResponse_descriptor = getDescriptor().getMessageTypes().get(1);
-    internal_static_raft_RequestVoteResponse_fieldAccessorTable = new com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+    internal_static_raft_RequestVoteResponse_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_raft_RequestVoteResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_raft_RequestVoteResponse_descriptor,
         new java.lang.String[] { "Term", "VoteGranted", });
-    internal_static_raft_LogEntry_descriptor = getDescriptor().getMessageTypes().get(2);
-    internal_static_raft_LogEntry_fieldAccessorTable = new com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+    internal_static_raft_LogEntry_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_raft_LogEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_raft_LogEntry_descriptor,
         new java.lang.String[] { "Index", "Term", "Type", "Data", });
-    internal_static_raft_AppendEntriesRequest_descriptor = getDescriptor().getMessageTypes().get(3);
-    internal_static_raft_AppendEntriesRequest_fieldAccessorTable = new com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+    internal_static_raft_AppendEntriesRequest_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_raft_AppendEntriesRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_raft_AppendEntriesRequest_descriptor,
         new java.lang.String[] { "Term", "LeaderId", "PrevLogIndex", "PrevLogTerm", "Entries", "LeaderCommit", });
-    internal_static_raft_AppendEntriesResponse_descriptor = getDescriptor().getMessageTypes().get(4);
-    internal_static_raft_AppendEntriesResponse_fieldAccessorTable = new com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+    internal_static_raft_AppendEntriesResponse_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_raft_AppendEntriesResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_raft_AppendEntriesResponse_descriptor,
         new java.lang.String[] { "Term", "Success", "MatchIndex", });
   }

@@ -10,26 +10,33 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
  * ============================================================================
  * </pre>
  */
-@javax.annotation.Generated(value = "by gRPC proto compiler (version 1.63.0)", comments = "Source: raft.proto")
+@javax.annotation.Generated(
+    value = "by gRPC proto compiler (version 1.63.0)",
+    comments = "Source: raft.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class RaftServiceGrpc {
 
-  private RaftServiceGrpc() {
-  }
+  private RaftServiceGrpc() {}
 
   public static final java.lang.String SERVICE_NAME = "raft.RaftService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest, com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse> getRequestVoteMethod;
+  private static volatile io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest,
+      com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse> getRequestVoteMethod;
 
-  @io.grpc.stub.annotations.RpcMethod(fullMethodName = SERVICE_NAME + '/'
-      + "RequestVote", requestType = com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest.class, responseType = com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse.class, methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest, com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse> getRequestVoteMethod() {
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "RequestVote",
+      requestType = com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest.class,
+      responseType = com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest,
+      com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse> getRequestVoteMethod() {
     io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest, com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse> getRequestVoteMethod;
     if ((getRequestVoteMethod = RaftServiceGrpc.getRequestVoteMethod) == null) {
       synchronized (RaftServiceGrpc.class) {
         if ((getRequestVoteMethod = RaftServiceGrpc.getRequestVoteMethod) == null) {
-          RaftServiceGrpc.getRequestVoteMethod = getRequestVoteMethod = io.grpc.MethodDescriptor.<com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest, com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse>newBuilder()
+          RaftServiceGrpc.getRequestVoteMethod = getRequestVoteMethod =
+              io.grpc.MethodDescriptor.<com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest, com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "RequestVote"))
               .setSampledToLocalTracing(true)
@@ -45,16 +52,22 @@ public final class RaftServiceGrpc {
     return getRequestVoteMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest, com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse> getAppendEntriesMethod;
+  private static volatile io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest,
+      com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse> getAppendEntriesMethod;
 
-  @io.grpc.stub.annotations.RpcMethod(fullMethodName = SERVICE_NAME + '/'
-      + "AppendEntries", requestType = com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest.class, responseType = com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse.class, methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest, com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse> getAppendEntriesMethod() {
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "AppendEntries",
+      requestType = com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest.class,
+      responseType = com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest,
+      com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse> getAppendEntriesMethod() {
     io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest, com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse> getAppendEntriesMethod;
     if ((getAppendEntriesMethod = RaftServiceGrpc.getAppendEntriesMethod) == null) {
       synchronized (RaftServiceGrpc.class) {
         if ((getAppendEntriesMethod = RaftServiceGrpc.getAppendEntriesMethod) == null) {
-          RaftServiceGrpc.getAppendEntriesMethod = getAppendEntriesMethod = io.grpc.MethodDescriptor.<com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest, com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse>newBuilder()
+          RaftServiceGrpc.getAppendEntriesMethod = getAppendEntriesMethod =
+              io.grpc.MethodDescriptor.<com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest, com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "AppendEntries"))
               .setSampledToLocalTracing(true)
@@ -74,42 +87,43 @@ public final class RaftServiceGrpc {
    * Creates a new async stub that supports all call types for the service
    */
   public static RaftServiceStub newStub(io.grpc.Channel channel) {
-    io.grpc.stub.AbstractStub.StubFactory<RaftServiceStub> factory = new io.grpc.stub.AbstractStub.StubFactory<RaftServiceStub>() {
-      @java.lang.Override
-      public RaftServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
-        return new RaftServiceStub(channel, callOptions);
-      }
-    };
+    io.grpc.stub.AbstractStub.StubFactory<RaftServiceStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<RaftServiceStub>() {
+        @java.lang.Override
+        public RaftServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new RaftServiceStub(channel, callOptions);
+        }
+      };
     return RaftServiceStub.newStub(factory, channel);
   }
 
   /**
-   * Creates a new blocking-style stub that supports unary and streaming output
-   * calls on the service
+   * Creates a new blocking-style stub that supports unary and streaming output calls on the service
    */
   public static RaftServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    io.grpc.stub.AbstractStub.StubFactory<RaftServiceBlockingStub> factory = new io.grpc.stub.AbstractStub.StubFactory<RaftServiceBlockingStub>() {
-      @java.lang.Override
-      public RaftServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
-        return new RaftServiceBlockingStub(channel, callOptions);
-      }
-    };
+    io.grpc.stub.AbstractStub.StubFactory<RaftServiceBlockingStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<RaftServiceBlockingStub>() {
+        @java.lang.Override
+        public RaftServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new RaftServiceBlockingStub(channel, callOptions);
+        }
+      };
     return RaftServiceBlockingStub.newStub(factory, channel);
   }
 
   /**
-   * Creates a new ListenableFuture-style stub that supports unary calls on the
-   * service
+   * Creates a new ListenableFuture-style stub that supports unary calls on the service
    */
   public static RaftServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    io.grpc.stub.AbstractStub.StubFactory<RaftServiceFutureStub> factory = new io.grpc.stub.AbstractStub.StubFactory<RaftServiceFutureStub>() {
-      @java.lang.Override
-      public RaftServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
-        return new RaftServiceFutureStub(channel, callOptions);
-      }
-    };
+    io.grpc.stub.AbstractStub.StubFactory<RaftServiceFutureStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<RaftServiceFutureStub>() {
+        @java.lang.Override
+        public RaftServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new RaftServiceFutureStub(channel, callOptions);
+        }
+      };
     return RaftServiceFutureStub.newStub(factory, channel);
   }
 
@@ -146,7 +160,6 @@ public final class RaftServiceGrpc {
 
   /**
    * Base class for the server implementation of the service RaftService.
-   * 
    * <pre>
    * ============================================================================
    * Definição do serviço Raft
@@ -157,15 +170,13 @@ public final class RaftServiceGrpc {
   public static abstract class RaftServiceImplBase
       implements io.grpc.BindableService, AsyncService {
 
-    @java.lang.Override
-    public final io.grpc.ServerServiceDefinition bindService() {
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return RaftServiceGrpc.bindService(this);
     }
   }
 
   /**
    * A stub to allow clients to do asynchronous rpc calls to service RaftService.
-   * 
    * <pre>
    * ============================================================================
    * Definição do serviço Raft
@@ -211,7 +222,6 @@ public final class RaftServiceGrpc {
 
   /**
    * A stub to allow clients to do synchronous rpc calls to service RaftService.
-   * 
    * <pre>
    * ============================================================================
    * Definição do serviço Raft
@@ -237,8 +247,7 @@ public final class RaftServiceGrpc {
      * Chamado por candidatos durante eleições para solicitar votos.
      * </pre>
      */
-    public com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse requestVote(
-        com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest request) {
+    public com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse requestVote(com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getRequestVoteMethod(), getCallOptions(), request);
     }
@@ -248,17 +257,14 @@ public final class RaftServiceGrpc {
      * Chamado pelo líder para replicar entradas de log e enviar heartbeats.
      * </pre>
      */
-    public com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse appendEntries(
-        com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest request) {
+    public com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse appendEntries(com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getAppendEntriesMethod(), getCallOptions(), request);
     }
   }
 
   /**
-   * A stub to allow clients to do ListenableFuture-style rpc calls to service
-   * RaftService.
-   * 
+   * A stub to allow clients to do ListenableFuture-style rpc calls to service RaftService.
    * <pre>
    * ============================================================================
    * Definição do serviço Raft
@@ -336,6 +342,7 @@ public final class RaftServiceGrpc {
     }
 
     @java.lang.Override
+    @java.lang.SuppressWarnings("unchecked")
     public io.grpc.stub.StreamObserver<Req> invoke(
         io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
@@ -348,23 +355,26 @@ public final class RaftServiceGrpc {
   public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
     return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
         .addMethod(
-          getReques
-            io.grpc.stub.ServerCall
-              new MethodHandlers<
-                  com.tcc.raft.grpccom.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse   service, METHODID_REQUEST_VOTE)))
-                    od(
-          getAppend
-            io.grpc.stub.ServerCalls.
-              new MethodHandlers<
-                  com.tcc.raft.grpccom.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse   service, METHODID_APPEND_ENTRIES)))
-                    ;
+          getRequestVoteMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              com.tcc.raft.grpc.proto.RaftProto.RequestVoteRequest,
+              com.tcc.raft.grpc.proto.RaftProto.RequestVoteResponse>(
+                service, METHODID_REQUEST_VOTE)))
+        .addMethod(
+          getAppendEntriesMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              com.tcc.raft.grpc.proto.RaftProto.AppendEntriesRequest,
+              com.tcc.raft.grpc.proto.RaftProto.AppendEntriesResponse>(
+                service, METHODID_APPEND_ENTRIES)))
+        .build();
   }
 
   private static abstract class RaftServiceBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
     RaftServiceBaseDescriptorSupplier() {}
 
-    
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
       return com.tcc.raft.grpc.proto.RaftProto.getDescriptor();
@@ -380,7 +390,6 @@ public final class RaftServiceGrpc {
       extends RaftServiceBaseDescriptorSupplier {
     RaftServiceFileDescriptorSupplier() {}
   }
-    
 
   private static final class RaftServiceMethodDescriptorSupplier
       extends RaftServiceBaseDescriptorSupplier

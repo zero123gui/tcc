@@ -11,26 +11,33 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
  * ============================================================================
  * </pre>
  */
-@javax.annotation.Generated(value = "by gRPC proto compiler (version 1.63.0)", comments = "Source: cluster.proto")
+@javax.annotation.Generated(
+    value = "by gRPC proto compiler (version 1.63.0)",
+    comments = "Source: cluster.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class ClusterManagementServiceGrpc {
 
-  private ClusterManagementServiceGrpc() {
-  }
+  private ClusterManagementServiceGrpc() {}
 
   public static final java.lang.String SERVICE_NAME = "cluster.ClusterManagementService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse> getSubmitConfigChangeMethod;
+  private static volatile io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest,
+      com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse> getSubmitConfigChangeMethod;
 
-  @io.grpc.stub.annotations.RpcMethod(fullMethodName = SERVICE_NAME + '/'
-      + "SubmitConfigChange", requestType = com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest.class, responseType = com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse.class, methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse> getSubmitConfigChangeMethod() {
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "SubmitConfigChange",
+      requestType = com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest.class,
+      responseType = com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest,
+      com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse> getSubmitConfigChangeMethod() {
     io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse> getSubmitConfigChangeMethod;
     if ((getSubmitConfigChangeMethod = ClusterManagementServiceGrpc.getSubmitConfigChangeMethod) == null) {
       synchronized (ClusterManagementServiceGrpc.class) {
         if ((getSubmitConfigChangeMethod = ClusterManagementServiceGrpc.getSubmitConfigChangeMethod) == null) {
-          ClusterManagementServiceGrpc.getSubmitConfigChangeMethod = getSubmitConfigChangeMethod = io.grpc.MethodDescriptor.<com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse>newBuilder()
+          ClusterManagementServiceGrpc.getSubmitConfigChangeMethod = getSubmitConfigChangeMethod =
+              io.grpc.MethodDescriptor.<com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "SubmitConfigChange"))
               .setSampledToLocalTracing(true)
@@ -46,16 +53,22 @@ public final class ClusterManagementServiceGrpc {
     return getSubmitConfigChangeMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest, com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse> getGetClusterStatusMethod;
+  private static volatile io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest,
+      com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse> getGetClusterStatusMethod;
 
-  @io.grpc.stub.annotations.RpcMethod(fullMethodName = SERVICE_NAME + '/'
-      + "GetClusterStatus", requestType = com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest.class, responseType = com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse.class, methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest, com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse> getGetClusterStatusMethod() {
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "GetClusterStatus",
+      requestType = com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest.class,
+      responseType = com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest,
+      com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse> getGetClusterStatusMethod() {
     io.grpc.MethodDescriptor<com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest, com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse> getGetClusterStatusMethod;
     if ((getGetClusterStatusMethod = ClusterManagementServiceGrpc.getGetClusterStatusMethod) == null) {
       synchronized (ClusterManagementServiceGrpc.class) {
         if ((getGetClusterStatusMethod = ClusterManagementServiceGrpc.getGetClusterStatusMethod) == null) {
-          ClusterManagementServiceGrpc.getGetClusterStatusMethod = getGetClusterStatusMethod = io.grpc.MethodDescriptor.<com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest, com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse>newBuilder()
+          ClusterManagementServiceGrpc.getGetClusterStatusMethod = getGetClusterStatusMethod =
+              io.grpc.MethodDescriptor.<com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest, com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetClusterStatus"))
               .setSampledToLocalTracing(true)
@@ -75,42 +88,43 @@ public final class ClusterManagementServiceGrpc {
    * Creates a new async stub that supports all call types for the service
    */
   public static ClusterManagementServiceStub newStub(io.grpc.Channel channel) {
-    io.grpc.stub.AbstractStub.StubFactory<ClusterManagementServiceStub> factory = new io.grpc.stub.AbstractStub.StubFactory<ClusterManagementServiceStub>() {
-      @java.lang.Override
-      public ClusterManagementServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
-        return new ClusterManagementServiceStub(channel, callOptions);
-      }
-    };
+    io.grpc.stub.AbstractStub.StubFactory<ClusterManagementServiceStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<ClusterManagementServiceStub>() {
+        @java.lang.Override
+        public ClusterManagementServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new ClusterManagementServiceStub(channel, callOptions);
+        }
+      };
     return ClusterManagementServiceStub.newStub(factory, channel);
   }
 
   /**
-   * Creates a new blocking-style stub that supports unary and streaming output
-   * calls on the service
+   * Creates a new blocking-style stub that supports unary and streaming output calls on the service
    */
   public static ClusterManagementServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    io.grpc.stub.AbstractStub.StubFactory<ClusterManagementServiceBlockingStub> factory = new io.grpc.stub.AbstractStub.StubFactory<ClusterManagementServiceBlockingStub>() {
-      @java.lang.Override
-      public ClusterManagementServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
-        return new ClusterManagementServiceBlockingStub(channel, callOptions);
-      }
-    };
+    io.grpc.stub.AbstractStub.StubFactory<ClusterManagementServiceBlockingStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<ClusterManagementServiceBlockingStub>() {
+        @java.lang.Override
+        public ClusterManagementServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new ClusterManagementServiceBlockingStub(channel, callOptions);
+        }
+      };
     return ClusterManagementServiceBlockingStub.newStub(factory, channel);
   }
 
   /**
-   * Creates a new ListenableFuture-style stub that supports unary calls on the
-   * service
+   * Creates a new ListenableFuture-style stub that supports unary calls on the service
    */
   public static ClusterManagementServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    io.grpc.stub.AbstractStub.StubFactory<ClusterManagementServiceFutureStub> factory = new io.grpc.stub.AbstractStub.StubFactory<ClusterManagementServiceFutureStub>() {
-      @java.lang.Override
-      public ClusterManagementServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
-        return new ClusterManagementServiceFutureStub(channel, callOptions);
-      }
-    };
+    io.grpc.stub.AbstractStub.StubFactory<ClusterManagementServiceFutureStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<ClusterManagementServiceFutureStub>() {
+        @java.lang.Override
+        public ClusterManagementServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new ClusterManagementServiceFutureStub(channel, callOptions);
+        }
+      };
     return ClusterManagementServiceFutureStub.newStub(factory, channel);
   }
 
@@ -147,9 +161,7 @@ public final class ClusterManagementServiceGrpc {
   }
 
   /**
-   * Base class for the server implementation of the service
-   * ClusterManagementService.
-   * 
+   * Base class for the server implementation of the service ClusterManagementService.
    * <pre>
    * ============================================================================
    * Serviço de gerenciamento do cluster
@@ -161,16 +173,13 @@ public final class ClusterManagementServiceGrpc {
   public static abstract class ClusterManagementServiceImplBase
       implements io.grpc.BindableService, AsyncService {
 
-    @java.lang.Override
-    public final io.grpc.ServerServiceDefinition bindService() {
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return ClusterManagementServiceGrpc.bindService(this);
     }
   }
 
   /**
-   * A stub to allow clients to do asynchronous rpc calls to service
-   * ClusterManagementService.
-   * 
+   * A stub to allow clients to do asynchronous rpc calls to service ClusterManagementService.
    * <pre>
    * ============================================================================
    * Serviço de gerenciamento do cluster
@@ -216,9 +225,7 @@ public final class ClusterManagementServiceGrpc {
   }
 
   /**
-   * A stub to allow clients to do synchronous rpc calls to service
-   * ClusterManagementService.
-   * 
+   * A stub to allow clients to do synchronous rpc calls to service ClusterManagementService.
    * <pre>
    * ============================================================================
    * Serviço de gerenciamento do cluster
@@ -245,8 +252,7 @@ public final class ClusterManagementServiceGrpc {
      * Submete uma mudança de configuração (add/remove nó) ao líder.
      * </pre>
      */
-    public com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse submitConfigChange(
-        com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest request) {
+    public com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse submitConfigChange(com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getSubmitConfigChangeMethod(), getCallOptions(), request);
     }
@@ -256,17 +262,14 @@ public final class ClusterManagementServiceGrpc {
      * Retorna o estado atual do cluster: papéis, saúde do PostgreSQL, etc.
      * </pre>
      */
-    public com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse getClusterStatus(
-        com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest request) {
+    public com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse getClusterStatus(com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetClusterStatusMethod(), getCallOptions(), request);
     }
   }
 
   /**
-   * A stub to allow clients to do ListenableFuture-style rpc calls to service
-   * ClusterManagementService.
-   * 
+   * A stub to allow clients to do ListenableFuture-style rpc calls to service ClusterManagementService.
    * <pre>
    * ============================================================================
    * Serviço de gerenciamento do cluster
@@ -345,6 +348,7 @@ public final class ClusterManagementServiceGrpc {
     }
 
     @java.lang.Override
+    @java.lang.SuppressWarnings("unchecked")
     public io.grpc.stub.StreamObserver<Req> invoke(
         io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
@@ -357,23 +361,26 @@ public final class ClusterManagementServiceGrpc {
   public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
     return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
         .addMethod(
-          getSubmit
-            io.grpc.stub.ServerCalls.async
-              new MethodHandlers<
-                  com.tcc.raft.grpccom.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse   service, METHODID_SUBMIT_CONFIG_CHANGE)))
-                    od(
-          getGetClu
-            io.grpc.stub.ServerCalls.asy
-              new MethodHandlers<
-                  com.tcc.raft.grpccom.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse   service, METHODID_GET_CLUSTER_STATUS)))
-                    ;
+          getSubmitConfigChangeMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest,
+              com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse>(
+                service, METHODID_SUBMIT_CONFIG_CHANGE)))
+        .addMethod(
+          getGetClusterStatusMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest,
+              com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse>(
+                service, METHODID_GET_CLUSTER_STATUS)))
+        .build();
   }
 
   private static abstract class ClusterManagementServiceBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
     ClusterManagementServiceBaseDescriptorSupplier() {}
 
-    
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
       return com.tcc.raft.grpc.proto.ClusterProto.getDescriptor();
@@ -389,7 +396,6 @@ public final class ClusterManagementServiceGrpc {
       extends ClusterManagementServiceBaseDescriptorSupplier {
     ClusterManagementServiceFileDescriptorSupplier() {}
   }
-    
 
   private static final class ClusterManagementServiceMethodDescriptorSupplier
       extends ClusterManagementServiceBaseDescriptorSupplier

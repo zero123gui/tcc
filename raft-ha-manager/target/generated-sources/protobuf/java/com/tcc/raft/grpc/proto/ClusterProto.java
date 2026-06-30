@@ -5,9 +5,7 @@
 package com.tcc.raft.grpc.proto;
 
 public final class ClusterProto {
-  private ClusterProto() {
-  }
-
+  private ClusterProto() {}
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistryLite registry) {
   }
@@ -17,7 +15,6 @@ public final class ClusterProto {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
-
   public interface ConfigChangeDataOrBuilder extends
       // @@protoc_insertion_point(interface_extends:cluster.ConfigChangeData)
       com.google.protobuf.MessageOrBuilder {
@@ -28,18 +25,15 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>.cluster.ConfigChangeData.Operation operation = 1;</code>
-     * 
      * @return The enum numeric value on the wire for operation.
      */
     int getOperationValue();
-
     /**
      * <pre>
      * Operação a ser realizada no cluster.
      * </pre>
      *
      * <code>.cluster.ConfigChangeData.Operation operation = 1;</code>
-     * 
      * @return The operation.
      */
     com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Operation getOperation();
@@ -50,21 +44,19 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>string node_id = 2;</code>
-     * 
      * @return The nodeId.
      */
     java.lang.String getNodeId();
-
     /**
      * <pre>
      * Identificador único do nó afetado pela mudança.
      * </pre>
      *
      * <code>string node_id = 2;</code>
-     * 
      * @return The bytes for nodeId.
      */
-    com.google.protobuf.ByteString getNodeIdBytes();
+    com.google.protobuf.ByteString
+        getNodeIdBytes();
 
     /**
      * <pre>
@@ -73,11 +65,9 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>string grpc_address = 3;</code>
-     * 
      * @return The grpcAddress.
      */
     java.lang.String getGrpcAddress();
-
     /**
      * <pre>
      * Endereço gRPC do nó no formato host:port.
@@ -85,10 +75,10 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>string grpc_address = 3;</code>
-     * 
      * @return The bytes for grpcAddress.
      */
-    com.google.protobuf.ByteString getGrpcAddressBytes();
+    com.google.protobuf.ByteString
+        getGrpcAddressBytes();
 
     /**
      * <pre>
@@ -98,12 +88,10 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>bool is_arbiter = 4;</code>
-     * 
      * @return The isArbiter.
      */
     boolean getIsArbiter();
   }
-
   /**
    * <pre>
    * Conteúdo de uma entrada CONFIG_CHANGE no log.
@@ -118,13 +106,11 @@ public final class ClusterProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:cluster.ConfigChangeData)
       ConfigChangeDataOrBuilder {
-    private static final long serialVersionUID = 0L;
-
+  private static final long serialVersionUID = 0L;
     // Use ConfigChangeData.newBuilder() to construct.
     private ConfigChangeData(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private ConfigChangeData() {
       operation_ = 0;
       nodeId_ = "";
@@ -132,21 +118,23 @@ public final class ClusterProto {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
       return new ConfigChangeData();
     }
 
-    public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
       return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ConfigChangeData_descriptor;
     }
 
     @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
       return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ConfigChangeData_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.class,
-              com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Builder.class);
+              com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.class, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Builder.class);
     }
 
     /**
@@ -174,6 +162,7 @@ public final class ClusterProto {
        */
       public static final int REMOVE_NODE_VALUE = 1;
 
+
       public final int getNumber() {
         if (this == UNRECOGNIZED) {
           throw new java.lang.IllegalArgumentException(
@@ -198,38 +187,38 @@ public final class ClusterProto {
        */
       public static Operation forNumber(int value) {
         switch (value) {
-          case 0:
-            return ADD_NODE;
-          case 1:
-            return REMOVE_NODE;
-          default:
-            return null;
+          case 0: return ADD_NODE;
+          case 1: return REMOVE_NODE;
+          default: return null;
         }
       }
 
-      public static com.google.protobuf.Internal.EnumLiteMap<Operation> internalGetValueMap() {
+      public static com.google.protobuf.Internal.EnumLiteMap<Operation>
+          internalGetValueMap() {
         return internalValueMap;
       }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          Operation> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<Operation>() {
+              public Operation findValueByNumber(int number) {
+                return Operation.forNumber(number);
+              }
+            };
 
-      private static final com.google.protobuf.Internal.EnumLiteMap<Operation> internalValueMap = new com.google.protobuf.Internal.EnumLiteMap<Operation>() {
-        public Operation findValueByNumber(int number) {
-          return Operation.forNumber(number);
-        }
-      };
-
-      public final com.google.protobuf.Descriptors.EnumValueDescriptor getValueDescriptor() {
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
         if (this == UNRECOGNIZED) {
           throw new java.lang.IllegalStateException(
               "Can't get the descriptor of an unrecognized enum value.");
         }
         return getDescriptor().getValues().get(ordinal());
       }
-
-      public final com.google.protobuf.Descriptors.EnumDescriptor getDescriptorForType() {
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
         return getDescriptor();
       }
-
-      public static final com.google.protobuf.Descriptors.EnumDescriptor getDescriptor() {
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
         return com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.getDescriptor().getEnumTypes().get(0);
       }
 
@@ -239,7 +228,7 @@ public final class ClusterProto {
           com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
         if (desc.getType() != getDescriptor()) {
           throw new java.lang.IllegalArgumentException(
-              "EnumValueDescriptor is not for this type.");
+            "EnumValueDescriptor is not for this type.");
         }
         if (desc.getIndex() == -1) {
           return UNRECOGNIZED;
@@ -258,47 +247,39 @@ public final class ClusterProto {
 
     public static final int OPERATION_FIELD_NUMBER = 1;
     private int operation_ = 0;
-
     /**
      * <pre>
      * Operação a ser realizada no cluster.
      * </pre>
      *
      * <code>.cluster.ConfigChangeData.Operation operation = 1;</code>
-     * 
      * @return The enum numeric value on the wire for operation.
      */
-    @java.lang.Override
-    public int getOperationValue() {
+    @java.lang.Override public int getOperationValue() {
       return operation_;
     }
-
     /**
      * <pre>
      * Operação a ser realizada no cluster.
      * </pre>
      *
      * <code>.cluster.ConfigChangeData.Operation operation = 1;</code>
-     * 
      * @return The operation.
      */
-    @java.lang.Override
-    public com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Operation getOperation() {
-      com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Operation result = com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Operation
-          .forNumber(operation_);
+    @java.lang.Override public com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Operation getOperation() {
+      com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Operation result = com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Operation.forNumber(operation_);
       return result == null ? com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Operation.UNRECOGNIZED : result;
     }
 
     public static final int NODE_ID_FIELD_NUMBER = 2;
+    @SuppressWarnings("serial")
     private volatile java.lang.Object nodeId_ = "";
-
     /**
      * <pre>
      * Identificador único do nó afetado pela mudança.
      * </pre>
      *
      * <code>string node_id = 2;</code>
-     * 
      * @return The nodeId.
      */
     @java.lang.Override
@@ -307,28 +288,29 @@ public final class ClusterProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         nodeId_ = s;
         return s;
       }
     }
-
     /**
      * <pre>
      * Identificador único do nó afetado pela mudança.
      * </pre>
      *
      * <code>string node_id = 2;</code>
-     * 
      * @return The bytes for nodeId.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString getNodeIdBytes() {
+    public com.google.protobuf.ByteString
+        getNodeIdBytes() {
       java.lang.Object ref = nodeId_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-            (java.lang.String) ref);
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
         nodeId_ = b;
         return b;
       } else {
@@ -337,8 +319,8 @@ public final class ClusterProto {
     }
 
     public static final int GRPC_ADDRESS_FIELD_NUMBER = 3;
+    @SuppressWarnings("serial")
     private volatile java.lang.Object grpcAddress_ = "";
-
     /**
      * <pre>
      * Endereço gRPC do nó no formato host:port.
@@ -346,7 +328,6 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>string grpc_address = 3;</code>
-     * 
      * @return The grpcAddress.
      */
     @java.lang.Override
@@ -355,13 +336,13 @@ public final class ClusterProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         grpcAddress_ = s;
         return s;
       }
     }
-
     /**
      * <pre>
      * Endereço gRPC do nó no formato host:port.
@@ -369,15 +350,16 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>string grpc_address = 3;</code>
-     * 
      * @return The bytes for grpcAddress.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString getGrpcAddressBytes() {
+    public com.google.protobuf.ByteString
+        getGrpcAddressBytes() {
       java.lang.Object ref = grpcAddress_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-            (java.lang.String) ref);
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
         grpcAddress_ = b;
         return b;
       } else {
@@ -387,7 +369,6 @@ public final class ClusterProto {
 
     public static final int IS_ARBITER_FIELD_NUMBER = 4;
     private boolean isArbiter_ = false;
-
     /**
      * <pre>
      * true se o nó sendo adicionado é um árbitro (não hospeda PostgreSQL).
@@ -396,7 +377,6 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>bool is_arbiter = 4;</code>
-     * 
      * @return The isArbiter.
      */
     @java.lang.Override
@@ -405,14 +385,11 @@ public final class ClusterProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1)
-        return true;
-      if (isInitialized == 0)
-        return false;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -420,7 +397,7 @@ public final class ClusterProto {
 
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-        throws java.io.IOException {
+                        throws java.io.IOException {
       if (operation_ != com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Operation.ADD_NODE.getNumber()) {
         output.writeEnum(1, operation_);
       }
@@ -439,13 +416,12 @@ public final class ClusterProto {
     @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
-      if (size != -1)
-        return size;
+      if (size != -1) return size;
 
       size = 0;
       if (operation_ != com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Operation.ADD_NODE.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-            .computeEnumSize(1, operation_);
+          .computeEnumSize(1, operation_);
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(nodeId_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, nodeId_);
@@ -455,7 +431,7 @@ public final class ClusterProto {
       }
       if (isArbiter_ != false) {
         size += com.google.protobuf.CodedOutputStream
-            .computeBoolSize(4, isArbiter_);
+          .computeBoolSize(4, isArbiter_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -465,25 +441,21 @@ public final class ClusterProto {
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
       if (!(obj instanceof com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData)) {
         return super.equals(obj);
       }
       com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData other = (com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData) obj;
 
-      if (operation_ != other.operation_)
-        return false;
+      if (operation_ != other.operation_) return false;
       if (!getNodeId()
-          .equals(other.getNodeId()))
-        return false;
+          .equals(other.getNodeId())) return false;
       if (!getGrpcAddress()
-          .equals(other.getGrpcAddress()))
-        return false;
-      if (getIsArbiter() != other.getIsArbiter())
-        return false;
-      if (!getUnknownFields().equals(other.getUnknownFields()))
-        return false;
+          .equals(other.getGrpcAddress())) return false;
+      if (getIsArbiter()
+          != other.getIsArbiter()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -513,45 +485,38 @@ public final class ClusterProto {
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -573,14 +538,12 @@ public final class ClusterProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -590,23 +553,17 @@ public final class ClusterProto {
     }
 
     @java.lang.Override
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-          ? new Builder()
-          : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
     @java.lang.Override
@@ -615,7 +572,6 @@ public final class ClusterProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * <pre>
      * Conteúdo de uma entrada CONFIG_CHANGE no log.
@@ -630,20 +586,20 @@ public final class ClusterProto {
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:cluster.ConfigChangeData)
         com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeDataOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ConfigChangeData_descriptor;
       }
 
       @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ConfigChangeData_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.class,
-                com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Builder.class);
+                com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.class, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Builder.class);
       }
 
-      // Construct using
-      // com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.newBuilder()
+      // Construct using com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.newBuilder()
       private Builder() {
 
       }
@@ -653,7 +609,6 @@ public final class ClusterProto {
         super(parent);
 
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -666,7 +621,8 @@ public final class ClusterProto {
       }
 
       @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ConfigChangeData_descriptor;
       }
 
@@ -686,11 +642,8 @@ public final class ClusterProto {
 
       @java.lang.Override
       public com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData buildPartial() {
-        com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData result = new com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData(
-            this);
-        if (bitField0_ != 0) {
-          buildPartial0(result);
-        }
+        com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData result = new com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
@@ -715,44 +668,38 @@ public final class ClusterProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData) {
-          return mergeFrom((com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData) other);
+          return mergeFrom((com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData)other);
         } else {
           super.mergeFrom(other);
           return this;
@@ -760,8 +707,7 @@ public final class ClusterProto {
       }
 
       public Builder mergeFrom(com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData other) {
-        if (other == com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.getDefaultInstance())
-          return this;
+        if (other == com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.getDefaultInstance()) return this;
         if (other.operation_ != 0) {
           setOperationValue(other.getOperationValue());
         }
@@ -839,32 +785,26 @@ public final class ClusterProto {
         } // finally
         return this;
       }
-
       private int bitField0_;
 
       private int operation_ = 0;
-
       /**
        * <pre>
        * Operação a ser realizada no cluster.
        * </pre>
        *
        * <code>.cluster.ConfigChangeData.Operation operation = 1;</code>
-       * 
        * @return The enum numeric value on the wire for operation.
        */
-      @java.lang.Override
-      public int getOperationValue() {
+      @java.lang.Override public int getOperationValue() {
         return operation_;
       }
-
       /**
        * <pre>
        * Operação a ser realizada no cluster.
        * </pre>
        *
        * <code>.cluster.ConfigChangeData.Operation operation = 1;</code>
-       * 
        * @param value The enum numeric value on the wire for operation to set.
        * @return This builder for chaining.
        */
@@ -874,30 +814,25 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Operação a ser realizada no cluster.
        * </pre>
        *
        * <code>.cluster.ConfigChangeData.Operation operation = 1;</code>
-       * 
        * @return The operation.
        */
       @java.lang.Override
       public com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Operation getOperation() {
-        com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Operation result = com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Operation
-            .forNumber(operation_);
+        com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Operation result = com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Operation.forNumber(operation_);
         return result == null ? com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Operation.UNRECOGNIZED : result;
       }
-
       /**
        * <pre>
        * Operação a ser realizada no cluster.
        * </pre>
        *
        * <code>.cluster.ConfigChangeData.Operation operation = 1;</code>
-       * 
        * @param value The operation to set.
        * @return This builder for chaining.
        */
@@ -910,14 +845,12 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Operação a ser realizada no cluster.
        * </pre>
        *
        * <code>.cluster.ConfigChangeData.Operation operation = 1;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearOperation() {
@@ -928,20 +861,19 @@ public final class ClusterProto {
       }
 
       private java.lang.Object nodeId_ = "";
-
       /**
        * <pre>
        * Identificador único do nó afetado pela mudança.
        * </pre>
        *
        * <code>string node_id = 2;</code>
-       * 
        * @return The nodeId.
        */
       public java.lang.String getNodeId() {
         java.lang.Object ref = nodeId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           nodeId_ = s;
           return s;
@@ -949,56 +881,50 @@ public final class ClusterProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <pre>
        * Identificador único do nó afetado pela mudança.
        * </pre>
        *
        * <code>string node_id = 2;</code>
-       * 
        * @return The bytes for nodeId.
        */
-      public com.google.protobuf.ByteString getNodeIdBytes() {
+      public com.google.protobuf.ByteString
+          getNodeIdBytes() {
         java.lang.Object ref = nodeId_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
           nodeId_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <pre>
        * Identificador único do nó afetado pela mudança.
        * </pre>
        *
        * <code>string node_id = 2;</code>
-       * 
        * @param value The nodeId to set.
        * @return This builder for chaining.
        */
       public Builder setNodeId(
           java.lang.String value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         nodeId_ = value;
         bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Identificador único do nó afetado pela mudança.
        * </pre>
        *
        * <code>string node_id = 2;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearNodeId() {
@@ -1007,22 +933,18 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Identificador único do nó afetado pela mudança.
        * </pre>
        *
        * <code>string node_id = 2;</code>
-       * 
        * @param value The bytes for nodeId to set.
        * @return This builder for chaining.
        */
       public Builder setNodeIdBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         checkByteStringIsUtf8(value);
         nodeId_ = value;
         bitField0_ |= 0x00000002;
@@ -1031,7 +953,6 @@ public final class ClusterProto {
       }
 
       private java.lang.Object grpcAddress_ = "";
-
       /**
        * <pre>
        * Endereço gRPC do nó no formato host:port.
@@ -1039,13 +960,13 @@ public final class ClusterProto {
        * </pre>
        *
        * <code>string grpc_address = 3;</code>
-       * 
        * @return The grpcAddress.
        */
       public java.lang.String getGrpcAddress() {
         java.lang.Object ref = grpcAddress_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           grpcAddress_ = s;
           return s;
@@ -1053,7 +974,6 @@ public final class ClusterProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <pre>
        * Endereço gRPC do nó no formato host:port.
@@ -1061,21 +981,21 @@ public final class ClusterProto {
        * </pre>
        *
        * <code>string grpc_address = 3;</code>
-       * 
        * @return The bytes for grpcAddress.
        */
-      public com.google.protobuf.ByteString getGrpcAddressBytes() {
+      public com.google.protobuf.ByteString
+          getGrpcAddressBytes() {
         java.lang.Object ref = grpcAddress_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
           grpcAddress_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <pre>
        * Endereço gRPC do nó no formato host:port.
@@ -1083,21 +1003,17 @@ public final class ClusterProto {
        * </pre>
        *
        * <code>string grpc_address = 3;</code>
-       * 
        * @param value The grpcAddress to set.
        * @return This builder for chaining.
        */
       public Builder setGrpcAddress(
           java.lang.String value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         grpcAddress_ = value;
         bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Endereço gRPC do nó no formato host:port.
@@ -1105,7 +1021,6 @@ public final class ClusterProto {
        * </pre>
        *
        * <code>string grpc_address = 3;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearGrpcAddress() {
@@ -1114,7 +1029,6 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Endereço gRPC do nó no formato host:port.
@@ -1122,15 +1036,12 @@ public final class ClusterProto {
        * </pre>
        *
        * <code>string grpc_address = 3;</code>
-       * 
        * @param value The bytes for grpcAddress to set.
        * @return This builder for chaining.
        */
       public Builder setGrpcAddressBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         checkByteStringIsUtf8(value);
         grpcAddress_ = value;
         bitField0_ |= 0x00000004;
@@ -1138,8 +1049,7 @@ public final class ClusterProto {
         return this;
       }
 
-      private boolean isArbiter_;
-
+      private boolean isArbiter_ ;
       /**
        * <pre>
        * true se o nó sendo adicionado é um árbitro (não hospeda PostgreSQL).
@@ -1148,14 +1058,12 @@ public final class ClusterProto {
        * </pre>
        *
        * <code>bool is_arbiter = 4;</code>
-       * 
        * @return The isArbiter.
        */
       @java.lang.Override
       public boolean getIsArbiter() {
         return isArbiter_;
       }
-
       /**
        * <pre>
        * true se o nó sendo adicionado é um árbitro (não hospeda PostgreSQL).
@@ -1164,7 +1072,6 @@ public final class ClusterProto {
        * </pre>
        *
        * <code>bool is_arbiter = 4;</code>
-       * 
        * @param value The isArbiter to set.
        * @return This builder for chaining.
        */
@@ -1175,7 +1082,6 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * true se o nó sendo adicionado é um árbitro (não hospeda PostgreSQL).
@@ -1184,7 +1090,6 @@ public final class ClusterProto {
        * </pre>
        *
        * <code>bool is_arbiter = 4;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearIsArbiter() {
@@ -1193,7 +1098,6 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -1205,6 +1109,7 @@ public final class ClusterProto {
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
+
 
       // @@protoc_insertion_point(builder_scope:cluster.ConfigChangeData)
     }
@@ -1219,7 +1124,8 @@ public final class ClusterProto {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ConfigChangeData> PARSER = new com.google.protobuf.AbstractParser<ConfigChangeData>() {
+    private static final com.google.protobuf.Parser<ConfigChangeData>
+        PARSER = new com.google.protobuf.AbstractParser<ConfigChangeData>() {
       @java.lang.Override
       public ConfigChangeData parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
@@ -1266,21 +1172,19 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>string old_leader_id = 1;</code>
-     * 
      * @return The oldLeaderId.
      */
     java.lang.String getOldLeaderId();
-
     /**
      * <pre>
      * Identificador do líder anterior (nó que estava com o Primary).
      * </pre>
      *
      * <code>string old_leader_id = 1;</code>
-     * 
      * @return The bytes for oldLeaderId.
      */
-    com.google.protobuf.ByteString getOldLeaderIdBytes();
+    com.google.protobuf.ByteString
+        getOldLeaderIdBytes();
 
     /**
      * <pre>
@@ -1288,21 +1192,19 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>string new_leader_id = 2;</code>
-     * 
      * @return The newLeaderId.
      */
     java.lang.String getNewLeaderId();
-
     /**
      * <pre>
      * Identificador do novo líder (nó que assumirá o Primary).
      * </pre>
      *
      * <code>string new_leader_id = 2;</code>
-     * 
      * @return The bytes for newLeaderId.
      */
-    com.google.protobuf.ByteString getNewLeaderIdBytes();
+    com.google.protobuf.ByteString
+        getNewLeaderIdBytes();
 
     /**
      * <pre>
@@ -1310,21 +1212,19 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>string reason = 3;</code>
-     * 
      * @return The reason.
      */
     java.lang.String getReason();
-
     /**
      * <pre>
      * Motivo do failover (ex: "heartbeat_timeout", "pg_unhealthy", "manual").
      * </pre>
      *
      * <code>string reason = 3;</code>
-     * 
      * @return The bytes for reason.
      */
-    com.google.protobuf.ByteString getReasonBytes();
+    com.google.protobuf.ByteString
+        getReasonBytes();
 
     /**
      * <pre>
@@ -1332,12 +1232,10 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>int64 initiated_at_ms = 4;</code>
-     * 
      * @return The initiatedAtMs.
      */
     long getInitiatedAtMs();
   }
-
   /**
    * <pre>
    * Conteúdo de uma entrada FAILOVER no log.
@@ -1350,13 +1248,11 @@ public final class ClusterProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:cluster.FailoverData)
       FailoverDataOrBuilder {
-    private static final long serialVersionUID = 0L;
-
+  private static final long serialVersionUID = 0L;
     // Use FailoverData.newBuilder() to construct.
     private FailoverData(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private FailoverData() {
       oldLeaderId_ = "";
       newLeaderId_ = "";
@@ -1364,33 +1260,34 @@ public final class ClusterProto {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
       return new FailoverData();
     }
 
-    public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
       return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_FailoverData_descriptor;
     }
 
     @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
       return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_FailoverData_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.tcc.raft.grpc.proto.ClusterProto.FailoverData.class,
-              com.tcc.raft.grpc.proto.ClusterProto.FailoverData.Builder.class);
+              com.tcc.raft.grpc.proto.ClusterProto.FailoverData.class, com.tcc.raft.grpc.proto.ClusterProto.FailoverData.Builder.class);
     }
 
     public static final int OLD_LEADER_ID_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
     private volatile java.lang.Object oldLeaderId_ = "";
-
     /**
      * <pre>
      * Identificador do líder anterior (nó que estava com o Primary).
      * </pre>
      *
      * <code>string old_leader_id = 1;</code>
-     * 
      * @return The oldLeaderId.
      */
     @java.lang.Override
@@ -1399,28 +1296,29 @@ public final class ClusterProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         oldLeaderId_ = s;
         return s;
       }
     }
-
     /**
      * <pre>
      * Identificador do líder anterior (nó que estava com o Primary).
      * </pre>
      *
      * <code>string old_leader_id = 1;</code>
-     * 
      * @return The bytes for oldLeaderId.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString getOldLeaderIdBytes() {
+    public com.google.protobuf.ByteString
+        getOldLeaderIdBytes() {
       java.lang.Object ref = oldLeaderId_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-            (java.lang.String) ref);
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
         oldLeaderId_ = b;
         return b;
       } else {
@@ -1429,15 +1327,14 @@ public final class ClusterProto {
     }
 
     public static final int NEW_LEADER_ID_FIELD_NUMBER = 2;
+    @SuppressWarnings("serial")
     private volatile java.lang.Object newLeaderId_ = "";
-
     /**
      * <pre>
      * Identificador do novo líder (nó que assumirá o Primary).
      * </pre>
      *
      * <code>string new_leader_id = 2;</code>
-     * 
      * @return The newLeaderId.
      */
     @java.lang.Override
@@ -1446,28 +1343,29 @@ public final class ClusterProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         newLeaderId_ = s;
         return s;
       }
     }
-
     /**
      * <pre>
      * Identificador do novo líder (nó que assumirá o Primary).
      * </pre>
      *
      * <code>string new_leader_id = 2;</code>
-     * 
      * @return The bytes for newLeaderId.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString getNewLeaderIdBytes() {
+    public com.google.protobuf.ByteString
+        getNewLeaderIdBytes() {
       java.lang.Object ref = newLeaderId_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-            (java.lang.String) ref);
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
         newLeaderId_ = b;
         return b;
       } else {
@@ -1476,15 +1374,14 @@ public final class ClusterProto {
     }
 
     public static final int REASON_FIELD_NUMBER = 3;
+    @SuppressWarnings("serial")
     private volatile java.lang.Object reason_ = "";
-
     /**
      * <pre>
      * Motivo do failover (ex: "heartbeat_timeout", "pg_unhealthy", "manual").
      * </pre>
      *
      * <code>string reason = 3;</code>
-     * 
      * @return The reason.
      */
     @java.lang.Override
@@ -1493,28 +1390,29 @@ public final class ClusterProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         reason_ = s;
         return s;
       }
     }
-
     /**
      * <pre>
      * Motivo do failover (ex: "heartbeat_timeout", "pg_unhealthy", "manual").
      * </pre>
      *
      * <code>string reason = 3;</code>
-     * 
      * @return The bytes for reason.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString getReasonBytes() {
+    public com.google.protobuf.ByteString
+        getReasonBytes() {
       java.lang.Object ref = reason_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-            (java.lang.String) ref);
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
         reason_ = b;
         return b;
       } else {
@@ -1524,14 +1422,12 @@ public final class ClusterProto {
 
     public static final int INITIATED_AT_MS_FIELD_NUMBER = 4;
     private long initiatedAtMs_ = 0L;
-
     /**
      * <pre>
      * Timestamp Unix (milissegundos) em que o failover foi iniciado.
      * </pre>
      *
      * <code>int64 initiated_at_ms = 4;</code>
-     * 
      * @return The initiatedAtMs.
      */
     @java.lang.Override
@@ -1540,14 +1436,11 @@ public final class ClusterProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1)
-        return true;
-      if (isInitialized == 0)
-        return false;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -1555,7 +1448,7 @@ public final class ClusterProto {
 
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-        throws java.io.IOException {
+                        throws java.io.IOException {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(oldLeaderId_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, oldLeaderId_);
       }
@@ -1574,8 +1467,7 @@ public final class ClusterProto {
     @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
-      if (size != -1)
-        return size;
+      if (size != -1) return size;
 
       size = 0;
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(oldLeaderId_)) {
@@ -1589,7 +1481,7 @@ public final class ClusterProto {
       }
       if (initiatedAtMs_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(4, initiatedAtMs_);
+          .computeInt64Size(4, initiatedAtMs_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1599,7 +1491,7 @@ public final class ClusterProto {
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
       if (!(obj instanceof com.tcc.raft.grpc.proto.ClusterProto.FailoverData)) {
         return super.equals(obj);
@@ -1607,18 +1499,14 @@ public final class ClusterProto {
       com.tcc.raft.grpc.proto.ClusterProto.FailoverData other = (com.tcc.raft.grpc.proto.ClusterProto.FailoverData) obj;
 
       if (!getOldLeaderId()
-          .equals(other.getOldLeaderId()))
-        return false;
+          .equals(other.getOldLeaderId())) return false;
       if (!getNewLeaderId()
-          .equals(other.getNewLeaderId()))
-        return false;
+          .equals(other.getNewLeaderId())) return false;
       if (!getReason()
-          .equals(other.getReason()))
-        return false;
-      if (getInitiatedAtMs() != other.getInitiatedAtMs())
-        return false;
-      if (!getUnknownFields().equals(other.getUnknownFields()))
-        return false;
+          .equals(other.getReason())) return false;
+      if (getInitiatedAtMs()
+          != other.getInitiatedAtMs()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -1648,45 +1536,38 @@ public final class ClusterProto {
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.FailoverData parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.FailoverData parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.FailoverData parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.FailoverData parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.FailoverData parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.FailoverData parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.FailoverData parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1708,14 +1589,12 @@ public final class ClusterProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.FailoverData parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.FailoverData parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1725,23 +1604,17 @@ public final class ClusterProto {
     }
 
     @java.lang.Override
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.tcc.raft.grpc.proto.ClusterProto.FailoverData prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-          ? new Builder()
-          : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
     @java.lang.Override
@@ -1750,7 +1623,6 @@ public final class ClusterProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * <pre>
      * Conteúdo de uma entrada FAILOVER no log.
@@ -1763,20 +1635,20 @@ public final class ClusterProto {
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:cluster.FailoverData)
         com.tcc.raft.grpc.proto.ClusterProto.FailoverDataOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_FailoverData_descriptor;
       }
 
       @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_FailoverData_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.tcc.raft.grpc.proto.ClusterProto.FailoverData.class,
-                com.tcc.raft.grpc.proto.ClusterProto.FailoverData.Builder.class);
+                com.tcc.raft.grpc.proto.ClusterProto.FailoverData.class, com.tcc.raft.grpc.proto.ClusterProto.FailoverData.Builder.class);
       }
 
-      // Construct using
-      // com.tcc.raft.grpc.proto.ClusterProto.FailoverData.newBuilder()
+      // Construct using com.tcc.raft.grpc.proto.ClusterProto.FailoverData.newBuilder()
       private Builder() {
 
       }
@@ -1786,7 +1658,6 @@ public final class ClusterProto {
         super(parent);
 
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -1799,7 +1670,8 @@ public final class ClusterProto {
       }
 
       @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_FailoverData_descriptor;
       }
 
@@ -1819,11 +1691,8 @@ public final class ClusterProto {
 
       @java.lang.Override
       public com.tcc.raft.grpc.proto.ClusterProto.FailoverData buildPartial() {
-        com.tcc.raft.grpc.proto.ClusterProto.FailoverData result = new com.tcc.raft.grpc.proto.ClusterProto.FailoverData(
-            this);
-        if (bitField0_ != 0) {
-          buildPartial0(result);
-        }
+        com.tcc.raft.grpc.proto.ClusterProto.FailoverData result = new com.tcc.raft.grpc.proto.ClusterProto.FailoverData(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
@@ -1848,44 +1717,38 @@ public final class ClusterProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.tcc.raft.grpc.proto.ClusterProto.FailoverData) {
-          return mergeFrom((com.tcc.raft.grpc.proto.ClusterProto.FailoverData) other);
+          return mergeFrom((com.tcc.raft.grpc.proto.ClusterProto.FailoverData)other);
         } else {
           super.mergeFrom(other);
           return this;
@@ -1893,8 +1756,7 @@ public final class ClusterProto {
       }
 
       public Builder mergeFrom(com.tcc.raft.grpc.proto.ClusterProto.FailoverData other) {
-        if (other == com.tcc.raft.grpc.proto.ClusterProto.FailoverData.getDefaultInstance())
-          return this;
+        if (other == com.tcc.raft.grpc.proto.ClusterProto.FailoverData.getDefaultInstance()) return this;
         if (!other.getOldLeaderId().isEmpty()) {
           oldLeaderId_ = other.oldLeaderId_;
           bitField0_ |= 0x00000001;
@@ -1974,24 +1836,22 @@ public final class ClusterProto {
         } // finally
         return this;
       }
-
       private int bitField0_;
 
       private java.lang.Object oldLeaderId_ = "";
-
       /**
        * <pre>
        * Identificador do líder anterior (nó que estava com o Primary).
        * </pre>
        *
        * <code>string old_leader_id = 1;</code>
-       * 
        * @return The oldLeaderId.
        */
       public java.lang.String getOldLeaderId() {
         java.lang.Object ref = oldLeaderId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           oldLeaderId_ = s;
           return s;
@@ -1999,56 +1859,50 @@ public final class ClusterProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <pre>
        * Identificador do líder anterior (nó que estava com o Primary).
        * </pre>
        *
        * <code>string old_leader_id = 1;</code>
-       * 
        * @return The bytes for oldLeaderId.
        */
-      public com.google.protobuf.ByteString getOldLeaderIdBytes() {
+      public com.google.protobuf.ByteString
+          getOldLeaderIdBytes() {
         java.lang.Object ref = oldLeaderId_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
           oldLeaderId_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <pre>
        * Identificador do líder anterior (nó que estava com o Primary).
        * </pre>
        *
        * <code>string old_leader_id = 1;</code>
-       * 
        * @param value The oldLeaderId to set.
        * @return This builder for chaining.
        */
       public Builder setOldLeaderId(
           java.lang.String value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         oldLeaderId_ = value;
         bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Identificador do líder anterior (nó que estava com o Primary).
        * </pre>
        *
        * <code>string old_leader_id = 1;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearOldLeaderId() {
@@ -2057,22 +1911,18 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Identificador do líder anterior (nó que estava com o Primary).
        * </pre>
        *
        * <code>string old_leader_id = 1;</code>
-       * 
        * @param value The bytes for oldLeaderId to set.
        * @return This builder for chaining.
        */
       public Builder setOldLeaderIdBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         checkByteStringIsUtf8(value);
         oldLeaderId_ = value;
         bitField0_ |= 0x00000001;
@@ -2081,20 +1931,19 @@ public final class ClusterProto {
       }
 
       private java.lang.Object newLeaderId_ = "";
-
       /**
        * <pre>
        * Identificador do novo líder (nó que assumirá o Primary).
        * </pre>
        *
        * <code>string new_leader_id = 2;</code>
-       * 
        * @return The newLeaderId.
        */
       public java.lang.String getNewLeaderId() {
         java.lang.Object ref = newLeaderId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           newLeaderId_ = s;
           return s;
@@ -2102,56 +1951,50 @@ public final class ClusterProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <pre>
        * Identificador do novo líder (nó que assumirá o Primary).
        * </pre>
        *
        * <code>string new_leader_id = 2;</code>
-       * 
        * @return The bytes for newLeaderId.
        */
-      public com.google.protobuf.ByteString getNewLeaderIdBytes() {
+      public com.google.protobuf.ByteString
+          getNewLeaderIdBytes() {
         java.lang.Object ref = newLeaderId_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
           newLeaderId_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <pre>
        * Identificador do novo líder (nó que assumirá o Primary).
        * </pre>
        *
        * <code>string new_leader_id = 2;</code>
-       * 
        * @param value The newLeaderId to set.
        * @return This builder for chaining.
        */
       public Builder setNewLeaderId(
           java.lang.String value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         newLeaderId_ = value;
         bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Identificador do novo líder (nó que assumirá o Primary).
        * </pre>
        *
        * <code>string new_leader_id = 2;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearNewLeaderId() {
@@ -2160,22 +2003,18 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Identificador do novo líder (nó que assumirá o Primary).
        * </pre>
        *
        * <code>string new_leader_id = 2;</code>
-       * 
        * @param value The bytes for newLeaderId to set.
        * @return This builder for chaining.
        */
       public Builder setNewLeaderIdBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         checkByteStringIsUtf8(value);
         newLeaderId_ = value;
         bitField0_ |= 0x00000002;
@@ -2184,20 +2023,19 @@ public final class ClusterProto {
       }
 
       private java.lang.Object reason_ = "";
-
       /**
        * <pre>
        * Motivo do failover (ex: "heartbeat_timeout", "pg_unhealthy", "manual").
        * </pre>
        *
        * <code>string reason = 3;</code>
-       * 
        * @return The reason.
        */
       public java.lang.String getReason() {
         java.lang.Object ref = reason_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           reason_ = s;
           return s;
@@ -2205,56 +2043,50 @@ public final class ClusterProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <pre>
        * Motivo do failover (ex: "heartbeat_timeout", "pg_unhealthy", "manual").
        * </pre>
        *
        * <code>string reason = 3;</code>
-       * 
        * @return The bytes for reason.
        */
-      public com.google.protobuf.ByteString getReasonBytes() {
+      public com.google.protobuf.ByteString
+          getReasonBytes() {
         java.lang.Object ref = reason_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
           reason_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <pre>
        * Motivo do failover (ex: "heartbeat_timeout", "pg_unhealthy", "manual").
        * </pre>
        *
        * <code>string reason = 3;</code>
-       * 
        * @param value The reason to set.
        * @return This builder for chaining.
        */
       public Builder setReason(
           java.lang.String value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         reason_ = value;
         bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Motivo do failover (ex: "heartbeat_timeout", "pg_unhealthy", "manual").
        * </pre>
        *
        * <code>string reason = 3;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearReason() {
@@ -2263,22 +2095,18 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Motivo do failover (ex: "heartbeat_timeout", "pg_unhealthy", "manual").
        * </pre>
        *
        * <code>string reason = 3;</code>
-       * 
        * @param value The bytes for reason to set.
        * @return This builder for chaining.
        */
       public Builder setReasonBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         checkByteStringIsUtf8(value);
         reason_ = value;
         bitField0_ |= 0x00000004;
@@ -2286,29 +2114,25 @@ public final class ClusterProto {
         return this;
       }
 
-      private long initiatedAtMs_;
-
+      private long initiatedAtMs_ ;
       /**
        * <pre>
        * Timestamp Unix (milissegundos) em que o failover foi iniciado.
        * </pre>
        *
        * <code>int64 initiated_at_ms = 4;</code>
-       * 
        * @return The initiatedAtMs.
        */
       @java.lang.Override
       public long getInitiatedAtMs() {
         return initiatedAtMs_;
       }
-
       /**
        * <pre>
        * Timestamp Unix (milissegundos) em que o failover foi iniciado.
        * </pre>
        *
        * <code>int64 initiated_at_ms = 4;</code>
-       * 
        * @param value The initiatedAtMs to set.
        * @return This builder for chaining.
        */
@@ -2319,14 +2143,12 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Timestamp Unix (milissegundos) em que o failover foi iniciado.
        * </pre>
        *
        * <code>int64 initiated_at_ms = 4;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearInitiatedAtMs() {
@@ -2335,7 +2157,6 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -2347,6 +2168,7 @@ public final class ClusterProto {
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
+
 
       // @@protoc_insertion_point(builder_scope:cluster.FailoverData)
     }
@@ -2361,7 +2183,8 @@ public final class ClusterProto {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<FailoverData> PARSER = new com.google.protobuf.AbstractParser<FailoverData>() {
+    private static final com.google.protobuf.Parser<FailoverData>
+        PARSER = new com.google.protobuf.AbstractParser<FailoverData>() {
       @java.lang.Override
       public FailoverData parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
@@ -2404,24 +2227,19 @@ public final class ClusterProto {
 
     /**
      * <code>.cluster.ConfigChangeData change = 1;</code>
-     * 
      * @return Whether the change field is set.
      */
     boolean hasChange();
-
     /**
      * <code>.cluster.ConfigChangeData change = 1;</code>
-     * 
      * @return The change.
      */
     com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData getChange();
-
     /**
      * <code>.cluster.ConfigChangeData change = 1;</code>
      */
     com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeDataOrBuilder getChangeOrBuilder();
   }
-
   /**
    * <pre>
    * Requisição para adicionar ou remover um nó do cluster.
@@ -2435,58 +2253,53 @@ public final class ClusterProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:cluster.ConfigChangeRequest)
       ConfigChangeRequestOrBuilder {
-    private static final long serialVersionUID = 0L;
-
+  private static final long serialVersionUID = 0L;
     // Use ConfigChangeRequest.newBuilder() to construct.
     private ConfigChangeRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private ConfigChangeRequest() {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
       return new ConfigChangeRequest();
     }
 
-    public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
       return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ConfigChangeRequest_descriptor;
     }
 
     @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
       return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ConfigChangeRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest.class,
-              com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest.Builder.class);
+              com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest.class, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest.Builder.class);
     }
 
     private int bitField0_;
     public static final int CHANGE_FIELD_NUMBER = 1;
     private com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData change_;
-
     /**
      * <code>.cluster.ConfigChangeData change = 1;</code>
-     * 
      * @return Whether the change field is set.
      */
     @java.lang.Override
     public boolean hasChange() {
       return ((bitField0_ & 0x00000001) != 0);
     }
-
     /**
      * <code>.cluster.ConfigChangeData change = 1;</code>
-     * 
      * @return The change.
      */
     @java.lang.Override
     public com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData getChange() {
       return change_ == null ? com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.getDefaultInstance() : change_;
     }
-
     /**
      * <code>.cluster.ConfigChangeData change = 1;</code>
      */
@@ -2496,14 +2309,11 @@ public final class ClusterProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1)
-        return true;
-      if (isInitialized == 0)
-        return false;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -2511,7 +2321,7 @@ public final class ClusterProto {
 
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-        throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(1, getChange());
       }
@@ -2521,13 +2331,12 @@ public final class ClusterProto {
     @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
-      if (size != -1)
-        return size;
+      if (size != -1) return size;
 
       size = 0;
       if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(1, getChange());
+          .computeMessageSize(1, getChange());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -2537,22 +2346,19 @@ public final class ClusterProto {
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
       if (!(obj instanceof com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest)) {
         return super.equals(obj);
       }
       com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest other = (com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest) obj;
 
-      if (hasChange() != other.hasChange())
-        return false;
+      if (hasChange() != other.hasChange()) return false;
       if (hasChange()) {
         if (!getChange()
-            .equals(other.getChange()))
-          return false;
+            .equals(other.getChange())) return false;
       }
-      if (!getUnknownFields().equals(other.getUnknownFields()))
-        return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -2577,45 +2383,38 @@ public final class ClusterProto {
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2637,14 +2436,12 @@ public final class ClusterProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2654,23 +2451,17 @@ public final class ClusterProto {
     }
 
     @java.lang.Override
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-          ? new Builder()
-          : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
     @java.lang.Override
@@ -2679,7 +2470,6 @@ public final class ClusterProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * <pre>
      * Requisição para adicionar ou remover um nó do cluster.
@@ -2693,20 +2483,20 @@ public final class ClusterProto {
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:cluster.ConfigChangeRequest)
         com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequestOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ConfigChangeRequest_descriptor;
       }
 
       @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ConfigChangeRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest.class,
-                com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest.Builder.class);
+                com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest.class, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest.Builder.class);
       }
 
-      // Construct using
-      // com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest.newBuilder()
+      // Construct using com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2716,13 +2506,12 @@ public final class ClusterProto {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
           getChangeFieldBuilder();
         }
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -2736,7 +2525,8 @@ public final class ClusterProto {
       }
 
       @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ConfigChangeRequest_descriptor;
       }
 
@@ -2756,11 +2546,8 @@ public final class ClusterProto {
 
       @java.lang.Override
       public com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest buildPartial() {
-        com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest result = new com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest(
-            this);
-        if (bitField0_ != 0) {
-          buildPartial0(result);
-        }
+        com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest result = new com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
@@ -2781,44 +2568,38 @@ public final class ClusterProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest) {
-          return mergeFrom((com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest) other);
+          return mergeFrom((com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
@@ -2826,8 +2607,7 @@ public final class ClusterProto {
       }
 
       public Builder mergeFrom(com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest other) {
-        if (other == com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest.getDefaultInstance())
-          return this;
+        if (other == com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeRequest.getDefaultInstance()) return this;
         if (other.hasChange()) {
           mergeChange(other.getChange());
         }
@@ -2879,24 +2659,20 @@ public final class ClusterProto {
         } // finally
         return this;
       }
-
       private int bitField0_;
 
       private com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData change_;
-      private com.google.protobuf.SingleFieldBuilderV3<com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Builder, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeDataOrBuilder> changeBuilder_;
-
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Builder, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeDataOrBuilder> changeBuilder_;
       /**
        * <code>.cluster.ConfigChangeData change = 1;</code>
-       * 
        * @return Whether the change field is set.
        */
       public boolean hasChange() {
         return ((bitField0_ & 0x00000001) != 0);
       }
-
       /**
        * <code>.cluster.ConfigChangeData change = 1;</code>
-       * 
        * @return The change.
        */
       public com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData getChange() {
@@ -2906,7 +2682,6 @@ public final class ClusterProto {
           return changeBuilder_.getMessage();
         }
       }
-
       /**
        * <code>.cluster.ConfigChangeData change = 1;</code>
        */
@@ -2923,7 +2698,6 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>.cluster.ConfigChangeData change = 1;</code>
        */
@@ -2938,15 +2712,14 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>.cluster.ConfigChangeData change = 1;</code>
        */
       public Builder mergeChange(com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData value) {
         if (changeBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0) &&
-              change_ != null &&
-              change_ != com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.getDefaultInstance()) {
+            change_ != null &&
+            change_ != com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.getDefaultInstance()) {
             getChangeBuilder().mergeFrom(value);
           } else {
             change_ = value;
@@ -2960,7 +2733,6 @@ public final class ClusterProto {
         }
         return this;
       }
-
       /**
        * <code>.cluster.ConfigChangeData change = 1;</code>
        */
@@ -2974,7 +2746,6 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>.cluster.ConfigChangeData change = 1;</code>
        */
@@ -2983,7 +2754,6 @@ public final class ClusterProto {
         onChanged();
         return getChangeFieldBuilder().getBuilder();
       }
-
       /**
        * <code>.cluster.ConfigChangeData change = 1;</code>
        */
@@ -2991,24 +2761,26 @@ public final class ClusterProto {
         if (changeBuilder_ != null) {
           return changeBuilder_.getMessageOrBuilder();
         } else {
-          return change_ == null ? com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.getDefaultInstance() : change_;
+          return change_ == null ?
+              com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.getDefaultInstance() : change_;
         }
       }
-
       /**
        * <code>.cluster.ConfigChangeData change = 1;</code>
        */
-      private com.google.protobuf.SingleFieldBuilderV3<com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Builder, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeDataOrBuilder> getChangeFieldBuilder() {
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Builder, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeDataOrBuilder> 
+          getChangeFieldBuilder() {
         if (changeBuilder_ == null) {
-          changeBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Builder, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeDataOrBuilder>(
-              getChange(),
-              getParentForChildren(),
-              isClean());
+          changeBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeData.Builder, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeDataOrBuilder>(
+                  getChange(),
+                  getParentForChildren(),
+                  isClean());
           change_ = null;
         }
         return changeBuilder_;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -3020,6 +2792,7 @@ public final class ClusterProto {
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
+
 
       // @@protoc_insertion_point(builder_scope:cluster.ConfigChangeRequest)
     }
@@ -3034,7 +2807,8 @@ public final class ClusterProto {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ConfigChangeRequest> PARSER = new com.google.protobuf.AbstractParser<ConfigChangeRequest>() {
+    private static final com.google.protobuf.Parser<ConfigChangeRequest>
+        PARSER = new com.google.protobuf.AbstractParser<ConfigChangeRequest>() {
       @java.lang.Override
       public ConfigChangeRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
@@ -3081,7 +2855,6 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>bool accepted = 1;</code>
-     * 
      * @return The accepted.
      */
     boolean getAccepted();
@@ -3092,21 +2865,19 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>string message = 2;</code>
-     * 
      * @return The message.
      */
     java.lang.String getMessage();
-
     /**
      * <pre>
      * Mensagem descritiva (erro ou confirmação).
      * </pre>
      *
      * <code>string message = 2;</code>
-     * 
      * @return The bytes for message.
      */
-    com.google.protobuf.ByteString getMessageBytes();
+    com.google.protobuf.ByteString
+        getMessageBytes();
 
     /**
      * <pre>
@@ -3115,11 +2886,9 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>string leader_id = 3;</code>
-     * 
      * @return The leaderId.
      */
     java.lang.String getLeaderId();
-
     /**
      * <pre>
      * ID do líder atual. Preenchido mesmo em caso de erro,
@@ -3127,12 +2896,11 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>string leader_id = 3;</code>
-     * 
      * @return The bytes for leaderId.
      */
-    com.google.protobuf.ByteString getLeaderIdBytes();
+    com.google.protobuf.ByteString
+        getLeaderIdBytes();
   }
-
   /**
    * Protobuf type {@code cluster.ConfigChangeResponse}
    */
@@ -3140,46 +2908,44 @@ public final class ClusterProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:cluster.ConfigChangeResponse)
       ConfigChangeResponseOrBuilder {
-    private static final long serialVersionUID = 0L;
-
+  private static final long serialVersionUID = 0L;
     // Use ConfigChangeResponse.newBuilder() to construct.
     private ConfigChangeResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private ConfigChangeResponse() {
       message_ = "";
       leaderId_ = "";
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
       return new ConfigChangeResponse();
     }
 
-    public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
       return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ConfigChangeResponse_descriptor;
     }
 
     @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
       return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ConfigChangeResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse.class,
-              com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse.Builder.class);
+              com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse.class, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse.Builder.class);
     }
 
     public static final int ACCEPTED_FIELD_NUMBER = 1;
     private boolean accepted_ = false;
-
     /**
      * <pre>
      * true se a mudança foi aceita e está em processo de replicação.
      * </pre>
      *
      * <code>bool accepted = 1;</code>
-     * 
      * @return The accepted.
      */
     @java.lang.Override
@@ -3188,15 +2954,14 @@ public final class ClusterProto {
     }
 
     public static final int MESSAGE_FIELD_NUMBER = 2;
+    @SuppressWarnings("serial")
     private volatile java.lang.Object message_ = "";
-
     /**
      * <pre>
      * Mensagem descritiva (erro ou confirmação).
      * </pre>
      *
      * <code>string message = 2;</code>
-     * 
      * @return The message.
      */
     @java.lang.Override
@@ -3205,28 +2970,29 @@ public final class ClusterProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         message_ = s;
         return s;
       }
     }
-
     /**
      * <pre>
      * Mensagem descritiva (erro ou confirmação).
      * </pre>
      *
      * <code>string message = 2;</code>
-     * 
      * @return The bytes for message.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString getMessageBytes() {
+    public com.google.protobuf.ByteString
+        getMessageBytes() {
       java.lang.Object ref = message_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-            (java.lang.String) ref);
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
         message_ = b;
         return b;
       } else {
@@ -3235,8 +3001,8 @@ public final class ClusterProto {
     }
 
     public static final int LEADER_ID_FIELD_NUMBER = 3;
+    @SuppressWarnings("serial")
     private volatile java.lang.Object leaderId_ = "";
-
     /**
      * <pre>
      * ID do líder atual. Preenchido mesmo em caso de erro,
@@ -3244,7 +3010,6 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>string leader_id = 3;</code>
-     * 
      * @return The leaderId.
      */
     @java.lang.Override
@@ -3253,13 +3018,13 @@ public final class ClusterProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         leaderId_ = s;
         return s;
       }
     }
-
     /**
      * <pre>
      * ID do líder atual. Preenchido mesmo em caso de erro,
@@ -3267,15 +3032,16 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>string leader_id = 3;</code>
-     * 
      * @return The bytes for leaderId.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString getLeaderIdBytes() {
+    public com.google.protobuf.ByteString
+        getLeaderIdBytes() {
       java.lang.Object ref = leaderId_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-            (java.lang.String) ref);
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
         leaderId_ = b;
         return b;
       } else {
@@ -3284,14 +3050,11 @@ public final class ClusterProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1)
-        return true;
-      if (isInitialized == 0)
-        return false;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -3299,7 +3062,7 @@ public final class ClusterProto {
 
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-        throws java.io.IOException {
+                        throws java.io.IOException {
       if (accepted_ != false) {
         output.writeBool(1, accepted_);
       }
@@ -3315,13 +3078,12 @@ public final class ClusterProto {
     @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
-      if (size != -1)
-        return size;
+      if (size != -1) return size;
 
       size = 0;
       if (accepted_ != false) {
         size += com.google.protobuf.CodedOutputStream
-            .computeBoolSize(1, accepted_);
+          .computeBoolSize(1, accepted_);
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(message_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, message_);
@@ -3337,23 +3099,20 @@ public final class ClusterProto {
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
       if (!(obj instanceof com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse)) {
         return super.equals(obj);
       }
       com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse other = (com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse) obj;
 
-      if (getAccepted() != other.getAccepted())
-        return false;
+      if (getAccepted()
+          != other.getAccepted()) return false;
       if (!getMessage()
-          .equals(other.getMessage()))
-        return false;
+          .equals(other.getMessage())) return false;
       if (!getLeaderId()
-          .equals(other.getLeaderId()))
-        return false;
-      if (!getUnknownFields().equals(other.getUnknownFields()))
-        return false;
+          .equals(other.getLeaderId())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -3381,45 +3140,38 @@ public final class ClusterProto {
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3428,8 +3180,7 @@ public final class ClusterProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse parseDelimitedFrom(
-        java.io.InputStream input)
+    public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
@@ -3442,14 +3193,12 @@ public final class ClusterProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3459,23 +3208,17 @@ public final class ClusterProto {
     }
 
     @java.lang.Override
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-          ? new Builder()
-          : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
     @java.lang.Override
@@ -3484,7 +3227,6 @@ public final class ClusterProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code cluster.ConfigChangeResponse}
      */
@@ -3492,20 +3234,20 @@ public final class ClusterProto {
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:cluster.ConfigChangeResponse)
         com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponseOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ConfigChangeResponse_descriptor;
       }
 
       @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ConfigChangeResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse.class,
-                com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse.Builder.class);
+                com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse.class, com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse.Builder.class);
       }
 
-      // Construct using
-      // com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse.newBuilder()
+      // Construct using com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse.newBuilder()
       private Builder() {
 
       }
@@ -3515,7 +3257,6 @@ public final class ClusterProto {
         super(parent);
 
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -3527,7 +3268,8 @@ public final class ClusterProto {
       }
 
       @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ConfigChangeResponse_descriptor;
       }
 
@@ -3547,11 +3289,8 @@ public final class ClusterProto {
 
       @java.lang.Override
       public com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse buildPartial() {
-        com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse result = new com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse(
-            this);
-        if (bitField0_ != 0) {
-          buildPartial0(result);
-        }
+        com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse result = new com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
@@ -3573,44 +3312,38 @@ public final class ClusterProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse) {
-          return mergeFrom((com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse) other);
+          return mergeFrom((com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
@@ -3618,8 +3351,7 @@ public final class ClusterProto {
       }
 
       public Builder mergeFrom(com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse other) {
-        if (other == com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse.getDefaultInstance())
-          return this;
+        if (other == com.tcc.raft.grpc.proto.ClusterProto.ConfigChangeResponse.getDefaultInstance()) return this;
         if (other.getAccepted() != false) {
           setAccepted(other.getAccepted());
         }
@@ -3689,32 +3421,27 @@ public final class ClusterProto {
         } // finally
         return this;
       }
-
       private int bitField0_;
 
-      private boolean accepted_;
-
+      private boolean accepted_ ;
       /**
        * <pre>
        * true se a mudança foi aceita e está em processo de replicação.
        * </pre>
        *
        * <code>bool accepted = 1;</code>
-       * 
        * @return The accepted.
        */
       @java.lang.Override
       public boolean getAccepted() {
         return accepted_;
       }
-
       /**
        * <pre>
        * true se a mudança foi aceita e está em processo de replicação.
        * </pre>
        *
        * <code>bool accepted = 1;</code>
-       * 
        * @param value The accepted to set.
        * @return This builder for chaining.
        */
@@ -3725,14 +3452,12 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * true se a mudança foi aceita e está em processo de replicação.
        * </pre>
        *
        * <code>bool accepted = 1;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearAccepted() {
@@ -3743,20 +3468,19 @@ public final class ClusterProto {
       }
 
       private java.lang.Object message_ = "";
-
       /**
        * <pre>
        * Mensagem descritiva (erro ou confirmação).
        * </pre>
        *
        * <code>string message = 2;</code>
-       * 
        * @return The message.
        */
       public java.lang.String getMessage() {
         java.lang.Object ref = message_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           message_ = s;
           return s;
@@ -3764,56 +3488,50 @@ public final class ClusterProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <pre>
        * Mensagem descritiva (erro ou confirmação).
        * </pre>
        *
        * <code>string message = 2;</code>
-       * 
        * @return The bytes for message.
        */
-      public com.google.protobuf.ByteString getMessageBytes() {
+      public com.google.protobuf.ByteString
+          getMessageBytes() {
         java.lang.Object ref = message_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
           message_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <pre>
        * Mensagem descritiva (erro ou confirmação).
        * </pre>
        *
        * <code>string message = 2;</code>
-       * 
        * @param value The message to set.
        * @return This builder for chaining.
        */
       public Builder setMessage(
           java.lang.String value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         message_ = value;
         bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Mensagem descritiva (erro ou confirmação).
        * </pre>
        *
        * <code>string message = 2;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearMessage() {
@@ -3822,22 +3540,18 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Mensagem descritiva (erro ou confirmação).
        * </pre>
        *
        * <code>string message = 2;</code>
-       * 
        * @param value The bytes for message to set.
        * @return This builder for chaining.
        */
       public Builder setMessageBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         checkByteStringIsUtf8(value);
         message_ = value;
         bitField0_ |= 0x00000002;
@@ -3846,7 +3560,6 @@ public final class ClusterProto {
       }
 
       private java.lang.Object leaderId_ = "";
-
       /**
        * <pre>
        * ID do líder atual. Preenchido mesmo em caso de erro,
@@ -3854,13 +3567,13 @@ public final class ClusterProto {
        * </pre>
        *
        * <code>string leader_id = 3;</code>
-       * 
        * @return The leaderId.
        */
       public java.lang.String getLeaderId() {
         java.lang.Object ref = leaderId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           leaderId_ = s;
           return s;
@@ -3868,7 +3581,6 @@ public final class ClusterProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <pre>
        * ID do líder atual. Preenchido mesmo em caso de erro,
@@ -3876,21 +3588,21 @@ public final class ClusterProto {
        * </pre>
        *
        * <code>string leader_id = 3;</code>
-       * 
        * @return The bytes for leaderId.
        */
-      public com.google.protobuf.ByteString getLeaderIdBytes() {
+      public com.google.protobuf.ByteString
+          getLeaderIdBytes() {
         java.lang.Object ref = leaderId_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
           leaderId_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <pre>
        * ID do líder atual. Preenchido mesmo em caso de erro,
@@ -3898,21 +3610,17 @@ public final class ClusterProto {
        * </pre>
        *
        * <code>string leader_id = 3;</code>
-       * 
        * @param value The leaderId to set.
        * @return This builder for chaining.
        */
       public Builder setLeaderId(
           java.lang.String value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         leaderId_ = value;
         bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * ID do líder atual. Preenchido mesmo em caso de erro,
@@ -3920,7 +3628,6 @@ public final class ClusterProto {
        * </pre>
        *
        * <code>string leader_id = 3;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearLeaderId() {
@@ -3929,7 +3636,6 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * ID do líder atual. Preenchido mesmo em caso de erro,
@@ -3937,22 +3643,18 @@ public final class ClusterProto {
        * </pre>
        *
        * <code>string leader_id = 3;</code>
-       * 
        * @param value The bytes for leaderId to set.
        * @return This builder for chaining.
        */
       public Builder setLeaderIdBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         checkByteStringIsUtf8(value);
         leaderId_ = value;
         bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -3964,6 +3666,7 @@ public final class ClusterProto {
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
+
 
       // @@protoc_insertion_point(builder_scope:cluster.ConfigChangeResponse)
     }
@@ -3978,7 +3681,8 @@ public final class ClusterProto {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ConfigChangeResponse> PARSER = new com.google.protobuf.AbstractParser<ConfigChangeResponse>() {
+    private static final com.google.protobuf.Parser<ConfigChangeResponse>
+        PARSER = new com.google.protobuf.AbstractParser<ConfigChangeResponse>() {
       @java.lang.Override
       public ConfigChangeResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
@@ -4019,7 +3723,6 @@ public final class ClusterProto {
       // @@protoc_insertion_point(interface_extends:cluster.ClusterStatusRequest)
       com.google.protobuf.MessageOrBuilder {
   }
-
   /**
    * Protobuf type {@code cluster.ClusterStatusRequest}
    */
@@ -4027,43 +3730,40 @@ public final class ClusterProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:cluster.ClusterStatusRequest)
       ClusterStatusRequestOrBuilder {
-    private static final long serialVersionUID = 0L;
-
+  private static final long serialVersionUID = 0L;
     // Use ClusterStatusRequest.newBuilder() to construct.
     private ClusterStatusRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private ClusterStatusRequest() {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
       return new ClusterStatusRequest();
     }
 
-    public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
       return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ClusterStatusRequest_descriptor;
     }
 
     @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
       return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ClusterStatusRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest.class,
-              com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest.Builder.class);
+              com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest.class, com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest.Builder.class);
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1)
-        return true;
-      if (isInitialized == 0)
-        return false;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -4071,15 +3771,14 @@ public final class ClusterProto {
 
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-        throws java.io.IOException {
+                        throws java.io.IOException {
       getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
-      if (size != -1)
-        return size;
+      if (size != -1) return size;
 
       size = 0;
       size += getUnknownFields().getSerializedSize();
@@ -4090,15 +3789,14 @@ public final class ClusterProto {
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
       if (!(obj instanceof com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest)) {
         return super.equals(obj);
       }
       com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest other = (com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest) obj;
 
-      if (!getUnknownFields().equals(other.getUnknownFields()))
-        return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -4119,45 +3817,38 @@ public final class ClusterProto {
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4166,8 +3857,7 @@ public final class ClusterProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest parseDelimitedFrom(
-        java.io.InputStream input)
+    public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
@@ -4180,14 +3870,12 @@ public final class ClusterProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4197,23 +3885,17 @@ public final class ClusterProto {
     }
 
     @java.lang.Override
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-          ? new Builder()
-          : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
     @java.lang.Override
@@ -4222,7 +3904,6 @@ public final class ClusterProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code cluster.ClusterStatusRequest}
      */
@@ -4230,20 +3911,20 @@ public final class ClusterProto {
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:cluster.ClusterStatusRequest)
         com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequestOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ClusterStatusRequest_descriptor;
       }
 
       @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ClusterStatusRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest.class,
-                com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest.Builder.class);
+                com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest.class, com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest.Builder.class);
       }
 
-      // Construct using
-      // com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest.newBuilder()
+      // Construct using com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest.newBuilder()
       private Builder() {
 
       }
@@ -4253,7 +3934,6 @@ public final class ClusterProto {
         super(parent);
 
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -4261,7 +3941,8 @@ public final class ClusterProto {
       }
 
       @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ClusterStatusRequest_descriptor;
       }
 
@@ -4281,8 +3962,7 @@ public final class ClusterProto {
 
       @java.lang.Override
       public com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest buildPartial() {
-        com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest result = new com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest(
-            this);
+        com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest result = new com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest(this);
         onBuilt();
         return result;
       }
@@ -4291,44 +3971,38 @@ public final class ClusterProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest) {
-          return mergeFrom((com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest) other);
+          return mergeFrom((com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
@@ -4336,8 +4010,7 @@ public final class ClusterProto {
       }
 
       public Builder mergeFrom(com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest other) {
-        if (other == com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest.getDefaultInstance())
-          return this;
+        if (other == com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusRequest.getDefaultInstance()) return this;
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
@@ -4379,7 +4052,6 @@ public final class ClusterProto {
         } // finally
         return this;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -4391,6 +4063,7 @@ public final class ClusterProto {
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
+
 
       // @@protoc_insertion_point(builder_scope:cluster.ClusterStatusRequest)
     }
@@ -4405,7 +4078,8 @@ public final class ClusterProto {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ClusterStatusRequest> PARSER = new com.google.protobuf.AbstractParser<ClusterStatusRequest>() {
+    private static final com.google.protobuf.Parser<ClusterStatusRequest>
+        PARSER = new com.google.protobuf.AbstractParser<ClusterStatusRequest>() {
       @java.lang.Override
       public ClusterStatusRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
@@ -4448,31 +4122,27 @@ public final class ClusterProto {
 
     /**
      * <code>string node_id = 1;</code>
-     * 
      * @return The nodeId.
      */
     java.lang.String getNodeId();
-
     /**
      * <code>string node_id = 1;</code>
-     * 
      * @return The bytes for nodeId.
      */
-    com.google.protobuf.ByteString getNodeIdBytes();
+    com.google.protobuf.ByteString
+        getNodeIdBytes();
 
     /**
      * <code>string grpc_address = 2;</code>
-     * 
      * @return The grpcAddress.
      */
     java.lang.String getGrpcAddress();
-
     /**
      * <code>string grpc_address = 2;</code>
-     * 
      * @return The bytes for grpcAddress.
      */
-    com.google.protobuf.ByteString getGrpcAddressBytes();
+    com.google.protobuf.ByteString
+        getGrpcAddressBytes();
 
     /**
      * <pre>
@@ -4480,21 +4150,19 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>string raft_role = 3;</code>
-     * 
      * @return The raftRole.
      */
     java.lang.String getRaftRole();
-
     /**
      * <pre>
      * Papel atual do nó no Raft.
      * </pre>
      *
      * <code>string raft_role = 3;</code>
-     * 
      * @return The bytes for raftRole.
      */
-    com.google.protobuf.ByteString getRaftRoleBytes();
+    com.google.protobuf.ByteString
+        getRaftRoleBytes();
 
     /**
      * <pre>
@@ -4502,7 +4170,6 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>bool is_arbiter = 4;</code>
-     * 
      * @return The isArbiter.
      */
     boolean getIsArbiter();
@@ -4513,21 +4180,19 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>string pg_status = 5;</code>
-     * 
      * @return The pgStatus.
      */
     java.lang.String getPgStatus();
-
     /**
      * <pre>
      * Estado do PostgreSQL local. Relevante apenas se is_arbiter=false.
      * </pre>
      *
      * <code>string pg_status = 5;</code>
-     * 
      * @return The bytes for pgStatus.
      */
-    com.google.protobuf.ByteString getPgStatusBytes();
+    com.google.protobuf.ByteString
+        getPgStatusBytes();
 
     /**
      * <pre>
@@ -4535,12 +4200,10 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>bool reachable = 6;</code>
-     * 
      * @return The reachable.
      */
     boolean getReachable();
   }
-
   /**
    * <pre>
    * Informações sobre um nó individual do cluster.
@@ -4552,13 +4215,11 @@ public final class ClusterProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:cluster.NodeInfo)
       NodeInfoOrBuilder {
-    private static final long serialVersionUID = 0L;
-
+  private static final long serialVersionUID = 0L;
     // Use NodeInfo.newBuilder() to construct.
     private NodeInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private NodeInfo() {
       nodeId_ = "";
       grpcAddress_ = "";
@@ -4567,29 +4228,30 @@ public final class ClusterProto {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
       return new NodeInfo();
     }
 
-    public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
       return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_NodeInfo_descriptor;
     }
 
     @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
       return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_NodeInfo_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.class,
-              com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.Builder.class);
+              com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.class, com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.Builder.class);
     }
 
     public static final int NODE_ID_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
     private volatile java.lang.Object nodeId_ = "";
-
     /**
      * <code>string node_id = 1;</code>
-     * 
      * @return The nodeId.
      */
     @java.lang.Override
@@ -4598,24 +4260,25 @@ public final class ClusterProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         nodeId_ = s;
         return s;
       }
     }
-
     /**
      * <code>string node_id = 1;</code>
-     * 
      * @return The bytes for nodeId.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString getNodeIdBytes() {
+    public com.google.protobuf.ByteString
+        getNodeIdBytes() {
       java.lang.Object ref = nodeId_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-            (java.lang.String) ref);
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
         nodeId_ = b;
         return b;
       } else {
@@ -4624,11 +4287,10 @@ public final class ClusterProto {
     }
 
     public static final int GRPC_ADDRESS_FIELD_NUMBER = 2;
+    @SuppressWarnings("serial")
     private volatile java.lang.Object grpcAddress_ = "";
-
     /**
      * <code>string grpc_address = 2;</code>
-     * 
      * @return The grpcAddress.
      */
     @java.lang.Override
@@ -4637,24 +4299,25 @@ public final class ClusterProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         grpcAddress_ = s;
         return s;
       }
     }
-
     /**
      * <code>string grpc_address = 2;</code>
-     * 
      * @return The bytes for grpcAddress.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString getGrpcAddressBytes() {
+    public com.google.protobuf.ByteString
+        getGrpcAddressBytes() {
       java.lang.Object ref = grpcAddress_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-            (java.lang.String) ref);
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
         grpcAddress_ = b;
         return b;
       } else {
@@ -4663,15 +4326,14 @@ public final class ClusterProto {
     }
 
     public static final int RAFT_ROLE_FIELD_NUMBER = 3;
+    @SuppressWarnings("serial")
     private volatile java.lang.Object raftRole_ = "";
-
     /**
      * <pre>
      * Papel atual do nó no Raft.
      * </pre>
      *
      * <code>string raft_role = 3;</code>
-     * 
      * @return The raftRole.
      */
     @java.lang.Override
@@ -4680,28 +4342,29 @@ public final class ClusterProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         raftRole_ = s;
         return s;
       }
     }
-
     /**
      * <pre>
      * Papel atual do nó no Raft.
      * </pre>
      *
      * <code>string raft_role = 3;</code>
-     * 
      * @return The bytes for raftRole.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString getRaftRoleBytes() {
+    public com.google.protobuf.ByteString
+        getRaftRoleBytes() {
       java.lang.Object ref = raftRole_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-            (java.lang.String) ref);
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
         raftRole_ = b;
         return b;
       } else {
@@ -4711,14 +4374,12 @@ public final class ClusterProto {
 
     public static final int IS_ARBITER_FIELD_NUMBER = 4;
     private boolean isArbiter_ = false;
-
     /**
      * <pre>
      * true se o nó é um árbitro (sem PostgreSQL).
      * </pre>
      *
      * <code>bool is_arbiter = 4;</code>
-     * 
      * @return The isArbiter.
      */
     @java.lang.Override
@@ -4727,15 +4388,14 @@ public final class ClusterProto {
     }
 
     public static final int PG_STATUS_FIELD_NUMBER = 5;
+    @SuppressWarnings("serial")
     private volatile java.lang.Object pgStatus_ = "";
-
     /**
      * <pre>
      * Estado do PostgreSQL local. Relevante apenas se is_arbiter=false.
      * </pre>
      *
      * <code>string pg_status = 5;</code>
-     * 
      * @return The pgStatus.
      */
     @java.lang.Override
@@ -4744,28 +4404,29 @@ public final class ClusterProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         pgStatus_ = s;
         return s;
       }
     }
-
     /**
      * <pre>
      * Estado do PostgreSQL local. Relevante apenas se is_arbiter=false.
      * </pre>
      *
      * <code>string pg_status = 5;</code>
-     * 
      * @return The bytes for pgStatus.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString getPgStatusBytes() {
+    public com.google.protobuf.ByteString
+        getPgStatusBytes() {
       java.lang.Object ref = pgStatus_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-            (java.lang.String) ref);
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
         pgStatus_ = b;
         return b;
       } else {
@@ -4775,14 +4436,12 @@ public final class ClusterProto {
 
     public static final int REACHABLE_FIELD_NUMBER = 6;
     private boolean reachable_ = false;
-
     /**
      * <pre>
      * true se o nó está respondendo às comunicações do cluster.
      * </pre>
      *
      * <code>bool reachable = 6;</code>
-     * 
      * @return The reachable.
      */
     @java.lang.Override
@@ -4791,14 +4450,11 @@ public final class ClusterProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1)
-        return true;
-      if (isInitialized == 0)
-        return false;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -4806,7 +4462,7 @@ public final class ClusterProto {
 
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-        throws java.io.IOException {
+                        throws java.io.IOException {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(nodeId_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, nodeId_);
       }
@@ -4831,8 +4487,7 @@ public final class ClusterProto {
     @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
-      if (size != -1)
-        return size;
+      if (size != -1) return size;
 
       size = 0;
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(nodeId_)) {
@@ -4846,14 +4501,14 @@ public final class ClusterProto {
       }
       if (isArbiter_ != false) {
         size += com.google.protobuf.CodedOutputStream
-            .computeBoolSize(4, isArbiter_);
+          .computeBoolSize(4, isArbiter_);
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(pgStatus_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, pgStatus_);
       }
       if (reachable_ != false) {
         size += com.google.protobuf.CodedOutputStream
-            .computeBoolSize(6, reachable_);
+          .computeBoolSize(6, reachable_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -4863,7 +4518,7 @@ public final class ClusterProto {
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
       if (!(obj instanceof com.tcc.raft.grpc.proto.ClusterProto.NodeInfo)) {
         return super.equals(obj);
@@ -4871,23 +4526,18 @@ public final class ClusterProto {
       com.tcc.raft.grpc.proto.ClusterProto.NodeInfo other = (com.tcc.raft.grpc.proto.ClusterProto.NodeInfo) obj;
 
       if (!getNodeId()
-          .equals(other.getNodeId()))
-        return false;
+          .equals(other.getNodeId())) return false;
       if (!getGrpcAddress()
-          .equals(other.getGrpcAddress()))
-        return false;
+          .equals(other.getGrpcAddress())) return false;
       if (!getRaftRole()
-          .equals(other.getRaftRole()))
-        return false;
-      if (getIsArbiter() != other.getIsArbiter())
-        return false;
+          .equals(other.getRaftRole())) return false;
+      if (getIsArbiter()
+          != other.getIsArbiter()) return false;
       if (!getPgStatus()
-          .equals(other.getPgStatus()))
-        return false;
-      if (getReachable() != other.getReachable())
-        return false;
-      if (!getUnknownFields().equals(other.getUnknownFields()))
-        return false;
+          .equals(other.getPgStatus())) return false;
+      if (getReachable()
+          != other.getReachable()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -4922,45 +4572,38 @@ public final class ClusterProto {
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.NodeInfo parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.NodeInfo parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.NodeInfo parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.NodeInfo parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.NodeInfo parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.NodeInfo parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.NodeInfo parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4982,14 +4625,12 @@ public final class ClusterProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.NodeInfo parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.NodeInfo parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4999,23 +4640,17 @@ public final class ClusterProto {
     }
 
     @java.lang.Override
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.tcc.raft.grpc.proto.ClusterProto.NodeInfo prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-          ? new Builder()
-          : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
     @java.lang.Override
@@ -5024,7 +4659,6 @@ public final class ClusterProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * <pre>
      * Informações sobre um nó individual do cluster.
@@ -5036,16 +4670,17 @@ public final class ClusterProto {
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:cluster.NodeInfo)
         com.tcc.raft.grpc.proto.ClusterProto.NodeInfoOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_NodeInfo_descriptor;
       }
 
       @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_NodeInfo_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.class,
-                com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.Builder.class);
+                com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.class, com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.Builder.class);
       }
 
       // Construct using com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.newBuilder()
@@ -5058,7 +4693,6 @@ public final class ClusterProto {
         super(parent);
 
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -5073,7 +4707,8 @@ public final class ClusterProto {
       }
 
       @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_NodeInfo_descriptor;
       }
 
@@ -5094,9 +4729,7 @@ public final class ClusterProto {
       @java.lang.Override
       public com.tcc.raft.grpc.proto.ClusterProto.NodeInfo buildPartial() {
         com.tcc.raft.grpc.proto.ClusterProto.NodeInfo result = new com.tcc.raft.grpc.proto.ClusterProto.NodeInfo(this);
-        if (bitField0_ != 0) {
-          buildPartial0(result);
-        }
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
@@ -5127,44 +4760,38 @@ public final class ClusterProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.tcc.raft.grpc.proto.ClusterProto.NodeInfo) {
-          return mergeFrom((com.tcc.raft.grpc.proto.ClusterProto.NodeInfo) other);
+          return mergeFrom((com.tcc.raft.grpc.proto.ClusterProto.NodeInfo)other);
         } else {
           super.mergeFrom(other);
           return this;
@@ -5172,8 +4799,7 @@ public final class ClusterProto {
       }
 
       public Builder mergeFrom(com.tcc.raft.grpc.proto.ClusterProto.NodeInfo other) {
-        if (other == com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.getDefaultInstance())
-          return this;
+        if (other == com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.getDefaultInstance()) return this;
         if (!other.getNodeId().isEmpty()) {
           nodeId_ = other.nodeId_;
           bitField0_ |= 0x00000001;
@@ -5271,20 +4897,18 @@ public final class ClusterProto {
         } // finally
         return this;
       }
-
       private int bitField0_;
 
       private java.lang.Object nodeId_ = "";
-
       /**
        * <code>string node_id = 1;</code>
-       * 
        * @return The nodeId.
        */
       public java.lang.String getNodeId() {
         java.lang.Object ref = nodeId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           nodeId_ = s;
           return s;
@@ -5292,44 +4916,38 @@ public final class ClusterProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <code>string node_id = 1;</code>
-       * 
        * @return The bytes for nodeId.
        */
-      public com.google.protobuf.ByteString getNodeIdBytes() {
+      public com.google.protobuf.ByteString
+          getNodeIdBytes() {
         java.lang.Object ref = nodeId_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
           nodeId_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <code>string node_id = 1;</code>
-       * 
        * @param value The nodeId to set.
        * @return This builder for chaining.
        */
       public Builder setNodeId(
           java.lang.String value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         nodeId_ = value;
         bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
-
       /**
        * <code>string node_id = 1;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearNodeId() {
@@ -5338,18 +4956,14 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>string node_id = 1;</code>
-       * 
        * @param value The bytes for nodeId to set.
        * @return This builder for chaining.
        */
       public Builder setNodeIdBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         checkByteStringIsUtf8(value);
         nodeId_ = value;
         bitField0_ |= 0x00000001;
@@ -5358,16 +4972,15 @@ public final class ClusterProto {
       }
 
       private java.lang.Object grpcAddress_ = "";
-
       /**
        * <code>string grpc_address = 2;</code>
-       * 
        * @return The grpcAddress.
        */
       public java.lang.String getGrpcAddress() {
         java.lang.Object ref = grpcAddress_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           grpcAddress_ = s;
           return s;
@@ -5375,44 +4988,38 @@ public final class ClusterProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <code>string grpc_address = 2;</code>
-       * 
        * @return The bytes for grpcAddress.
        */
-      public com.google.protobuf.ByteString getGrpcAddressBytes() {
+      public com.google.protobuf.ByteString
+          getGrpcAddressBytes() {
         java.lang.Object ref = grpcAddress_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
           grpcAddress_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <code>string grpc_address = 2;</code>
-       * 
        * @param value The grpcAddress to set.
        * @return This builder for chaining.
        */
       public Builder setGrpcAddress(
           java.lang.String value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         grpcAddress_ = value;
         bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
-
       /**
        * <code>string grpc_address = 2;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearGrpcAddress() {
@@ -5421,18 +5028,14 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>string grpc_address = 2;</code>
-       * 
        * @param value The bytes for grpcAddress to set.
        * @return This builder for chaining.
        */
       public Builder setGrpcAddressBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         checkByteStringIsUtf8(value);
         grpcAddress_ = value;
         bitField0_ |= 0x00000002;
@@ -5441,20 +5044,19 @@ public final class ClusterProto {
       }
 
       private java.lang.Object raftRole_ = "";
-
       /**
        * <pre>
        * Papel atual do nó no Raft.
        * </pre>
        *
        * <code>string raft_role = 3;</code>
-       * 
        * @return The raftRole.
        */
       public java.lang.String getRaftRole() {
         java.lang.Object ref = raftRole_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           raftRole_ = s;
           return s;
@@ -5462,56 +5064,50 @@ public final class ClusterProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <pre>
        * Papel atual do nó no Raft.
        * </pre>
        *
        * <code>string raft_role = 3;</code>
-       * 
        * @return The bytes for raftRole.
        */
-      public com.google.protobuf.ByteString getRaftRoleBytes() {
+      public com.google.protobuf.ByteString
+          getRaftRoleBytes() {
         java.lang.Object ref = raftRole_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
           raftRole_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <pre>
        * Papel atual do nó no Raft.
        * </pre>
        *
        * <code>string raft_role = 3;</code>
-       * 
        * @param value The raftRole to set.
        * @return This builder for chaining.
        */
       public Builder setRaftRole(
           java.lang.String value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         raftRole_ = value;
         bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Papel atual do nó no Raft.
        * </pre>
        *
        * <code>string raft_role = 3;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearRaftRole() {
@@ -5520,22 +5116,18 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Papel atual do nó no Raft.
        * </pre>
        *
        * <code>string raft_role = 3;</code>
-       * 
        * @param value The bytes for raftRole to set.
        * @return This builder for chaining.
        */
       public Builder setRaftRoleBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         checkByteStringIsUtf8(value);
         raftRole_ = value;
         bitField0_ |= 0x00000004;
@@ -5543,29 +5135,25 @@ public final class ClusterProto {
         return this;
       }
 
-      private boolean isArbiter_;
-
+      private boolean isArbiter_ ;
       /**
        * <pre>
        * true se o nó é um árbitro (sem PostgreSQL).
        * </pre>
        *
        * <code>bool is_arbiter = 4;</code>
-       * 
        * @return The isArbiter.
        */
       @java.lang.Override
       public boolean getIsArbiter() {
         return isArbiter_;
       }
-
       /**
        * <pre>
        * true se o nó é um árbitro (sem PostgreSQL).
        * </pre>
        *
        * <code>bool is_arbiter = 4;</code>
-       * 
        * @param value The isArbiter to set.
        * @return This builder for chaining.
        */
@@ -5576,14 +5164,12 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * true se o nó é um árbitro (sem PostgreSQL).
        * </pre>
        *
        * <code>bool is_arbiter = 4;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearIsArbiter() {
@@ -5594,20 +5180,19 @@ public final class ClusterProto {
       }
 
       private java.lang.Object pgStatus_ = "";
-
       /**
        * <pre>
        * Estado do PostgreSQL local. Relevante apenas se is_arbiter=false.
        * </pre>
        *
        * <code>string pg_status = 5;</code>
-       * 
        * @return The pgStatus.
        */
       public java.lang.String getPgStatus() {
         java.lang.Object ref = pgStatus_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           pgStatus_ = s;
           return s;
@@ -5615,56 +5200,50 @@ public final class ClusterProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <pre>
        * Estado do PostgreSQL local. Relevante apenas se is_arbiter=false.
        * </pre>
        *
        * <code>string pg_status = 5;</code>
-       * 
        * @return The bytes for pgStatus.
        */
-      public com.google.protobuf.ByteString getPgStatusBytes() {
+      public com.google.protobuf.ByteString
+          getPgStatusBytes() {
         java.lang.Object ref = pgStatus_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
           pgStatus_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <pre>
        * Estado do PostgreSQL local. Relevante apenas se is_arbiter=false.
        * </pre>
        *
        * <code>string pg_status = 5;</code>
-       * 
        * @param value The pgStatus to set.
        * @return This builder for chaining.
        */
       public Builder setPgStatus(
           java.lang.String value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         pgStatus_ = value;
         bitField0_ |= 0x00000010;
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Estado do PostgreSQL local. Relevante apenas se is_arbiter=false.
        * </pre>
        *
        * <code>string pg_status = 5;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearPgStatus() {
@@ -5673,22 +5252,18 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Estado do PostgreSQL local. Relevante apenas se is_arbiter=false.
        * </pre>
        *
        * <code>string pg_status = 5;</code>
-       * 
        * @param value The bytes for pgStatus to set.
        * @return This builder for chaining.
        */
       public Builder setPgStatusBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         checkByteStringIsUtf8(value);
         pgStatus_ = value;
         bitField0_ |= 0x00000010;
@@ -5696,29 +5271,25 @@ public final class ClusterProto {
         return this;
       }
 
-      private boolean reachable_;
-
+      private boolean reachable_ ;
       /**
        * <pre>
        * true se o nó está respondendo às comunicações do cluster.
        * </pre>
        *
        * <code>bool reachable = 6;</code>
-       * 
        * @return The reachable.
        */
       @java.lang.Override
       public boolean getReachable() {
         return reachable_;
       }
-
       /**
        * <pre>
        * true se o nó está respondendo às comunicações do cluster.
        * </pre>
        *
        * <code>bool reachable = 6;</code>
-       * 
        * @param value The reachable to set.
        * @return This builder for chaining.
        */
@@ -5729,14 +5300,12 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * true se o nó está respondendo às comunicações do cluster.
        * </pre>
        *
        * <code>bool reachable = 6;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearReachable() {
@@ -5745,7 +5314,6 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -5757,6 +5325,7 @@ public final class ClusterProto {
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
+
 
       // @@protoc_insertion_point(builder_scope:cluster.NodeInfo)
     }
@@ -5771,7 +5340,8 @@ public final class ClusterProto {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<NodeInfo> PARSER = new com.google.protobuf.AbstractParser<NodeInfo>() {
+    private static final com.google.protobuf.Parser<NodeInfo>
+        PARSER = new com.google.protobuf.AbstractParser<NodeInfo>() {
       @java.lang.Override
       public NodeInfo parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
@@ -5818,21 +5388,19 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>string leader_id = 1;</code>
-     * 
      * @return The leaderId.
      */
     java.lang.String getLeaderId();
-
     /**
      * <pre>
      * Identificador do líder atual.
      * </pre>
      *
      * <code>string leader_id = 1;</code>
-     * 
      * @return The bytes for leaderId.
      */
-    com.google.protobuf.ByteString getLeaderIdBytes();
+    com.google.protobuf.ByteString
+        getLeaderIdBytes();
 
     /**
      * <pre>
@@ -5840,7 +5408,6 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>int64 current_term = 2;</code>
-     * 
      * @return The currentTerm.
      */
     long getCurrentTerm();
@@ -5852,8 +5419,8 @@ public final class ClusterProto {
      *
      * <code>repeated .cluster.NodeInfo nodes = 3;</code>
      */
-    java.util.List<com.tcc.raft.grpc.proto.ClusterProto.NodeInfo> getNodesList();
-
+    java.util.List<com.tcc.raft.grpc.proto.ClusterProto.NodeInfo> 
+        getNodesList();
     /**
      * <pre>
      * Lista com informações de todos os nós conhecidos.
@@ -5862,7 +5429,6 @@ public final class ClusterProto {
      * <code>repeated .cluster.NodeInfo nodes = 3;</code>
      */
     com.tcc.raft.grpc.proto.ClusterProto.NodeInfo getNodes(int index);
-
     /**
      * <pre>
      * Lista com informações de todos os nós conhecidos.
@@ -5871,7 +5437,6 @@ public final class ClusterProto {
      * <code>repeated .cluster.NodeInfo nodes = 3;</code>
      */
     int getNodesCount();
-
     /**
      * <pre>
      * Lista com informações de todos os nós conhecidos.
@@ -5879,8 +5444,8 @@ public final class ClusterProto {
      *
      * <code>repeated .cluster.NodeInfo nodes = 3;</code>
      */
-    java.util.List<? extends com.tcc.raft.grpc.proto.ClusterProto.NodeInfoOrBuilder> getNodesOrBuilderList();
-
+    java.util.List<? extends com.tcc.raft.grpc.proto.ClusterProto.NodeInfoOrBuilder> 
+        getNodesOrBuilderList();
     /**
      * <pre>
      * Lista com informações de todos os nós conhecidos.
@@ -5897,12 +5462,10 @@ public final class ClusterProto {
      * </pre>
      *
      * <code>int64 commit_index = 4;</code>
-     * 
      * @return The commitIndex.
      */
     long getCommitIndex();
   }
-
   /**
    * Protobuf type {@code cluster.ClusterStatusResponse}
    */
@@ -5910,46 +5473,45 @@ public final class ClusterProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:cluster.ClusterStatusResponse)
       ClusterStatusResponseOrBuilder {
-    private static final long serialVersionUID = 0L;
-
+  private static final long serialVersionUID = 0L;
     // Use ClusterStatusResponse.newBuilder() to construct.
     private ClusterStatusResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private ClusterStatusResponse() {
       leaderId_ = "";
       nodes_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
       return new ClusterStatusResponse();
     }
 
-    public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
       return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ClusterStatusResponse_descriptor;
     }
 
     @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
       return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ClusterStatusResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse.class,
-              com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse.Builder.class);
+              com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse.class, com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse.Builder.class);
     }
 
     public static final int LEADER_ID_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
     private volatile java.lang.Object leaderId_ = "";
-
     /**
      * <pre>
      * Identificador do líder atual.
      * </pre>
      *
      * <code>string leader_id = 1;</code>
-     * 
      * @return The leaderId.
      */
     @java.lang.Override
@@ -5958,28 +5520,29 @@ public final class ClusterProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         leaderId_ = s;
         return s;
       }
     }
-
     /**
      * <pre>
      * Identificador do líder atual.
      * </pre>
      *
      * <code>string leader_id = 1;</code>
-     * 
      * @return The bytes for leaderId.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString getLeaderIdBytes() {
+    public com.google.protobuf.ByteString
+        getLeaderIdBytes() {
       java.lang.Object ref = leaderId_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-            (java.lang.String) ref);
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
         leaderId_ = b;
         return b;
       } else {
@@ -5989,14 +5552,12 @@ public final class ClusterProto {
 
     public static final int CURRENT_TERM_FIELD_NUMBER = 2;
     private long currentTerm_ = 0L;
-
     /**
      * <pre>
      * Mandato atual do cluster.
      * </pre>
      *
      * <code>int64 current_term = 2;</code>
-     * 
      * @return The currentTerm.
      */
     @java.lang.Override
@@ -6005,8 +5566,8 @@ public final class ClusterProto {
     }
 
     public static final int NODES_FIELD_NUMBER = 3;
+    @SuppressWarnings("serial")
     private java.util.List<com.tcc.raft.grpc.proto.ClusterProto.NodeInfo> nodes_;
-
     /**
      * <pre>
      * Lista com informações de todos os nós conhecidos.
@@ -6018,7 +5579,6 @@ public final class ClusterProto {
     public java.util.List<com.tcc.raft.grpc.proto.ClusterProto.NodeInfo> getNodesList() {
       return nodes_;
     }
-
     /**
      * <pre>
      * Lista com informações de todos os nós conhecidos.
@@ -6027,10 +5587,10 @@ public final class ClusterProto {
      * <code>repeated .cluster.NodeInfo nodes = 3;</code>
      */
     @java.lang.Override
-    public java.util.List<? extends com.tcc.raft.grpc.proto.ClusterProto.NodeInfoOrBuilder> getNodesOrBuilderList() {
+    public java.util.List<? extends com.tcc.raft.grpc.proto.ClusterProto.NodeInfoOrBuilder> 
+        getNodesOrBuilderList() {
       return nodes_;
     }
-
     /**
      * <pre>
      * Lista com informações de todos os nós conhecidos.
@@ -6042,7 +5602,6 @@ public final class ClusterProto {
     public int getNodesCount() {
       return nodes_.size();
     }
-
     /**
      * <pre>
      * Lista com informações de todos os nós conhecidos.
@@ -6054,7 +5613,6 @@ public final class ClusterProto {
     public com.tcc.raft.grpc.proto.ClusterProto.NodeInfo getNodes(int index) {
       return nodes_.get(index);
     }
-
     /**
      * <pre>
      * Lista com informações de todos os nós conhecidos.
@@ -6070,14 +5628,12 @@ public final class ClusterProto {
 
     public static final int COMMIT_INDEX_FIELD_NUMBER = 4;
     private long commitIndex_ = 0L;
-
     /**
      * <pre>
      * Índice da última entrada confirmada no log.
      * </pre>
      *
      * <code>int64 commit_index = 4;</code>
-     * 
      * @return The commitIndex.
      */
     @java.lang.Override
@@ -6086,14 +5642,11 @@ public final class ClusterProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1)
-        return true;
-      if (isInitialized == 0)
-        return false;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -6101,7 +5654,7 @@ public final class ClusterProto {
 
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-        throws java.io.IOException {
+                        throws java.io.IOException {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(leaderId_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, leaderId_);
       }
@@ -6120,8 +5673,7 @@ public final class ClusterProto {
     @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
-      if (size != -1)
-        return size;
+      if (size != -1) return size;
 
       size = 0;
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(leaderId_)) {
@@ -6129,15 +5681,15 @@ public final class ClusterProto {
       }
       if (currentTerm_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(2, currentTerm_);
+          .computeInt64Size(2, currentTerm_);
       }
       for (int i = 0; i < nodes_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(3, nodes_.get(i));
+          .computeMessageSize(3, nodes_.get(i));
       }
       if (commitIndex_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(4, commitIndex_);
+          .computeInt64Size(4, commitIndex_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -6147,7 +5699,7 @@ public final class ClusterProto {
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
       if (!(obj instanceof com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse)) {
         return super.equals(obj);
@@ -6155,17 +5707,14 @@ public final class ClusterProto {
       com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse other = (com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse) obj;
 
       if (!getLeaderId()
-          .equals(other.getLeaderId()))
-        return false;
-      if (getCurrentTerm() != other.getCurrentTerm())
-        return false;
+          .equals(other.getLeaderId())) return false;
+      if (getCurrentTerm()
+          != other.getCurrentTerm()) return false;
       if (!getNodesList()
-          .equals(other.getNodesList()))
-        return false;
-      if (getCommitIndex() != other.getCommitIndex())
-        return false;
-      if (!getUnknownFields().equals(other.getUnknownFields()))
-        return false;
+          .equals(other.getNodesList())) return false;
+      if (getCommitIndex()
+          != other.getCommitIndex()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -6198,45 +5747,38 @@ public final class ClusterProto {
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6245,8 +5787,7 @@ public final class ClusterProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse parseDelimitedFrom(
-        java.io.InputStream input)
+    public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
@@ -6259,14 +5800,12 @@ public final class ClusterProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-
     public static com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6276,23 +5815,17 @@ public final class ClusterProto {
     }
 
     @java.lang.Override
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-          ? new Builder()
-          : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
     @java.lang.Override
@@ -6301,7 +5834,6 @@ public final class ClusterProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code cluster.ClusterStatusResponse}
      */
@@ -6309,20 +5841,20 @@ public final class ClusterProto {
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:cluster.ClusterStatusResponse)
         com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponseOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ClusterStatusResponse_descriptor;
       }
 
       @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ClusterStatusResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse.class,
-                com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse.Builder.class);
+                com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse.class, com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse.Builder.class);
       }
 
-      // Construct using
-      // com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse.newBuilder()
+      // Construct using com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse.newBuilder()
       private Builder() {
 
       }
@@ -6332,7 +5864,6 @@ public final class ClusterProto {
         super(parent);
 
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -6351,7 +5882,8 @@ public final class ClusterProto {
       }
 
       @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
         return com.tcc.raft.grpc.proto.ClusterProto.internal_static_cluster_ClusterStatusResponse_descriptor;
       }
 
@@ -6371,12 +5903,9 @@ public final class ClusterProto {
 
       @java.lang.Override
       public com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse buildPartial() {
-        com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse result = new com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse(
-            this);
+        com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse result = new com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse(this);
         buildPartialRepeatedFields(result);
-        if (bitField0_ != 0) {
-          buildPartial0(result);
-        }
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
@@ -6410,44 +5939,38 @@ public final class ClusterProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse) {
-          return mergeFrom((com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse) other);
+          return mergeFrom((com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
@@ -6455,8 +5978,7 @@ public final class ClusterProto {
       }
 
       public Builder mergeFrom(com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse other) {
-        if (other == com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse.getDefaultInstance())
-          return this;
+        if (other == com.tcc.raft.grpc.proto.ClusterProto.ClusterStatusResponse.getDefaultInstance()) return this;
         if (!other.getLeaderId().isEmpty()) {
           leaderId_ = other.leaderId_;
           bitField0_ |= 0x00000001;
@@ -6483,8 +6005,9 @@ public final class ClusterProto {
               nodesBuilder_ = null;
               nodes_ = other.nodes_;
               bitField0_ = (bitField0_ & ~0x00000004);
-              nodesBuilder_ = com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ? getNodesFieldBuilder()
-                  : null;
+              nodesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getNodesFieldBuilder() : null;
             } else {
               nodesBuilder_.addAllMessages(other.nodes_);
             }
@@ -6530,9 +6053,10 @@ public final class ClusterProto {
                 break;
               } // case 16
               case 26: {
-                com.tcc.raft.grpc.proto.ClusterProto.NodeInfo m = input.readMessage(
-                    com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.parser(),
-                    extensionRegistry);
+                com.tcc.raft.grpc.proto.ClusterProto.NodeInfo m =
+                    input.readMessage(
+                        com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.parser(),
+                        extensionRegistry);
                 if (nodesBuilder_ == null) {
                   ensureNodesIsMutable();
                   nodes_.add(m);
@@ -6561,24 +6085,22 @@ public final class ClusterProto {
         } // finally
         return this;
       }
-
       private int bitField0_;
 
       private java.lang.Object leaderId_ = "";
-
       /**
        * <pre>
        * Identificador do líder atual.
        * </pre>
        *
        * <code>string leader_id = 1;</code>
-       * 
        * @return The leaderId.
        */
       public java.lang.String getLeaderId() {
         java.lang.Object ref = leaderId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           leaderId_ = s;
           return s;
@@ -6586,56 +6108,50 @@ public final class ClusterProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <pre>
        * Identificador do líder atual.
        * </pre>
        *
        * <code>string leader_id = 1;</code>
-       * 
        * @return The bytes for leaderId.
        */
-      public com.google.protobuf.ByteString getLeaderIdBytes() {
+      public com.google.protobuf.ByteString
+          getLeaderIdBytes() {
         java.lang.Object ref = leaderId_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
           leaderId_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <pre>
        * Identificador do líder atual.
        * </pre>
        *
        * <code>string leader_id = 1;</code>
-       * 
        * @param value The leaderId to set.
        * @return This builder for chaining.
        */
       public Builder setLeaderId(
           java.lang.String value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         leaderId_ = value;
         bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Identificador do líder atual.
        * </pre>
        *
        * <code>string leader_id = 1;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearLeaderId() {
@@ -6644,22 +6160,18 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Identificador do líder atual.
        * </pre>
        *
        * <code>string leader_id = 1;</code>
-       * 
        * @param value The bytes for leaderId to set.
        * @return This builder for chaining.
        */
       public Builder setLeaderIdBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+        if (value == null) { throw new NullPointerException(); }
         checkByteStringIsUtf8(value);
         leaderId_ = value;
         bitField0_ |= 0x00000001;
@@ -6667,29 +6179,25 @@ public final class ClusterProto {
         return this;
       }
 
-      private long currentTerm_;
-
+      private long currentTerm_ ;
       /**
        * <pre>
        * Mandato atual do cluster.
        * </pre>
        *
        * <code>int64 current_term = 2;</code>
-       * 
        * @return The currentTerm.
        */
       @java.lang.Override
       public long getCurrentTerm() {
         return currentTerm_;
       }
-
       /**
        * <pre>
        * Mandato atual do cluster.
        * </pre>
        *
        * <code>int64 current_term = 2;</code>
-       * 
        * @param value The currentTerm to set.
        * @return This builder for chaining.
        */
@@ -6700,14 +6208,12 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Mandato atual do cluster.
        * </pre>
        *
        * <code>int64 current_term = 2;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearCurrentTerm() {
@@ -6717,16 +6223,17 @@ public final class ClusterProto {
         return this;
       }
 
-      private java.util.List<com.tcc.raft.grpc.proto.ClusterProto.NodeInfo> nodes_ = java.util.Collections.emptyList();
-
+      private java.util.List<com.tcc.raft.grpc.proto.ClusterProto.NodeInfo> nodes_ =
+        java.util.Collections.emptyList();
       private void ensureNodesIsMutable() {
         if (!((bitField0_ & 0x00000004) != 0)) {
           nodes_ = new java.util.ArrayList<com.tcc.raft.grpc.proto.ClusterProto.NodeInfo>(nodes_);
           bitField0_ |= 0x00000004;
-        }
+         }
       }
 
-      private com.google.protobuf.RepeatedFieldBuilderV3<com.tcc.raft.grpc.proto.ClusterProto.NodeInfo, com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.Builder, com.tcc.raft.grpc.proto.ClusterProto.NodeInfoOrBuilder> nodesBuilder_;
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.tcc.raft.grpc.proto.ClusterProto.NodeInfo, com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.Builder, com.tcc.raft.grpc.proto.ClusterProto.NodeInfoOrBuilder> nodesBuilder_;
 
       /**
        * <pre>
@@ -6742,7 +6249,6 @@ public final class ClusterProto {
           return nodesBuilder_.getMessageList();
         }
       }
-
       /**
        * <pre>
        * Lista com informações de todos os nós conhecidos.
@@ -6757,7 +6263,6 @@ public final class ClusterProto {
           return nodesBuilder_.getCount();
         }
       }
-
       /**
        * <pre>
        * Lista com informações de todos os nós conhecidos.
@@ -6772,7 +6277,6 @@ public final class ClusterProto {
           return nodesBuilder_.getMessage(index);
         }
       }
-
       /**
        * <pre>
        * Lista com informações de todos os nós conhecidos.
@@ -6794,7 +6298,6 @@ public final class ClusterProto {
         }
         return this;
       }
-
       /**
        * <pre>
        * Lista com informações de todos os nós conhecidos.
@@ -6813,7 +6316,6 @@ public final class ClusterProto {
         }
         return this;
       }
-
       /**
        * <pre>
        * Lista com informações de todos os nós conhecidos.
@@ -6834,7 +6336,6 @@ public final class ClusterProto {
         }
         return this;
       }
-
       /**
        * <pre>
        * Lista com informações de todos os nós conhecidos.
@@ -6856,7 +6357,6 @@ public final class ClusterProto {
         }
         return this;
       }
-
       /**
        * <pre>
        * Lista com informações de todos os nós conhecidos.
@@ -6875,7 +6375,6 @@ public final class ClusterProto {
         }
         return this;
       }
-
       /**
        * <pre>
        * Lista com informações de todos os nós conhecidos.
@@ -6894,7 +6393,6 @@ public final class ClusterProto {
         }
         return this;
       }
-
       /**
        * <pre>
        * Lista com informações de todos os nós conhecidos.
@@ -6914,7 +6412,6 @@ public final class ClusterProto {
         }
         return this;
       }
-
       /**
        * <pre>
        * Lista com informações de todos os nós conhecidos.
@@ -6932,7 +6429,6 @@ public final class ClusterProto {
         }
         return this;
       }
-
       /**
        * <pre>
        * Lista com informações de todos os nós conhecidos.
@@ -6950,7 +6446,6 @@ public final class ClusterProto {
         }
         return this;
       }
-
       /**
        * <pre>
        * Lista com informações de todos os nós conhecidos.
@@ -6962,7 +6457,6 @@ public final class ClusterProto {
           int index) {
         return getNodesFieldBuilder().getBuilder(index);
       }
-
       /**
        * <pre>
        * Lista com informações de todos os nós conhecidos.
@@ -6973,12 +6467,10 @@ public final class ClusterProto {
       public com.tcc.raft.grpc.proto.ClusterProto.NodeInfoOrBuilder getNodesOrBuilder(
           int index) {
         if (nodesBuilder_ == null) {
-          return nodes_.get(index);
-        } else {
+          return nodes_.get(index);  } else {
           return nodesBuilder_.getMessageOrBuilder(index);
         }
       }
-
       /**
        * <pre>
        * Lista com informações de todos os nós conhecidos.
@@ -6986,14 +6478,14 @@ public final class ClusterProto {
        *
        * <code>repeated .cluster.NodeInfo nodes = 3;</code>
        */
-      public java.util.List<? extends com.tcc.raft.grpc.proto.ClusterProto.NodeInfoOrBuilder> getNodesOrBuilderList() {
+      public java.util.List<? extends com.tcc.raft.grpc.proto.ClusterProto.NodeInfoOrBuilder> 
+           getNodesOrBuilderList() {
         if (nodesBuilder_ != null) {
           return nodesBuilder_.getMessageOrBuilderList();
         } else {
           return java.util.Collections.unmodifiableList(nodes_);
         }
       }
-
       /**
        * <pre>
        * Lista com informações de todos os nós conhecidos.
@@ -7005,7 +6497,6 @@ public final class ClusterProto {
         return getNodesFieldBuilder().addBuilder(
             com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.getDefaultInstance());
       }
-
       /**
        * <pre>
        * Lista com informações de todos os nós conhecidos.
@@ -7018,7 +6509,6 @@ public final class ClusterProto {
         return getNodesFieldBuilder().addBuilder(
             index, com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.getDefaultInstance());
       }
-
       /**
        * <pre>
        * Lista com informações de todos os nós conhecidos.
@@ -7026,45 +6516,44 @@ public final class ClusterProto {
        *
        * <code>repeated .cluster.NodeInfo nodes = 3;</code>
        */
-      public java.util.List<com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.Builder> getNodesBuilderList() {
+      public java.util.List<com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.Builder> 
+           getNodesBuilderList() {
         return getNodesFieldBuilder().getBuilderList();
       }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<com.tcc.raft.grpc.proto.ClusterProto.NodeInfo, com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.Builder, com.tcc.raft.grpc.proto.ClusterProto.NodeInfoOrBuilder> getNodesFieldBuilder() {
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.tcc.raft.grpc.proto.ClusterProto.NodeInfo, com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.Builder, com.tcc.raft.grpc.proto.ClusterProto.NodeInfoOrBuilder> 
+          getNodesFieldBuilder() {
         if (nodesBuilder_ == null) {
-          nodesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<com.tcc.raft.grpc.proto.ClusterProto.NodeInfo, com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.Builder, com.tcc.raft.grpc.proto.ClusterProto.NodeInfoOrBuilder>(
-              nodes_,
-              ((bitField0_ & 0x00000004) != 0),
-              getParentForChildren(),
-              isClean());
+          nodesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              com.tcc.raft.grpc.proto.ClusterProto.NodeInfo, com.tcc.raft.grpc.proto.ClusterProto.NodeInfo.Builder, com.tcc.raft.grpc.proto.ClusterProto.NodeInfoOrBuilder>(
+                  nodes_,
+                  ((bitField0_ & 0x00000004) != 0),
+                  getParentForChildren(),
+                  isClean());
           nodes_ = null;
         }
         return nodesBuilder_;
       }
 
-      private long commitIndex_;
-
+      private long commitIndex_ ;
       /**
        * <pre>
        * Índice da última entrada confirmada no log.
        * </pre>
        *
        * <code>int64 commit_index = 4;</code>
-       * 
        * @return The commitIndex.
        */
       @java.lang.Override
       public long getCommitIndex() {
         return commitIndex_;
       }
-
       /**
        * <pre>
        * Índice da última entrada confirmada no log.
        * </pre>
        *
        * <code>int64 commit_index = 4;</code>
-       * 
        * @param value The commitIndex to set.
        * @return This builder for chaining.
        */
@@ -7075,14 +6564,12 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       /**
        * <pre>
        * Índice da última entrada confirmada no log.
        * </pre>
        *
        * <code>int64 commit_index = 4;</code>
-       * 
        * @return This builder for chaining.
        */
       public Builder clearCommitIndex() {
@@ -7091,7 +6578,6 @@ public final class ClusterProto {
         onChanged();
         return this;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -7103,6 +6589,7 @@ public final class ClusterProto {
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
+
 
       // @@protoc_insertion_point(builder_scope:cluster.ClusterStatusResponse)
     }
@@ -7117,7 +6604,8 @@ public final class ClusterProto {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ClusterStatusResponse> PARSER = new com.google.protobuf.AbstractParser<ClusterStatusResponse>() {
+    private static final com.google.protobuf.Parser<ClusterStatusResponse>
+        PARSER = new com.google.protobuf.AbstractParser<ClusterStatusResponse>() {
       @java.lang.Override
       public ClusterStatusResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
@@ -7154,84 +6642,120 @@ public final class ClusterProto {
 
   }
 
-  private static final com.google.protobuf.Descriptors.Descriptor internal_static_cluster_ConfigChangeData_descriptor;
-  private static final com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internal_static_cluster_ConfigChangeData_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor internal_static_cluster_FailoverData_descriptor;
-  private static final com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internal_static_cluster_FailoverData_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor internal_static_cluster_ConfigChangeRequest_descriptor;
-  private static final com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internal_static_cluster_ConfigChangeRequest_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor internal_static_cluster_ConfigChangeResponse_descriptor;
-  private static final com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internal_static_cluster_ConfigChangeResponse_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor internal_static_cluster_ClusterStatusRequest_descriptor;
-  private static final com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internal_static_cluster_ClusterStatusRequest_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor internal_static_cluster_NodeInfo_descriptor;
-  private static final com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internal_static_cluster_NodeInfo_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor internal_static_cluster_ClusterStatusResponse_descriptor;
-  private static final com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internal_static_cluster_ClusterStatusResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cluster_ConfigChangeData_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_cluster_ConfigChangeData_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cluster_FailoverData_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_cluster_FailoverData_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cluster_ConfigChangeRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_cluster_ConfigChangeRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cluster_ConfigChangeResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_cluster_ConfigChangeResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cluster_ClusterStatusRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_cluster_ClusterStatusRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cluster_NodeInfo_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_cluster_NodeInfo_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cluster_ClusterStatusResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_cluster_ClusterStatusResponse_fieldAccessorTable;
 
-  public static com.google.protobuf.Descriptors.FileDescriptor getDescriptor() {
+  public static com.google.protobuf.Descriptors.FileDescriptor
+      getDescriptor() {
     return descriptor;
   }
-
-  private static com.google.protobuf.Descriptors.FileDescriptor descriptor;
+  private static  com.google.protobuf.Descriptors.FileDescriptor
+      descriptor;
   static {
     java.lang.String[] descriptorData = {
-        "\n\rcluster.proto\022\007cluster\"\261\001\n\020ConfigChang" +
-            "eData\0226\n\toperation\030\001 \001(\0162#.cluster.Confi" +
-            "gChangeData.Operation\022\017\n\007node_id\030\002 \001(\t\022\024" +
-            "\n\014grpc_address\030\003 \001(\t\022\022\n\nis_arbiter\030\004 \001(\010" +
-            "\"*\n\tOperation\022\014\n\010ADD_NODE\020\000\022\017\n\013REMOVE_NO" +
-            "DE\020\001\"e\n\014FailoverData\022\025\n\rold_leader_id\030\001 " +
-            "\001(\t\022\025\n\rnew_leader_id\030\002 \001(\t\022\016\n\006reason\030\003 \001" +
-            "(\t\022\027\n\017initiated_at_ms\030\004 \001(\003\"@\n\023ConfigCha" +
-            "ngeRequest\022)\n\006change\030\001 \001(\0132\031.cluster.Con" +
-            "figChangeData\"L\n\024ConfigChangeResponse\022\020\n" +
-            "\010accepted\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\022\021\n\tlead" +
-            "er_id\030\003 \001(\t\"\026\n\024ClusterStatusRequest\"~\n\010N" +
-            "odeInfo\022\017\n\007node_id\030\001 \001(\t\022\024\n\014grpc_address" +
-            "\030\002 \001(\t\022\021\n\traft_role\030\003 \001(\t\022\022\n\nis_arbiter\030" +
-            "\004 \001(\010\022\021\n\tpg_status\030\005 \001(\t\022\021\n\treachable\030\006 " +
-            "\001(\010\"x\n\025ClusterStatusResponse\022\021\n\tleader_i" +
-            "d\030\001 \001(\t\022\024\n\014current_term\030\002 \001(\003\022 \n\005nodes\030\003" +
-            " \003(\0132\021.cluster.NodeInfo\022\024\n\014commit_index\030" +
-            "\004 \001(\0032\300\001\n\030ClusterManagementService\022Q\n\022Su" +
-            "bmitConfigChange\022\034.cluster.ConfigChangeR" +
-            "equest\032\035.cluster.ConfigChangeResponse\022Q\n" +
-            "\020GetClusterStatus\022\035.cluster.ClusterStatu" +
-            "sRequest\032\036.cluster.ClusterStatusResponse" +
-            "B)\n\027com.tcc.raft.grpc.protoB\014ClusterProt" +
-            "oP\000b\006proto3"
+      "\n\rcluster.proto\022\007cluster\"\261\001\n\020ConfigChang" +
+      "eData\0226\n\toperation\030\001 \001(\0162#.cluster.Confi" +
+      "gChangeData.Operation\022\017\n\007node_id\030\002 \001(\t\022\024" +
+      "\n\014grpc_address\030\003 \001(\t\022\022\n\nis_arbiter\030\004 \001(\010" +
+      "\"*\n\tOperation\022\014\n\010ADD_NODE\020\000\022\017\n\013REMOVE_NO" +
+      "DE\020\001\"e\n\014FailoverData\022\025\n\rold_leader_id\030\001 " +
+      "\001(\t\022\025\n\rnew_leader_id\030\002 \001(\t\022\016\n\006reason\030\003 \001" +
+      "(\t\022\027\n\017initiated_at_ms\030\004 \001(\003\"@\n\023ConfigCha" +
+      "ngeRequest\022)\n\006change\030\001 \001(\0132\031.cluster.Con" +
+      "figChangeData\"L\n\024ConfigChangeResponse\022\020\n" +
+      "\010accepted\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\022\021\n\tlead" +
+      "er_id\030\003 \001(\t\"\026\n\024ClusterStatusRequest\"~\n\010N" +
+      "odeInfo\022\017\n\007node_id\030\001 \001(\t\022\024\n\014grpc_address" +
+      "\030\002 \001(\t\022\021\n\traft_role\030\003 \001(\t\022\022\n\nis_arbiter\030" +
+      "\004 \001(\010\022\021\n\tpg_status\030\005 \001(\t\022\021\n\treachable\030\006 " +
+      "\001(\010\"x\n\025ClusterStatusResponse\022\021\n\tleader_i" +
+      "d\030\001 \001(\t\022\024\n\014current_term\030\002 \001(\003\022 \n\005nodes\030\003" +
+      " \003(\0132\021.cluster.NodeInfo\022\024\n\014commit_index\030" +
+      "\004 \001(\0032\300\001\n\030ClusterManagementService\022Q\n\022Su" +
+      "bmitConfigChange\022\034.cluster.ConfigChangeR" +
+      "equest\032\035.cluster.ConfigChangeResponse\022Q\n" +
+      "\020GetClusterStatus\022\035.cluster.ClusterStatu" +
+      "sRequest\032\036.cluster.ClusterStatusResponse" +
+      "B)\n\027com.tcc.raft.grpc.protoB\014ClusterProt" +
+      "oP\000b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
-        .internalBuildGeneratedFileFrom(descriptorData,
-            new com.google.protobuf.Descriptors.FileDescriptor[] {
-            });
-    internal_static_cluster_ConfigChangeData_descriptor = getDescriptor().getMessageTypes().get(0);
-    internal_static_cluster_ConfigChangeData_fieldAccessorTable = new com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+      .internalBuildGeneratedFileFrom(descriptorData,
+        new com.google.protobuf.Descriptors.FileDescriptor[] {
+        });
+    internal_static_cluster_ConfigChangeData_descriptor =
+      getDescriptor().getMessageTypes().get(0);
+    internal_static_cluster_ConfigChangeData_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_cluster_ConfigChangeData_descriptor,
         new java.lang.String[] { "Operation", "NodeId", "GrpcAddress", "IsArbiter", });
-    internal_static_cluster_FailoverData_descriptor = getDescriptor().getMessageTypes().get(1);
-    internal_static_cluster_FailoverData_fieldAccessorTable = new com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+    internal_static_cluster_FailoverData_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_cluster_FailoverData_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_cluster_FailoverData_descriptor,
         new java.lang.String[] { "OldLeaderId", "NewLeaderId", "Reason", "InitiatedAtMs", });
-    internal_static_cluster_ConfigChangeRequest_descriptor = getDescriptor().getMessageTypes().get(2);
-    internal_static_cluster_ConfigChangeRequest_fieldAccessorTable = new com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+    internal_static_cluster_ConfigChangeRequest_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_cluster_ConfigChangeRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_cluster_ConfigChangeRequest_descriptor,
         new java.lang.String[] { "Change", });
-    internal_static_cluster_ConfigChangeResponse_descriptor = getDescriptor().getMessageTypes().get(3);
-    internal_static_cluster_ConfigChangeResponse_fieldAccessorTable = new com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+    internal_static_cluster_ConfigChangeResponse_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_cluster_ConfigChangeResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_cluster_ConfigChangeResponse_descriptor,
         new java.lang.String[] { "Accepted", "Message", "LeaderId", });
-    internal_static_cluster_ClusterStatusRequest_descriptor = getDescriptor().getMessageTypes().get(4);
-    internal_static_cluster_ClusterStatusRequest_fieldAccessorTable = new com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+    internal_static_cluster_ClusterStatusRequest_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_cluster_ClusterStatusRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_cluster_ClusterStatusRequest_descriptor,
-        new java.lang.String[] {});
-    internal_static_cluster_NodeInfo_descriptor = getDescriptor().getMessageTypes().get(5);
-    internal_static_cluster_NodeInfo_fieldAccessorTable = new com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        new java.lang.String[] { });
+    internal_static_cluster_NodeInfo_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_cluster_NodeInfo_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_cluster_NodeInfo_descriptor,
         new java.lang.String[] { "NodeId", "GrpcAddress", "RaftRole", "IsArbiter", "PgStatus", "Reachable", });
-    internal_static_cluster_ClusterStatusResponse_descriptor = getDescriptor().getMessageTypes().get(6);
-    internal_static_cluster_ClusterStatusResponse_fieldAccessorTable = new com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+    internal_static_cluster_ClusterStatusResponse_descriptor =
+      getDescriptor().getMessageTypes().get(6);
+    internal_static_cluster_ClusterStatusResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_cluster_ClusterStatusResponse_descriptor,
         new java.lang.String[] { "LeaderId", "CurrentTerm", "Nodes", "CommitIndex", });
   }
