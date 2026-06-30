@@ -2,6 +2,7 @@ package com.tcc.raft.core;
 
 import com.tcc.raft.config.NodeConfig;
 import com.tcc.raft.grpc.RaftGrpcClient;
+import com.tcc.raft.grpc.proto.RaftProto;
 import com.tcc.raft.postgres.FailoverExecutor;
 import com.tcc.raft.postgres.PostgresHealthChecker;
 import com.google.gson.Gson;
@@ -496,13 +497,11 @@ public class RaftNode {
         // Captura o estado necessário dentro do lock, depois envia fora do lock
         final long term;
         final long commitIdx;
-        final long lastIdx;
 
         synchronized (stateLock) {
             if (role != RaftRole.LEADER) return;
             term = currentTerm;
             commitIdx = commitIndex;
-            lastIdx = raftLog.lastIndex();
         }
 
         for (Map.Entry<String, RaftGrpcClient> entry : peerClients.entrySet()) {

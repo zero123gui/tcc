@@ -2,6 +2,7 @@ package com.tcc.raft.grpc;
 
 import com.tcc.raft.core.RaftNode;
 import com.tcc.raft.core.RaftRole;
+import com.tcc.raft.grpc.proto.ClusterManagementServiceGrpc;
 import com.tcc.raft.grpc.proto.ClusterProto;
 import io.grpc.stub.StreamObserver;
 import org.slf4j.Logger;
@@ -18,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * da entrada no log Raft e replicação para os seguidores.
  */
 public class ClusterManagementServiceImpl
-        extends ClusterProto.ClusterManagementServiceGrpc.ClusterManagementServiceImplBase {
+        extends ClusterManagementServiceGrpc.ClusterManagementServiceImplBase {
 
     private static final Logger log = LoggerFactory.getLogger(ClusterManagementServiceImpl.class);
 

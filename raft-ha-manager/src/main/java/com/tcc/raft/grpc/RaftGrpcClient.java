@@ -1,6 +1,7 @@
 package com.tcc.raft.grpc;
 
 import com.tcc.raft.grpc.proto.RaftProto;
+import com.tcc.raft.grpc.proto.RaftServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
@@ -27,7 +28,7 @@ public class RaftGrpcClient {
 
     private final String peerId;
     private final ManagedChannel channel;
-    private final RaftProto.RaftServiceGrpc.RaftServiceBlockingStub stub;
+    private final RaftServiceGrpc.RaftServiceBlockingStub stub;
     private final long rpcTimeoutMs;
 
     /**
@@ -50,7 +51,7 @@ public class RaftGrpcClient {
             .keepAliveWithoutCalls(true)            // Mantém o canal vivo mesmo sem chamadas
             .build();
 
-        this.stub = RaftProto.RaftServiceGrpc.newBlockingStub(channel);
+        this.stub = RaftServiceGrpc.newBlockingStub(channel);
     }
 
     /**

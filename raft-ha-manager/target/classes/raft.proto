@@ -1,0 +1,134 @@
+syntax = "proto3";
+
+package raft;
+
+option java_package = "com.tcc.raft.grpc.proto";
+option java_outer_classname = "RaftProto";
+option java_multiple_files = false;
+
+// ============================================================================
+// RequestVote RPC
+//
+// Enviado por um CANDIDATO para todos os outros nós durante uma eleição.
+// O candidato solicita votos para se tornar o novo líder do cluster.
+// ============================================================================
+
+message RequestVoteRequest {
+  // Mandato do candidato. Se maior que o mandato atual do receptor,
+  // o receptor reverte para FOLLOWER antes de avaliar o voto.
+  int64 term = 1;
+
+  // Identificador único do nó que está pedindo o voto.
+  string candidate_id = 2;
+
+  // Índice da última entrada no log do candidato.
+  // Usado para garantir que o candidato tem o log mais atualizado.
+  int64 last_log_index = 3;
+
+  // Mandato da última entrada no log do candidato.
+  // Junto com last_log_index, determina qual log é mais completo.
+  int64 last_log_term = 4;
+}
+
+message RequestVoteResponse {
+  // Mandato atual do respondente. Se maior que o do candidato,
+  // o candidato usa esse valor para atualizar seu próprio mandato.
+  int64 term = 1;
+
+  // true se o voto foi concedido ao candidato.
+  bool vote_granted = 2;
+}
+
+// ============================================================================
+// AppendEntries RPC
+//
+// Enviado pelo LÍDER para todos os seguidores. Tem dois usos:
+//   1. Heartbeat: quando entries está vazio, apenas confirma que o líder
+//      está vivo e reinicia o temporizador de eleição dos seguidores.
+//   2. Replicação: quando entries contém entradas, o seguidor as adiciona
+//      ao seu log local.
+// ============================================================================
+
+// Representa uma entrada no log do Raft.
+message LogEntry {
+  // Posição desta entrada no log (começa em 1).
+  int64 index = 1;
+
+  // Mandato em que esta entrada foi criada pelo líder.
+  int64 term = 2;
+
+  // Tipo da entrada, define como o campo 'data' deve ser interpretado.
+  EntryType type = 3;
+
+  // Conteúdo da entrada serializado. O tipo define o schema dos dados.
+  // Para NO_OP: campo vazio.
+  // Para FAILOVER: FailoverData serializado em JSON.
+  // Para CONFIG_CHANGE: ConfigChangeData serializado em JSON.
+  bytes data = 4;
+
+  enum EntryType {
+    // Entrada vazia inserida pelo líder ao assumir o mandato.
+    // Garante que entradas de mandatos anteriores sejam confirmadas.
+    NO_OP = 0;
+
+    // Registra a mudança do nó primário do PostgreSQL.
+    // Inserida no log quando o leader do Raft executa um failover.
+    FAILOVER = 1;
+
+    // Registra a adição ou remoção de um nó no cluster.
+    // Implementa o mecanismo de "single-server changes" do Raft,
+    // onde apenas uma mudança de configuração é permitida por vez.
+    CONFIG_CHANGE = 2;
+  }
+}
+
+message AppendEntriesRequest {
+  // Mandato atual do líder.
+  int64 term = 1;
+
+  // Identificador do líder. Seguidores usam isso para redirecionar
+  // requisições de clientes caso necessário.
+  string leader_id = 2;
+
+  // Índice da entrada no log imediatamente anterior às novas entradas.
+  // O seguidor verifica se essa entrada existe com o mandato correto
+  // antes de aceitar as novas entradas.
+  int64 prev_log_index = 3;
+
+  // Mandato da entrada em prev_log_index.
+  int64 prev_log_term = 4;
+
+  // Entradas a serem adicionadas ao log. Vazio em heartbeats.
+  repeated LogEntry entries = 5;
+
+  // Índice da última entrada confirmada pelo líder (commitIndex do líder).
+  // O seguidor usa isso para avançar seu próprio commitIndex.
+  int64 leader_commit = 6;
+}
+
+message AppendEntriesResponse {
+  // Mandato atual do respondente. Se maior que o do líder,
+  // o líder usa para atualizar seu mandato e reverter para FOLLOWER.
+  int64 term = 1;
+
+  // true se o seguidor aceitou e adicionou as entradas ao seu log.
+  bool success = 2;
+
+  // Índice do último log replicado com sucesso neste nó.
+  // O líder usa para atualizar matchIndex[followerId] com eficiência,
+  // evitando retransmissões desnecessárias.
+  int64 match_index = 3;
+}
+
+// ============================================================================
+// Definição do serviço Raft
+//
+// Cada nó expõe este serviço para receber chamadas dos seus pares.
+// ============================================================================
+service RaftService {
+  // Chamado por candidatos durante eleições para solicitar votos.
+  rpc RequestVote(RequestVoteRequest) returns (RequestVoteResponse);
+
+  // Chamado pelo líder para replicar entradas de log e enviar heartbeats.
+  rpc AppendEntries(AppendEntriesRequest) returns (AppendEntriesResponse);
+}

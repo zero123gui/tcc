@@ -7,7 +7,8 @@ import java.util.Map;
 /**
  * Configuração de um par (peer) conhecido no cluster.
  *
- * <p>Cada entrada na lista 'peers' do node.yaml é mapeada para uma instância
+ * <p>
+ * Cada entrada na lista 'peers' do node.yaml é mapeada para uma instância
  * desta classe. A lista inclui o próprio nó, o que facilita a verificação de
  * consistência na validação da configuração.
  */
@@ -18,7 +19,8 @@ public class PeerConfig {
     private boolean arbiter;
 
     // Construtor padrão necessário para o SnakeYAML
-    public PeerConfig() {}
+    public PeerConfig() {
+    }
 
     public PeerConfig(String id, String grpcAddress, boolean arbiter) {
         this.id = id;
@@ -26,7 +28,6 @@ public class PeerConfig {
         this.arbiter = arbiter;
     }
 
-    @SuppressWarnings("unchecked")
     public static List<PeerConfig> listFromRaw(List<Map<String, Object>> rawList) {
         List<PeerConfig> result = new ArrayList<>();
         for (Map<String, Object> raw : rawList) {
@@ -37,7 +38,7 @@ public class PeerConfig {
 
             if (peer.id == null || peer.grpcAddress == null) {
                 throw new IllegalStateException(
-                    "Peer inválido na configuração: 'id' e 'grpc-address' são obrigatórios.");
+                        "Peer inválido na configuração: 'id' e 'grpc-address' são obrigatórios.");
             }
             result.add(peer);
         }
@@ -54,13 +55,21 @@ public class PeerConfig {
         return Integer.parseInt(grpcAddress.split(":")[1]);
     }
 
-    public String getId() { return id; }
-    public String getGrpcAddress() { return grpcAddress; }
-    public boolean isArbiter() { return arbiter; }
+    public String getId() {
+        return id;
+    }
+
+    public String getGrpcAddress() {
+        return grpcAddress;
+    }
+
+    public boolean isArbiter() {
+        return arbiter;
+    }
 
     @Override
     public String toString() {
         return "PeerConfig{id='" + id + "', address='" + grpcAddress
-            + "', arbiter=" + arbiter + "}";
+                + "', arbiter=" + arbiter + "}";
     }
 }

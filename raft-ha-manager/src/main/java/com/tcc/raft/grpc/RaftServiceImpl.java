@@ -2,6 +2,7 @@ package com.tcc.raft.grpc;
 
 import com.tcc.raft.core.RaftNode;
 import com.tcc.raft.grpc.proto.RaftProto;
+import com.tcc.raft.grpc.proto.RaftServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,13 +17,7 @@ import org.slf4j.LoggerFactory;
  * <p>A separação entre a camada gRPC e o núcleo Raft é intencional: o
  * {@link RaftNode} não conhece gRPC e pode ser testado de forma isolada.
  */
-public class RaftServiceImpl extends com.tcc.raft.grpc.proto.RaftProto.RaftServiceGrpc.RaftServiceImplBase {
-
-    // ATENÇÃO: a classe base gerada pelo protoc será:
-    // RaftServiceGrpc.RaftServiceImplBase
-    // O import correto depende do nome do outer class definido no .proto
-    // (java_outer_classname = "RaftProto") e do package gerado.
-    // Se necessário, ajuste o extends para o nome correto após a primeira compilação.
+public class RaftServiceImpl extends RaftServiceGrpc.RaftServiceImplBase {
 
     private static final Logger log = LoggerFactory.getLogger(RaftServiceImpl.class);
 

@@ -1,7 +1,6 @@
 package com.tcc.raft.config;
 
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,7 +11,8 @@ import java.util.Map;
 /**
  * Modelo de configuração de um nó do cluster raft-ha-manager.
  *
- * <p>Lido a partir do arquivo node.yaml na inicialização. Todos os campos
+ * <p>
+ * Lido a partir do arquivo node.yaml na inicialização. Todos os campos
  * são validados no momento da carga para garantir que erros de configuração
  * sejam detectados antes de qualquer comunicação de rede ocorrer.
  */
@@ -27,20 +27,20 @@ public class NodeConfig {
     private List<PeerConfig> peers;
 
     // Construtor padrão necessário para o SnakeYAML
-    public NodeConfig() {}
+    public NodeConfig() {
+    }
 
     /**
      * Lê e valida o arquivo de configuração YAML.
      *
      * @param path Caminho absoluto ou relativo para o arquivo node.yaml.
      * @return Instância de NodeConfig com os valores do arquivo.
-     * @throws IOException          Se o arquivo não puder ser lido.
+     * @throws IOException           Se o arquivo não puder ser lido.
      * @throws IllegalStateException Se algum campo obrigatório estiver ausente.
      */
     public static NodeConfig load(String path) throws IOException {
         Yaml yaml = new Yaml();
         try (InputStream in = new FileInputStream(path)) {
-            @SuppressWarnings("unchecked")
             Map<String, Object> raw = yaml.load(in);
             NodeConfig config = parseFromMap(raw);
             config.validate();
@@ -84,11 +84,11 @@ public class NodeConfig {
         }
         if (grpcAddress == null || !grpcAddress.contains(":")) {
             throw new IllegalStateException(
-                "Configuração inválida: 'grpc-address' deve estar no formato host:porta.");
+                    "Configuração inválida: 'grpc-address' deve estar no formato host:porta.");
         }
         if (!arbiter && postgres == null) {
             throw new IllegalStateException(
-                "Configuração inválida: nós não-árbitros precisam da seção 'postgres'.");
+                    "Configuração inválida: nós não-árbitros precisam da seção 'postgres'.");
         }
         if (peers == null || peers.isEmpty()) {
             throw new IllegalStateException("Configuração inválida: 'peers' não pode ser vazio.");
@@ -96,7 +96,7 @@ public class NodeConfig {
         boolean selfFound = peers.stream().anyMatch(p -> p.getId().equals(nodeId));
         if (!selfFound) {
             throw new IllegalStateException(
-                "Configuração inválida: este nó (" + nodeId + ") não aparece na lista de peers.");
+                    "Configuração inválida: este nó (" + nodeId + ") não aparece na lista de peers.");
         }
     }
 
@@ -104,13 +104,33 @@ public class NodeConfig {
     // Getters
     // =========================================================================
 
-    public String getNodeId() { return nodeId; }
-    public String getGrpcAddress() { return grpcAddress; }
-    public boolean isArbiter() { return arbiter; }
-    public PostgresConfig getPostgres() { return postgres; }
-    public RaftConfig getRaft() { return raft; }
-    public StorageConfig getStorage() { return storage; }
-    public List<PeerConfig> getPeers() { return peers; }
+    public String getNodeId() {
+        return nodeId;
+    }
+
+    public String getGrpcAddress() {
+        return grpcAddress;
+    }
+
+    public boolean isArbiter() {
+        return arbiter;
+    }
+
+    public PostgresConfig getPostgres() {
+        return postgres;
+    }
+
+    public RaftConfig getRaft() {
+        return raft;
+    }
+
+    public StorageConfig getStorage() {
+        return storage;
+    }
+
+    public List<PeerConfig> getPeers() {
+        return peers;
+    }
 
     // Retorna o host extraído de grpcAddress (parte antes do ':')
     public String getGrpcHost() {
@@ -125,6 +145,6 @@ public class NodeConfig {
     @Override
     public String toString() {
         return "NodeConfig{nodeId='" + nodeId + "', grpcAddress='" + grpcAddress
-            + "', arbiter=" + arbiter + ", peers=" + peers.size() + "}";
+                + "', arbiter=" + arbiter + ", peers=" + peers.size() + "}";
     }
 }
