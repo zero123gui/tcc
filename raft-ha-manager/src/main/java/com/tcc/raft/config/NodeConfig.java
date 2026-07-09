@@ -88,8 +88,10 @@ public class NodeConfig {
         }
         if (!arbiter && postgres == null) {
             throw new IllegalStateException(
-                    "Configuração inválida: nós não-árbitros precisam da seção 'postgres'.");
+                "Configuração inválida: o nó '" + nodeId + "' não é árbitro mas não "
+                + "tem a seção 'postgres' no arquivo de configuração.");
         }
+        // Nós árbitros (arbiter=true) não precisam da seção 'postgres'.
         if (peers == null || peers.isEmpty()) {
             throw new IllegalStateException("Configuração inválida: 'peers' não pode ser vazio.");
         }
@@ -130,6 +132,19 @@ public class NodeConfig {
 
     public List<PeerConfig> getPeers() {
         return peers;
+    }
+
+    /**
+     * Retorna apenas o host (IP ou hostname) de um peer específico.
+     * Usado principalmente para o Auto-Healing puxar dados do líder correto.
+     */
+    public String getPeerHost(String peerId) {
+        for (PeerConfig peer : peers) {
+            if (peer.getId().equals(peerId)) {
+                return peer.getHost();
+            }
+        }
+        return null;
     }
 
     // Retorna o host extraído de grpcAddress (parte antes do ':')

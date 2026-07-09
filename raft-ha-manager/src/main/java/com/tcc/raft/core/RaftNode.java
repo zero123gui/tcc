@@ -184,6 +184,7 @@ public class RaftNode {
 
         // Inicia o monitoramento do PostgreSQL local (apenas nós não-árbitros)
         if (!config.isArbiter()) {
+            healthChecker.setListener(this::handleHealthChange);
             healthChecker.start();
         }
     }
@@ -320,6 +321,18 @@ public class RaftNode {
      * (o timer é resetado e pode disparar novamente).
      */
     private void startElection() {
+        if (config.isArbiter()) {
+            log.debug("Este nó é um árbitro. Ignorando timeout de eleição (árbitros não se candidatam a líder).");
+            electionTimer.reset();
+            return;
+        }
+
+        if (!healthChecker.isHealthy()) {
+            log.debug("Este nó está com o PostgreSQL não saudável. Ignorando timeout de eleição (não pode ser candidato).");
+            electionTimer.reset();
+            return;
+        }
+
         final long electionTerm;
         final long lastLogIndex;
         final long lastLogTerm;
@@ -419,6 +432,52 @@ public class RaftNode {
         role = RaftRole.FOLLOWER;
         currentLeaderId = leaderId;
         electionTimer.reset();
+
+        if (!config.isArbiter()) {
+            checkSplitBrain(healthChecker.getCurrentStatus());
+        }
+    }
+    /**
+     * Responde a mudanças de estado do banco local reportadas pelo Health Checker.
+     */
+    private void handleHealthChange(PostgresHealthChecker.Status oldStatus, PostgresHealthChecker.Status newStatus) {
+        if (config.isArbiter()) {
+            return;
+        }
+
+        synchronized (stateLock) {
+            if (role == RaftRole.LEADER && newStatus == PostgresHealthChecker.Status.UNHEALTHY) {
+                log.warn("O PostgreSQL local falhou enquanto este nó era LEADER. Renunciando à liderança imediatamente.");
+                becomeFollower(currentTerm, null);
+                // Ao abdicar da liderança, o heartbeats param e outro nó saudável será eleito.
+            } else if (role == RaftRole.FOLLOWER && newStatus == PostgresHealthChecker.Status.PRIMARY && currentLeaderId != null) {
+                checkSplitBrain(newStatus);
+            }
+        }
+    }
+
+    /**
+     * Verifica se o nó entrou em estado de Split-Brain (é FOLLOWER mas seu PG é PRIMARY).
+     * Se confirmado, dispara o Fencing e Auto-Healing em background.
+     */
+    private void checkSplitBrain(PostgresHealthChecker.Status pgStatus) {
+        if (config.isArbiter()) {
+            return;
+        }
+
+        synchronized (stateLock) {
+            if (role == RaftRole.FOLLOWER && pgStatus == PostgresHealthChecker.Status.PRIMARY && currentLeaderId != null) {
+                String leaderIp = config.getPeerHost(currentLeaderId);
+                if (leaderIp != null) {
+                    log.warn("Detectado estado Rogue Primary! Acionando Fencing e Auto-Healing assíncrono. Líder legítimo: {}", currentLeaderId);
+                    replicationExecutor.submit(() -> {
+                        failoverExecutor.fenceAndRecover(leaderIp);
+                    });
+                } else {
+                    log.error("Detectado estado Rogue Primary, mas não foi possível determinar o IP do líder {}.", currentLeaderId);
+                }
+            }
+        }
     }
 
     /**
@@ -429,6 +488,13 @@ public class RaftNode {
         if (role != RaftRole.CANDIDATE) {
             return; // Corrida: outro evento mudou o papel antes
         }
+
+        // Captura o líder anterior ANTES de sobrescrever currentLeaderId.
+        // Se previousLeader == null, esta é a primeira eleição do cluster:
+        // nenhum nó falhou, portanto não há failover PostgreSQL necessário.
+        // Se previousLeader != null, o líder anterior deixou de responder,
+        // e é esse o cenário de falha que justifica promover o PG local.
+        String previousLeader = currentLeaderId;
 
         log.info("Nó {} eleito LÍDER para o mandato {}.", config.getNodeId(), currentTerm);
         role = RaftRole.LEADER;
@@ -459,9 +525,18 @@ public class RaftNode {
         // Inicia o envio periódico de heartbeats
         startHeartbeatScheduler();
 
-        // Verifica se o PostgreSQL local precisa ser promovido
+        // Promove o PostgreSQL local apenas se houver um líder anterior conhecido.
+        // Primeira eleição (previousLeader == null): nenhum nó falhou → sem failover.
+        // Eleição subsequente (previousLeader != null): líder anterior caiu → promover.
         if (!config.isArbiter()) {
-            replicationExecutor.submit(this::checkAndExecutePostgresPromotion);
+            if (previousLeader != null && !previousLeader.equals(config.getNodeId())) {
+                log.info("Líder anterior era '{}'. Verificando se o PostgreSQL local precisa ser promovido.",
+                    previousLeader);
+                replicationExecutor.submit(this::checkAndExecutePostgresPromotion);
+            } else {
+                log.info("Primeira eleição do cluster (sem líder anterior). " +
+                    "Nenhum failover PostgreSQL necessário.");
+            }
         }
     }
 

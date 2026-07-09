@@ -47,8 +47,13 @@ public class PostgresHealthChecker {
         UNKNOWN
     }
 
+    public interface StatusListener {
+        void onStatusChanged(Status oldStatus, Status newStatus);
+    }
+
     private final PostgresConfig config;
     private final ScheduledExecutorService scheduler;
+    private StatusListener listener;
 
     /** Status atual, atualizado atomicamente após cada verificação. */
     private final AtomicReference<Status> currentStatus = new AtomicReference<>(Status.UNKNOWN);
@@ -63,6 +68,10 @@ public class PostgresHealthChecker {
             t.setDaemon(true);
             return t;
         });
+    }
+
+    public void setListener(StatusListener listener) {
+        this.listener = listener;
     }
 
     /** Inicia as verificações periódicas de saúde. */
@@ -111,6 +120,9 @@ public class PostgresHealthChecker {
 
                 if (previousStatus != newStatus) {
                     log.info("Status do PostgreSQL mudou: {} → {}.", previousStatus, newStatus);
+                    if (listener != null) {
+                        listener.onStatusChanged(previousStatus, newStatus);
+                    }
                 } else {
                     log.trace("PostgreSQL saudável como {}.", newStatus);
                 }
@@ -126,6 +138,9 @@ public class PostgresHealthChecker {
                 if (previousStatus != Status.UNHEALTHY) {
                     log.error("PostgreSQL declarado UNHEALTHY após {} falhas consecutivas. "
                         + "O cluster Raft será notificado.", failures);
+                    if (listener != null) {
+                        listener.onStatusChanged(previousStatus, Status.UNHEALTHY);
+                    }
                 }
             }
         }

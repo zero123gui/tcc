@@ -20,6 +20,8 @@
         <!-- Versões fixadas para garantir reprodutibilidade da build -->
         <grpc.version>1.63.0</grpc.version>
         <protobuf.version>3.25.3</protobuf.version>
+        <!-- Workaround para o VS Code / m2e conseguir resolver o classificador do protoc -->
+        <os.detected.classifier>windows-x86_64</os.detected.classifier>
     </properties>
 
     <dependencies>

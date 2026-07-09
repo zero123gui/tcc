@@ -120,6 +120,55 @@ public class FailoverExecutor {
         }
     }
 
+    /**
+     * Isola (Fencing) o banco local e realiza a recuperação via clone (Auto-Healing).
+     *
+     * <p>Acionado quando o nó local detecta um cenário de Split-Brain (ex: é FOLLOWER
+     * no Raft, mas o banco de dados é PRIMARY). Ele usa comandos do SO (via sudoers)
+     * para parar o PostgreSQL imediatamente e executar um script de recuperação.
+     */
+    public void fenceAndRecover(String leaderIp) {
+        log.error("=======================================================================");
+        log.error(" SPLIT-BRAIN DETECTADO! Banco de dados local reportando como PRIMARY,");
+        log.error(" mas este nó é FOLLOWER. Iniciando Fencing e Auto-Healing...");
+        log.error("=======================================================================");
+
+        try {
+            // 1. Fencing: Para o banco imediatamente usando systemctl (via sudo)
+            log.warn("Executando Fencing: sudo systemctl stop postgresql");
+            ProcessBuilder fencePb = new ProcessBuilder("sudo", "/bin/systemctl", "stop", "postgresql");
+            fencePb.redirectErrorStream(true);
+            Process fenceProc = fencePb.start();
+            fenceProc.waitFor(15, TimeUnit.SECONDS);
+
+            // 2. Auto-Healing: Executa o script de recuperação
+            log.info("Executando Auto-Healing a partir do líder: {}", leaderIp);
+            ProcessBuilder recoverPb = new ProcessBuilder(
+                "sudo", "/usr/bin/bash", "/opt/raft-ha-manager/recovery-standby.sh", leaderIp
+            );
+            recoverPb.redirectErrorStream(true);
+            Process recoverProc = recoverPb.start();
+
+            // Lê a saída do processo de recuperação e joga no log
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(recoverProc.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    log.info("[Auto-Healing] {}", line);
+                }
+            }
+
+            recoverProc.waitFor(5, TimeUnit.MINUTES);
+            if (recoverProc.exitValue() == 0) {
+                log.info("Auto-Healing concluído com sucesso. O PostgreSQL local agora é STANDBY.");
+            } else {
+                log.error("Auto-Healing falhou com código de saída {}", recoverProc.exitValue());
+            }
+
+        } catch (Exception e) {
+            log.error("Falha catastrófica ao tentar executar Fencing/Auto-Healing.", e);
+        }
+    }
+
     // =========================================================================
     // Implementações de promoção
     // =========================================================================
