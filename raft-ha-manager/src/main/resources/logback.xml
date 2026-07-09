@@ -1,0 +1,54 @@
+<configuration>
+    <!--
+        Configuração do Logback para o raft-ha-manager.
+
+        Saída simultânea para console e para arquivo rotativo.
+        O arquivo de log facilita a análise post-mortem dos cenários de falha
+        nos experimentos do TCC.
+    -->
+
+    <!-- Diretório de logs. Pode ser sobrescrito via -Dlog.dir=... na JVM -->
+    <property name="LOG_DIR" value="${log.dir:-/var/lib/raft-ha-manager/logs}"/>
+    <property name="NODE_ID" value="${node.id:-unknown}"/>
+
+    <!-- Padrão de formatação: timestamp | nível | nó | logger | mensagem -->
+    <property name="LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%level] [${NODE_ID}] [%logger{36}] - %msg%n"/>
+
+    <!-- Saída no console -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!--
+        Arquivo rotativo por tamanho e tempo.
+        Cada dia cria um novo arquivo. Arquivos com mais de 50MB são rotacionados.
+        Histórico de 30 dias é mantido.
+    -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/raft-ha-manager.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/raft-ha-manager.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>500MB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Reduz verbosidade do Netty e do gRPC (logs de infra-estrutura) -->
+    <logger name="io.grpc" level="WARN"/>
+    <logger name="io.netty" level="WARN"/>
+
+    <!-- Logger principal da aplicação: INFO em produção, DEBUG para desenvolvimento -->
+    <logger name="com.tcc.raft" level="DEBUG"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>

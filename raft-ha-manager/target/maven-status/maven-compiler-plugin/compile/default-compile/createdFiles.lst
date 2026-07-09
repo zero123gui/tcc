@@ -1,0 +1,12 @@
+com\tcc\raft\config\PostgresConfig.class
+com\tcc\raft\config\StorageConfig.class
+com\tcc\raft\core\RaftNode$1.class
+com\tcc\raft\postgres\FailoverExecutor.class
+com\tcc\raft\config\RaftConfig.class
+com\tcc\raft\config\PeerConfig.class
+com\tcc\raft\core\LogEntryType.class
+com\tcc\raft\core\RaftRole.class
+com\tcc\raft\core\RaftLogEntry.class
+com\tcc\raft\Main$1.class
+com\tcc\raft\postgres\FailoverExecutor$FailoverException.class
+com\tcc\raft\config\NodeConfig.class

@@ -1,0 +1,34 @@
+# =============================================================================
+# Configuração do node-3 — Árbitro (sem PostgreSQL)
+# Ambiente de validação com 3 nós (Notebook)
+# =============================================================================
+
+node-id: "node-3"
+grpc-address: "192.168.56.103:9090"
+arbiter: true
+
+# A seção 'postgres' é ignorada quando arbiter=true,
+# mas precisa existir para que o NodeConfig não falhe na validação.
+# Esse comportamento será corrigido na validação do NodeConfig.
+
+raft:
+  heartbeat-interval-ms: 5000
+  election-timeout-min-ms: 15000
+  election-timeout-max-ms: 30000
+  rpc-timeout-ms: 3000
+
+storage:
+  log-dir: "/var/lib/raft-ha-manager"
+
+peers:
+  - id: "node-1"
+    grpc-address: "192.168.56.101:9090"
+    arbiter: false
+
+  - id: "node-2"
+    grpc-address: "192.168.56.102:9090"
+    arbiter: false
+
+  - id: "node-3"
+    grpc-address: "192.168.56.103:9090"
+    arbiter: true
