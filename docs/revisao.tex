@@ -1,0 +1,226 @@
+\chapter{Revisão Bibliográfica}
+\label{revisao}
+    Neste capítulo, serão apresentados primeiramente os conceitos referentes aos sistemas \textit{Supervisory Control and Data Acquisition} (\verb|SCADA|)\nomenclature{SCADA}{Supervisory Control and Data Acquisition}, que contextualizam a aplicação prática e a relevância deste trabalho. Em seguida, serão detalhados os fundamentos teóricos e práticos sobre Alta Disponibilidade (\verb|HA| - High Availability)\nomenclature{HA}{High Availability}, consenso em sistemas distribuídos, bancos de dados PostgreSQL e protocolos de comunicação, pilares essenciais para a arquitetura que será desenvolvida ao longo do projeto.
+
+%----------------------------------------------------------------------------------
+%                    Alta Disponibilidade e Sistemas SCADA
+%----------------------------------------------------------------------------------
+\section{Sistemas SCADA e a Exigência de Disponibilidade}
+
+    Sistemas \verb|SCADA| são a base de infraestruturas críticas modernas, como redes de energia elétrica, estações de tratamento de água e processos industriais complexos \cite{alanazi2023}. Por sua natureza, esses sistemas não apenas processam dados, mas interagem diretamente com o mundo físico através do controle de atuadores. Consequentemente, a exigência de disponibilidade contínua não é apenas um requisito de desempenho, mas uma necessidade fundamental para garantir a segurança operacional, a eficiência e a proteção contra falhas catastróficas.
+
+    \subsection{Arquitetura e Criticidade}
+
+        Um sistema \verb|SCADA| é projetado para monitorar e controlar processos industriais que podem estar geograficamente distribuídos. Sua arquitetura é tipicamente organizada em camadas, começando pelos dispositivos de campo, como sensores e atuadores, que interagem diretamente com o processo físico. As informações coletadas por esses sensores são enviadas para Unidades Terminais Remotas (\verb|RTUs|)\nomenclature{RTUs}{Remote Terminal Units} ou Controladores Lógicos Programáveis (\verb|PLCs|)\nomenclature{PLCs}{Programmable Logic Controllers}, que executam o controle local \cite{yadav2021}.
+
+        Esses dados são então transmitidos através de uma rede de comunicação para uma estação central de supervisão, onde uma Interface Homem-Máquina (\verb|HMI|)\nomenclature{HMI}{Human Machine Interface} permite que operadores humanos monitorem o estado de todo o processo e intervenham quando necessário \cite{yadav2021}. Os bancos de dados desempenham um papel central nesta arquitetura, armazenando tanto os dados históricos do processo para análise quanto os dados de configuração em tempo real que são vitais para a operação.
+        
+        A criticidade dos sistemas \verb|SCADA| é imensa. Eles são classificados como parte da infraestrutura crítica nacional em muitos países, pois uma falha ou um comprometimento pode resultar em interrupções no fornecimento de energia, contaminação da água potável, acidentes industriais e perdas financeiras significativas \cite{alanazi2023}. Qualquer período de indisponibilidade, mesmo que breve, pode impedir que os operadores visualizem o estado do sistema ou controlem os equipamentos, levando a condições operacionais inseguras.
+
+    \subsection{Desafios de HA em Ambientes SCADA}
+
+        A necessidade de operação ininterrupta impõe desafios rigorosos de alta disponibilidade (\verb|HA|) aos sistemas \verb|SCADA|. A tolerância a falhas deve ser implementada em todas as camadas da arquitetura para mitigar pontos únicos de falha. Isso inclui a redundância de sensores, redes de comunicação, controladores e, de forma crucial, dos servidores e bancos de dados que compõem o sistema de supervisão.
+
+        Um dos principais desafios é garantir um mecanismo de \textit{failover} rápido e confiável. Quando um servidor primário ou um banco de dados falha, um sistema secundário deve assumir suas funções de forma transparente e quase instantânea para não comprometer o controle do processo \cite{yadav2021}. Em ambientes críticos que possuem mais de uma localização (\textit{multi-site}) para o armazenamento da sua infraestrutura, a complexidade aumenta com a necessidade de redundância geográfica, que protege contra falhas que afetam um local físico inteiro, como incêndios ou desastres naturais.
+        
+        Além das falhas de \textit{hardware} e \textit{software}, os sistemas \verb|SCADA| modernos enfrentam ameaças de segurança cibernética que podem comprometer a disponibilidade \cite{alanazi2023}. Um ataque bem-sucedido pode não apenas roubar dados, mas também paralisar as operações, tornando a integração de estratégias de segurança e alta disponibilidade um desafio complexo. Portanto, a implementação de uma solução de \verb|HA| deve considerar não apenas a detecção de falhas de componentes, mas também a resiliência contra eventos imprevistos, garantindo a consistência e a disponibilidade contínua dos dados que alimentam as decisões de controle.
+
+    
+\section{Alta Disponibilidade}
+
+    \subsection{Definição e Importância}
+    
+        Conforme \citeonline{rajesh2025high}, a alta disponibilidade é a capacidade de um sistema permanecer operacional pelo maior tempo possível. Em sistemas distribuídos, esse requisito de projeto torna-se ainda mais crítico, pois envolve estratégias de redundância, tolerância a falhas, mecanismos de migração de servidores (\textit{failover}), replicação e consistência de dados, monitoramento, balanceamento de carga e recuperação para minimizar janelas de indisponibilidade (\textit{downtime}).
+
+        Com isso, é possível afirmar que para desenvolver um sistema altamente disponível, é necessário combinar um conjunto de tecnologias, estratégias e conceitos, aplicados para garantir a continuidade de um sistema.
+        
+        No atual cenário tecnológico, a continuidade operacional dos sistemas é um requisito não funcional crítico, dado que a falha desses sistemas, na maioria dos cenários, acarreta diversos problemas, como por exemplo: perda de confiança por parte dos clientes, perdas financeiras e perda de informações em sistemas críticos.
+
+    \subsection{Métricas de Disponibilidade} 
+
+        O artigo de \citeonline{toeroe2012service} mostra três conceitos utilizados em conjunto para a medição da disponibilidade de um sistema e por consequência, auxiliam a medir a eficiência das estratégias e tecnologias utilizadas para garantir o maior tempo de disponibilidade de um sistema.
+        
+        \begin{itemize}
+            \item \textit{Mean Time Between Failures} (\verb|MTBF|)\nomenclature{MTBF}{Mean Time Between Failures}: a sigla em inglês corresponde ao tempo médio entre falhas, é a média dos intervalos de tempo entre falhas consecutivas em um sistema reparável. \citeonline{toeroe2012service} ressaltam que essa métrica só é válida e aplicável para sistemas que podem ser consertados, pois um sistema só pode falhar uma segunda vez se tiver sido devidamente reparado após o primeiro incidente;
+            
+            \item \textit{Mean Time to Repair} (\verb|MTTR|)\nomenclature{MTTR}{Mean Time to Repair}: é conceituado como o tempo esperado e necessário para consertar o sistema para que ele retorne à sua operação correta e normal. \citeonline{toeroe2012service} também explica que é difícil medir com precisão o tempo para reparar o sistema, porém uma das formas de contornar essa dificuldade seria causar falhas propositais no sistema e depois realizar o cálculo com base no tempo para repará-lo;
+            
+            \item \textit{Mean Time to Failure} (\verb|MTTF|)\nomenclature{MTTF}{Mean Time to Failure}: tempo esperado para que o sistema venha a falhar. Essa métrica equivale ao tempo de atividade da aplicação ou \textit{uptime}, correspondendo ao período em que o sistema está operacional e fornecendo o seu serviço aos usuários.
+        \end{itemize}
+
+        \citeonline{gray2002high} também mostra um conceito que é utilizado para definir se um sistema é dado como altamente disponível. O termo em questão é chamado de os cinco noves ou 99,999\%, esse termo faz referência ao tempo de \textit{uptime} do sistema, os cinco noves permitem aproximadamente no máximo cinco minutos de \textit{downtime} por ano.
+
+    \subsection{Pilares da Alta Disponibilidade} 
+        De acordo com \citeonline{rajesh2025high} existem alguns pilares que devem ser levados em conta ao planejar um sistema altamente disponível, dentre eles os mais relevantes para esse trabalho são:
+        \begin{enumerate}
+            \item \textbf{Tolerância a Falhas}: é a base da alta disponibilidade, permite que os sistemas continuem funcionando apesar de falhas em componentes individuais. Para isso, são incorporados componentes redundantes, sistemas de \textit{backup} e protocolos de tratamento de erros, garantindo que as falhas não interrompam a disponibilidade do serviço;
+            
+            \item \textbf{Redundância}: envolve a duplicação de componentes ou serviços críticos para eliminar pontos únicos de falha. Isso pode incluir \textit{clusters}\footnote{Conjunto de computadores interconectados que trabalham em conjunto, operando como um único sistema} de servidores, replicação de dados e fontes de alimentação de \textit{backup}. Os sistemas redundantes operam em paralelo, garantindo que um nó redundante assuma as operações sem interrupção em caso de falha do nó primário;
+            
+            \item \textbf{Mecanismos de \textit{Failover}}: se refere ao processo de transferir cargas de trabalho automaticamente de um componente que falhou para um componente de \textit{backup};
+            
+            \item \textbf{Replicação e Consistência}: devido à redundância, torna-se necessária a duplicação das bases de dados, com isso é fundamental assegurar que os dados sejam consistentes em ambas as bases utilizadas;
+            
+        \end{enumerate}
+    
+\section{Consenso em Sistemas Distribuídos}
+    No âmbito de sistemas distribuídos, o problema do consenso consiste em fazer com que um conjunto de processos, que podem sofrer falhas, chegue a um acordo sobre um único valor \cite{lamport2001paxos}.
+
+    A importância do consenso reside na sua capacidade de resolver conflitos, alguns exemplos de problemas que ele consegue resolver são:
+    \begin{itemize}
+        \item Réplicas de bancos de dados devem concordar em uma sequência de requisições para manter os dados consistentes \cite{Soares2010};
+        
+        \item Eleger um líder em um \textit{cluster}. Nessa situação é necessário que a maioria dos nós concordem com a eleição de um líder \cite{Bhardwaj2020}.
+    \end{itemize}
+
+    \subsection{Problemas de Consenso}
+    
+        Atingir o consenso em um sistema distribuído é uma tarefa desafiadora. Os algoritmos devem ser resilientes a uma variedade de falhas, como falhas de nós (\textit{crash}), particionamento da rede, atraso, perda ou duplicação de mensagens \cite{Bhardwaj2020}.
+
+        Dentre os problemas propostos no estudo do consenso em sistemas distribuídos, um dos mais conhecidos é o Problema dos Generais Bizantinos. Proposto por \citeonline{lamport1982}, consiste em um cenário onde alguns componentes do sistema podem falhar de maneira arbitrária ou maliciosa, enviando assim informações conflitantes para diferentes partes do sistema. Um algoritmo de consenso robusto precisa assegurar que os nós honestos cheguem a um acordo, mesmo na presença desses nós maliciosos.  
+
+        Outro grande problema nessa área ocorre devido a uma falha citada anteriormente: o particionamento de rede. Essa falha ocorre por algum problema na infraestrutura de comunicação, possuindo uma relação de causa e efeito severo dentro do campo de sistemas distribuídos. Um dos efeitos causados por essa falha é o \textit{split-brain}. Segundo \citeonline{kleppmann2017designing}, esse fenômeno faz com que dois nós fiquem isolados um do outro e acreditem, simultaneamente, que são o líder do sistema. Se ambos os nós continuarem aceitando operações de gravação de forma independente, o banco de dados sofrerá corrupção permanente e divergência de informações, pois não haverá uma forma segura de mesclar esses dados conflitantes posteriormente. É exatamente para prevenir esse tipo de catástrofe que algoritmos como o Raft exigem um quórum, garantindo que um líder só possa ser eleito se receber a maioria absoluta dos votos.
+
+    \subsection{Algoritmo de Paxos}
+
+        O algoritmo Paxos \cite{lamport2001paxos}, proposto por Leslie Lamport, é um dos mais influentes para alcançar consenso em sistemas distribuídos tolerantes a falhas. Embora tenha a reputação de ser complexo, sua lógica fundamental deriva de maneira direta das propriedades de segurança que um sistema de consenso precisa satisfazer. O algoritmo foi projetado para operar em um ambiente assíncrono, onde os processos podem falhar parando (\textit{crash failure}), reiniciando, e as mensagens podem sofrer atrasos, perdas ou duplicações, mas não são corrompidas.
+
+        Para simplificar a explicação, o algoritmo divide os processos em três papéis distintos:
+
+        \begin{itemize}
+            \item \textbf{\textit{Proposers}}: São os agentes que propõem um valor a ser acordado;
+            
+            \item \textbf{\textit{Acceptors}}: São os agentes que podem aceitar os valores propostos. Um valor é escolhido quando uma maioria de \textit{Acceptors} o aceita. Eles são a memória do protocolo e devem manter o estado em armazenamento estável para sobreviver a falhas;
+            
+            \item \textbf{\textit{Learners}}: São os agentes que aprendem qual valor foi efetivamente escolhido pelo consenso.
+        \end{itemize}
+
+        Em uma implementação prática, um único processo pode desempenhar todos os três papéis. O objetivo é assegurar que apenas um único valor seja escolhido e que, uma vez escolhido, os processos possam aprender qual foi esse valor. Para isso, o Paxos se baseia em um protocolo de duas fases, sendo elas a preparação e a aceitação.
+
+        A primeira fase é a preparação (\textit{prepare}), ela consiste em duas etapas principais:
+        \begin{itemize}
+            \item Um \textit{Proposer} seleciona um número de proposta $n$, que deve ser único e maior que qualquer número de proposta anterior usado por ele. Em seguida, envia uma mensagem de preparação, \textit{prepare}($n$), para uma maioria de \textit{Acceptors};
+            
+            \item Um \textit{Acceptor} que recebe a mensagem \textit{prepare}($n$) verifica se $n$ é maior do que qualquer número de proposta de uma mensagem de preparação que ele já tenha respondido. Se for, o \textit{Acceptor} promete não aceitar mais nenhuma proposta com número menor que $n$ e responde ao \textit{Proposer} com a proposta de maior número (se houver) que ele já aceitou.
+        \end{itemize}
+
+        A segunda fase consiste na aceitação (\textit{accept}), que também pode ser dividida em duas etapas:
+        \begin{itemize}
+            \item Se o \textit{Proposer} receber respostas de uma maioria de \textit{Acceptors}, ele está autorizado a enviar uma mensagem de aceitação, \textit{accept}($n$, $v$), para eles. O valor $v$ da proposta é determinado da seguinte forma: se os \textit{Acceptors} retornaram propostas previamente aceitas, o \textit{Proposer} deve escolher o valor da proposta com o maior número entre as respostas. Se nenhum \textit{Acceptor} havia aceitado uma proposta antes, o \textit{Proposer} é livre para escolher qualquer valor que ele deseje propor;
+            
+            \item Um \textit{Acceptor} que recebe a mensagem \textit{accept}($n$, $v$) a aceita, a menos que já tenha respondido a uma mensagem de preparação com um número maior que $n$.
+        \end{itemize}
+
+        A propriedade crucial que garante a segurança (que apenas um único valor seja escolhido) é que qualquer proposta escolhida por uma maioria de \textit{Acceptors} em uma rodada influenciará a escolha do valor em todas as rodadas subsequentes. Como qualquer maioria em duas rodadas diferentes terá pelo menos um \textit{Acceptor} em comum, o protocolo garante que um novo valor só pode ser proposto se ele for o mesmo que o valor da rodada anterior que já pode ter sido decidido.
+
+        Para assegurar o progresso (\textit{liveness}), o algoritmo geralmente elege um único processo para atuar como um líder (ou \textit{distinguished proposer}), que é o único a emitir propostas. Se o líder conseguir se comunicar com uma maioria de \textit{Acceptors}, ele eventualmente terá sucesso em fazer com que um valor seja escolhido. Se múltiplos líderes tentarem propor valores simultaneamente, é possível que o sistema não chegue a um consenso, mas a segurança nunca é violada.
+
+        Embora correto e influente, o Paxos é reconhecidamente difícil de implementar em sua forma original \cite{raft2014}. Essa dificuldade motivou o desenvolvimento do algoritmo Raft, apresentado a seguir.
+
+    \subsection{Algoritmo de Raft}
+
+        O Raft \cite{raft2014} foi desenvolvido com o objetivo principal de ser mais compreensível que o Paxos, sem sacrificar a eficiência ou a correção. Ele produz um resultado equivalente ao Paxos e é igualmente eficiente, mas sua estrutura é fundamentalmente diferente. Para facilitar o entendimento, o Raft decompõe o problema do consenso em três subproblemas relativamente independentes:
+    
+        \begin{enumerate}
+            \item \textbf{Eleição de Líder (\textit{Leader Election})}: O Raft utiliza uma forma mais forte de liderança do que outros algoritmos. O sistema sempre possui um único líder, e todos os outros nós são seguidores (\textit{Followers}). O líder é responsável por gerenciar o \textit{log} replicado e interagir com os clientes. Se um seguidor para de receber mensagens de ``\textit{heartbeat}"do líder após um certo tempo (um \textit{election timeout} aleatório), ele se torna um candidato e inicia uma nova eleição. Um candidato vence se receber votos da maioria dos nós;
+            
+            \item \textbf{Replicação de \textit{Log} (\textit{Log Replication})}: O líder é o único responsável por gerenciar o \textit{log} replicado. Ele recebe os comandos dos clientes, os adiciona ao seu próprio \textit{log} e os replica para os seguidores. No Raft, o fluxo de dados do \textit{log} é estritamente unidirecional: do líder para os seguidores. O líder força os \textit{logs} dos seguidores a espelharem o seu, sobrescrevendo quaisquer inconsistências. Um comando é considerado confirmado (\textit{committed}) quando é replicado com sucesso na maioria dos servidores;
+            
+            \item \textbf{Segurança (\textit{Safety})}: Para assegurar que a máquina de estados de cada nó execute os mesmos comandos na mesma ordem, o Raft adiciona uma restrição à eleição de líder: um candidato não pode vencer uma eleição a menos que seu \textit{log} contenha todas as entradas já confirmadas no \textit{cluster}. Isso garante que um novo líder sempre terá o estado mais completo e atualizado.
+        \end{enumerate}
+
+    
+
+    \subsection{Análise Comparativa}
+
+        Paxos e Raft são ambos algoritmos projetados para resolver o problema de consenso em sistemas tolerantes a falhas, mas eles o fazem com abordagens e focos diferentes.
+
+        \begin{table}[htb]
+            \centering
+            \begin{tabular}{|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}p{5.1cm}|>{\raggedright\arraybackslash}p{5.1cm}|}
+                \hline
+                \textbf{Critério} & \textbf{Paxos} & \textbf{Raft} \\
+                \hline
+                \textbf{Abordagem} &
+                    \textit{Peer-to-peer} simétrica; o líder é uma otimização, não um requisito para o funcionamento do algoritmo. &
+                    Centrada no líder; todo o fluxo de consenso e replicação parte de um único nó eleito. \\
+                \hline
+                \textbf{Compreensibilidade} &
+                    Reconhecidamente difícil de implementar corretamente em sua forma original \cite{raft2014}. &
+                    Projetado com o objetivo explícito de ser compreensível; decompõe o consenso em subproblemas \cite{raft2014}. \\
+                \hline
+                \textbf{Tolerância a Falhas} &
+                    Tolera \textit{crash failures}; não tolera falhas bizantinas \cite{lamport2001paxos}. &
+                    Tolera \textit{crash failures}; não tolera falhas bizantinas em sua forma padrão \cite{raft2014}. \\
+                \hline
+                \textbf{Eficiência} &
+                    Desempenho comparável ao Raft, apesar da maior complexidade de implementação. &
+                    Desempenho equivalente ao Paxos; estrutura mais simples facilita otimizações \cite{raft2014}. \\
+                \hline
+                \textbf{Escalabilidade} &
+                    A troca de mensagens pode se tornar um gargalo com o crescimento do número de nós, exigindo otimizações complexas \cite{ailijiang2019consensus}. &
+                    Limitada pelo líder único; todo o fluxo de operações depende do desempenho de um único nó \cite{raft2014}. \\
+                \hline
+            \end{tabular}
+            \caption{Comparativo entre os algoritmos Paxos e Raft}
+            \label{table:paxos-raft}
+            \legend{Fonte: Autor (2026)}
+        \end{table}
+
+\section{Alta Disponibilidade em Bancos de Dados PostgreSQL}
+
+    A implementação de alta disponibilidade em sistemas de gerenciamento de bancos de dados é essencial para garantir a continuidade das operações em aplicações críticas. No ecossistema do PostgreSQL \cite{postgresql_official}, a alta disponibilidade é alcançada através de um conjunto robusto de funcionalidades nativas e ferramentas de código aberto que trabalham em conjunto para prover replicação, consistência e mecanismos de \textit{failover} automatizados.
+
+    \subsection{PostgreSQL}
+
+        O PostgreSQL é um sistema de gerenciamento de banco de dados relacional de código aberto, reconhecido por sua robustez, extensibilidade e conformidade com os padrões \textit{Structured Query Language} (\verb|SQL|)\nomenclature{SQL}{Structured Query Language}. Graças a décadas de desenvolvimento ativo por uma comunidade global, ele se tornou uma escolha popular para aplicações que exigem alta confiabilidade e integridade de dados, desde serviços web em larga escala até sistemas industriais críticos. Sua arquitetura foi projetada para ser resiliente, e seu mecanismo de \textit{logs} de transação \textit{Write-Ahead Logging} (\verb|WAL|)\nomenclature{WAL}{Write-Ahead Logging} serve como a base para suas estratégias avançadas de replicação e recuperação de desastres.
+
+    \subsection{Replicação de Dados}
+
+        A replicação de dados é o pilar da alta disponibilidade no PostgreSQL, permitindo que cópias de um banco de dados primário sejam mantidas em um ou mais servidores secundários. O PostgreSQL oferece principalmente dois métodos de replicação:
+        
+        \begin{itemize}
+            \item \textbf{Replicação Física}: É o método mais comum e eficiente. Baseia-se na transmissão contínua dos registros do \verb|WAL| do servidor primário para os servidores secundários. Como o \verb|WAL| contém uma descrição de baixo nível de todas as modificações no banco de dados, os servidores secundários podem reconstruir o estado exato do primário, \textit{byte a byte}. Essa abordagem garante uma cópia fiel e é otimizada para desempenho;
+            
+            \item \textbf{Replicação Lógica}: Diferente da replicação física, este método replica as alterações com base em sua representação lógica (comandos \textit{INSERT}, \textit{UPDATE}, \textit{DELETE}). Essa abordagem oferece maior flexibilidade, permitindo, por exemplo, a replicação de um subconjunto de tabelas, a consolidação de múltiplos bancos de dados em um só, ou a replicação entre diferentes versões do PostgreSQL e até mesmo entre sistemas operacionais distintos.
+        \end{itemize}
+
+    \subsection{Consistência de Dados em Ambientes Replicados}
+
+        Em um \textit{cluster} de replicação, é fundamental definir o quão consistentes os servidores secundários precisam estar em relação ao primário. O PostgreSQL permite configurar essa consistência através de dois modos de replicação, que representam um \textit{trade-off} entre durabilidade e latência:
+        
+        \begin{itemize}
+            \item \textbf{Replicação Assíncrona}: Neste modo, o servidor primário confirma uma transação ao cliente assim que ela é escrita em seu próprio disco, sem esperar pela confirmação dos servidores secundários. Esta é a configuração padrão, pois oferece o melhor desempenho e a menor latência. No entanto, ela introduz um pequeno risco de perda de dados: se o servidor primário falhar antes que as últimas transações sejam enviadas e aplicadas nos secundários, essas transações podem ser perdidas;
+            
+            \item \textbf{Replicação Síncrona}: Para eliminar o risco de perda de dados, a replicação pode ser configurada de forma síncrona. Com esta configuração, o servidor primário espera até que pelo menos um servidor secundário confirme que recebeu e escreveu as alterações em disco antes de confirmar a transação ao cliente. Isso garante que a transação sobrevive à falha do primário, mas ao custo de uma latência maior, já que a confirmação depende da comunicação pela rede com outro servidor.
+        \end{itemize}
+
+    \subsection{Ferramentas de Código Aberto para Automação de \textit{Failover}}
+
+        A replicação por si só não garante a alta disponibilidade. Quando o servidor primário falha, é necessário um mecanismo que detecte a falha e promova um dos servidores secundários para assumir o papel de novo primário. Esse processo é conhecido como \textit{failover}. Embora possa ser feito manualmente, a automação é crucial para garantir uma recuperação rápida e sem erros. A comunidade PostgreSQL desenvolveu diversas ferramentas robustas para essa finalidade:
+        
+        \begin{itemize}
+            \item \textbf{Patroni}: É uma das soluções mais populares e robustas para automação de alta disponibilidade. Ele atua como um molde, utilizando um Armazenamento de Configuração Distribuída (\verb|DCS|)\nomenclature{DCS}{Distributed Configuration Store}, como etcd, Consul ou ZooKeeper, para gerenciar o estado do \textit{cluster} de forma consistente. O Patroni monitora a saúde dos nós e, em caso de falha do líder, orquestra uma eleição para promover o seguidor mais atualizado, automatizando o \textit{failover} de forma segura \cite{patroni_official};
+            
+            \item \textbf{repmgr}: É uma ferramenta de código aberto focada no gerenciamento de \textit{clusters} de replicação e \textit{failover} do PostgreSQL. Ela fornece um conjunto de utilitários para configurar, monitorar e executar operações de \textit{failover} e \textit{switchover} (uma troca de papéis planejada). O \textbf{repmgr} simplifica muitas das tarefas administrativas complexas associadas à manutenção de um \textit{cluster} replicado \cite{repmgr_official};
+            
+            \item \textbf{pg\_auto\_failover}: É uma solução que busca simplificar a configuração de um \textit{cluster} PostgreSQL com \textit{failover} automático. Ele introduz um nó monitor que gerencia a saúde dos servidores de dados e toma decisões de \textit{failover}. Diferente do Patroni, ele não depende de um \verb|DCS| externo, o que torna sua arquitetura e configuração mais simples, sendo uma alternativa adequada para ambientes que necessitam de alta disponibilidade sem uma complexidade excessiva \cite{pg_auto_failover_official}.
+        \end{itemize}
+
+    No entanto, para que os mecanismos de replicação e \textit{failover} automático funcionem corretamente, os nós do banco de dados precisam trocar informações constantemente. Essa troca de mensagens depende diretamente da infraestrutura de rede e dos protocolos de comunicação utilizados, o que evidencia a necessidade de entender como essas tecnologias operam em sistemas distribuídos.
+
+\section{Protocolos de Comunicação}
+
+    Para analisar o impacto da infraestrutura de rede na resiliência de um sistema, torna-se necessário segmentar a comunicação em duas camadas arquiteturais distintas, sendo a primeira voltada à aquisição de dados no domínio industrial e a segunda destinada à orquestração da alta disponibilidade. Essa divisão conceitual é fundamental porque os requisitos de consistência, volume de dados e tolerância a falhas diferem drasticamente entre o monitoramento do chão de fábrica e a sincronização dos nós de banco de dados.
+
+    Na camada de automação industrial, o protocolo OPC-UA atua como o padrão para a integração vertical entre os equipamentos de campo e os sistemas de supervisão. Conforme abordado por \citeonline{drahos2018}, esse protocolo provê um modelo de informações semântico que contextualiza as variáveis coletadas, além de incorporar mecanismos nativos de criptografia e autenticação. Contudo, o transporte dessa estrutura de metadados eleva o tamanho dos pacotes trafegados. Em ensaios comparativos, \citeonline{rocha2018} demonstram que o OPC-UA impõe um consumo de banda e um tempo de resposta superiores quando confrontado com protocolos projetados para o tráfego leve de dados, fatores que limitam sua aplicabilidade em rotinas de sincronismo na infraestrutura de tecnologia da informação.
+
+    Por outro lado, a camada de orquestração do banco de dados exige alta velocidade para coordenar o consenso e monitorar a integridade dos servidores. Instabilidades temporárias na rede geográfica podem induzir o sistema a cometer erros de suspeita, gerando falsos positivos onde um nó saudável é erroneamente classificado como inativo devido ao atraso das mensagens. Esse fenômeno é analisado por \citeonline{hayashibara2004phi} no desenvolvimento do detector de falhas Phi Accrual, o qual mitiga o impacto de flutuações de rede ao substituir a lógica binária de diagnóstico por uma escala contínua de nível de suspeita baseada no histórico de chegada das mensagens de controle. De maneira complementar, \citeonline{swim2002} demonstram no protocolo SWIM que a escalabilidade e a eficiência no tráfego dessas mensagens de checagem são vitais para evitar o congestionamento dos canais de comunicação, reduzindo falhas induzidas pela própria sobrecarga do monitoramento.
+
+    Para otimizar o envio dessas validações periódicas de estado, conhecidas como heartbeats, os sistemas de alta disponibilidade utilizam frameworks de comunicação de alto desempenho como o gRPC, um framework do protocolo \textit{Remote Procedure Call} (\verb|RPC|)\nomenclature{RPC}{Remote Procedure Call}. De acordo com \citeonline{indrasiri2020grpc}, o \verb|gRPC| otimiza a latência ao empregar os chamados \textit{Protocol Buffers} para a serialização binária compacta dos dados, transmitindo as mensagens por meio da multiplexação nativa do protocolo \textit{Hypertext Transfer Protocol 2} (\verb|HTTP/2|)\nomenclature{HTTP/2}{Hypertext Transfer Protocol 2}. Essa eficiência técnica justifica o motivo pelo qual ferramentas de coordenação distribuída, a exemplo do etcd integrado ao Patroni, adotam o \verb|gRPC| como protocolo principal para a troca de mensagens de eleição de líder, mantendo o quórum do algoritmo Raft estável mesmo diante de pequenas variações na latência da rede.
+
+\section{Considerações do Capítulo}
+
+        Como apresentado ao longo deste capítulo, a operação contínua é uma prioridade em ambientes críticos como os sistemas SCADA. Para garantir essa disponibilidade, apenas duplicar o hardware em diferentes sites não é suficiente, pois falhas de software, instabilidades de rede e o problema de particionamento de dados podem comprometer a integridade do sistema.
+
+        Diante dos desafios expostos, torna-se essencial utilizar um banco de dados relacional robusto, como o PostgreSQL, integrado a ferramentas de orquestração com capacidade de reconfiguração automática. Essas ferramentas devem ser fundamentadas em algoritmos de consenso tolerantes a falhas, como o Raft, e utilizar protocolos de comunicação de alta performance, como o \verb|gRPC|, para tomar decisões de forma segura e distribuída. Com base nessa fundamentação teórica, o próximo capítulo detalhará a arquitetura proposta e os métodos que serão utilizados na prática para detectar falhas e realizar o \textit{failover} contínuo no cenário industrial abordado neste trabalho.

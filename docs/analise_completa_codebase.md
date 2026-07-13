@@ -226,11 +226,12 @@ graph TB
 
 ```mermaid
 sequenceDiagram
-    participant HC as HealthChecker<br/>(Líder)
-    participant RN as RaftNode<br/>(Líder)
-    participant F1 as RaftNode<br/>(Seguidor 1)
-    participant F2 as RaftNode<br/>(Seguidor 2 / Árbitro)
-    participant FE as FailoverExecutor<br/>(Seguidor 1)
+    participant HC as HealthChecker<br/>(Líder Antigo)
+    participant RN as RaftNode<br/>(Líder Antigo)
+    participant FE_RN as FailoverExecutor<br/>(Líder Antigo)
+    participant F1 as RaftNode<br/>(Novo Líder)
+    participant FE_F1 as FailoverExecutor<br/>(Novo Líder)
+    participant F2 as RaftNode<br/>(Árbitro)
     
     Note over HC: PostgreSQL falha
     HC->>HC: Falha #1 (3s)
@@ -251,15 +252,15 @@ sequenceDiagram
     
     F1->>F1: Eleito LÍDER (2/3 votos)
     F1->>F1: Promove PostgreSQL local
-    F1->>FE: promote() via pg_promote()
-    FE-->>F1: PostgreSQL agora é PRIMARY
+    F1->>FE_F1: promote() via pg_promote()
+    FE_F1-->>F1: PostgreSQL agora é PRIMARY
     
     Note over RN: Detecta Rogue Primary
     RN->>RN: Banco local ainda é PRIMARY<br/>mas sou FOLLOWER!
-    RN->>FE: fenceAndRecover()
-    FE->>FE: sudo systemctl stop postgresql
-    FE->>FE: recovery-standby.sh<br/>pg_basebackup do novo líder
-    FE-->>RN: Auto-Healing concluído<br/>PostgreSQL agora é STANDBY
+    RN->>FE_RN: fenceAndRecover()
+    FE_RN->>FE_RN: sudo systemctl stop postgresql
+    FE_RN->>FE_RN: recovery-standby.sh<br/>pg_basebackup do novo líder
+    FE_RN-->>RN: Auto-Healing concluído<br/>PostgreSQL agora é STANDBY
 ```
 
 ---
