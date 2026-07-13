@@ -1,0 +1,101 @@
+\chapter{Metodologia e Arquitetura Proposta}
+\label{arquitetura}
+
+    Este capítulo detalha a arquitetura do sistema desenvolvido, denominado \textit{raft-ha-manager}, e os métodos empregados para garantir a alta disponibilidade do banco de dados PostgreSQL em um ambiente de Supervisão e Aquisição de Dados (\verb|SCADA|). Serão apresentadas as características do ambiente, os mecanismos de detecção de falhas, a dinâmica do algoritmo de consenso e a configuração do ambiente de simulação utilizado para validação.
+
+\section{Visão Geral da Solução}
+
+    A solução proposta baseia-se na criação de um agente orquestrador customizado, o \textit{raft-ha-manager}, desenvolvido na linguagem Java. Este agente é responsável por interligar o ciclo de vida do banco de dados PostgreSQL com uma implementação própria do protocolo de consenso Raft, utilizando chamadas de procedimento remoto via \textit{gRPC Remote Procedure Calls} (\verb|gRPC|) para comunicação entre os nós.
+    
+    A topologia física real do ambiente SCADA alvo deste estudo é composta por 4 servidores, distribuídos geograficamente em dois locais físicos distintos (Site A e Site B), com dois servidores em cada local. No entanto, para fins de validação e desenvolvimento neste trabalho, o sistema foi testado e homologado em um ambiente de simulação contendo 3 nós, sendo dois nós de dados (executando o PostgreSQL) e um nó árbitro, cuja função é apenas prover quórum para as eleições do cluster, economizando assim recursos computacionais.
+
+\section{Caracterização e Detecção de Falhas}
+
+    A garantia de alta disponibilidade requer que o sistema seja capaz de identificar prontamente quando um componente deixa de operar conforme o esperado.
+
+    \subsection{Tipos de Falhas}
+    No contexto de sistemas distribuídos industriais, as principais falhas mapeadas incluem falhas de \textit{hardware} (como a queima de componentes ou perda total de energia no servidor), falhas de \textit{software} (\textit{crashes} abruptos do serviço do banco de dados) e problemas de conectividade de rede, que podem variar desde alta latência até o particionamento completo da rede, fenômeno que pode originar cenários de \textit{split-brain}.
+
+    \subsection{Mecanismos de Detecção}
+    Para monitorar o estado do sistema, a arquitetura implementa duas camadas de detecção:
+    
+    \begin{itemize}
+        \item \textbf{Monitoramento Local do Banco de Dados}: Através da classe \textit{PostgresHealthChecker}, o agente orquestrador realiza testes de conexão via \textit{Java Database Connectivity} (\verb|JDBC|) no banco de dados local a cada 3 segundos. Se a conexão falhar por 3 vezes consecutivas (totalizando 9 segundos), o banco é oficialmente classificado como \textit{UNHEALTHY} (não saudável).
+        \item \textbf{Monitoramento do Cluster}: A integridade da rede e a vivacidade dos nós são validadas através dos \textit{heartbeats} do algoritmo Raft, enviados pelo líder a cada 5 segundos via \verb|gRPC|. A ausência desses sinais indica uma possível falha de rede ou do nó líder, deflagrando o processo de eleição.
+    \end{itemize}
+
+\section{Caracterização do Ambiente SCADA}
+
+    O ambiente SCADA que motivou o desenvolvimento desta solução possui restrições e características de alta criticidade. A infraestrutura física da empresa é dividida em dois locais distintos, denominados Site A e Site B. Cada um destes locais abriga dois servidores físicos, totalizando 4 nós na topologia real.
+    
+    A necessidade de manter os dados operacionais absolutamente consistentes é inegociável, pois qualquer perda ou divergência nos dados pode impactar o controle do maquinário industrial. Embora a topologia física real consista em 4 nós, os testes, a implementação do \textit{raft-ha-manager} e as simulações descritas neste trabalho foram realizados em uma arquitetura de 3 nós. Essa abordagem de simulação foi escolhida para validar a lógica fundamental do consenso e do \textit{failover}, mantendo um quórum ímpar estrito, essencial para a tomada de decisão do protocolo Raft.
+
+\section{Arquitetura de Banco de Dados e Consenso}
+
+    A integração entre o banco de dados PostgreSQL e o algoritmo de consenso é o núcleo da solução.
+    
+    % INSERIR AQUI A IMAGEM DO DIAGRAMA DA ARQUITETURA
+    % \begin{figure}[htb]
+    %    \centering
+    %    \caption{Diagrama da Arquitetura do Sistema}
+    %    \includegraphics[width=\textwidth]{caminho/para/imagem.png}
+    %    \fonte{Autor (2026).}
+    %    \label{fig:arquitetura}
+    % \end{figure}
+
+    A decisão de desenvolver a máquina de estados do Raft de forma manual, em vez de utilizar uma biblioteca pronta como o \textit{Apache Ratis} ou o \textit{etcd}, foi baseada em três pilares: o aprofundamento acadêmico exigido na pesquisa, a necessidade de integração refinada com o ciclo de vida do PostgreSQL e o controle absoluto sobre o comportamento de tolerância a falhas. Bibliotecas genéricas dificultariam a implementação de regras de negócio específicas, como bloquear a candidatura de um nó cujo banco de dados está fora do ar.
+
+    A comunicação entre os nós do cluster foi desenvolvida sobre o protocolo \verb|gRPC|, utilizando serialização binária com \textit{Protocol Buffers} (\verb|Protobuf|) rodando sobre HTTP/2. Essa escolha arquitetural provê uma latência de rede significativamente menor do que as tradicionais APIs baseadas em \textit{Representational State Transfer} (\verb|REST|) com \textit{JavaScript Object Notation} (\verb|JSON|), característica vital para o tráfego contínuo dos \textit{heartbeats}. O armazenamento do log persistente do Raft, no entanto, foi estruturado em formato \textit{JSON Lines} (\verb|.jsonl|), pois permite a adição de novas entradas (\textit{append-only}) de forma extremamente rápida, ao mesmo tempo em que preserva a legibilidade humana para fins de auditoria e depuração.
+
+    Apesar da praticidade e velocidade da adição contínua de registros, o acúmulo indiscriminado de logs ao longo do tempo levaria ao esgotamento do espaço em disco. Para contornar esse problema crítico de infraestrutura e garantir a viabilidade da solução a longo prazo, sistemas baseados no algoritmo Raft implementam rotinas de compactação de log (\textit{Log Compaction} ou \textit{Snapshotting}). Neste processo, o estado atual do sistema é consolidado em um arquivo de captura pontual (\textit{snapshot}) e todos os registros antigos do arquivo \verb|.jsonl| que já foram replicados com segurança são descartados. Isso libera o espaço físico do disco dos servidores sem comprometer o histórico ou a consistência da máquina de estados do cluster.
+
+\section{Dinâmica de Failover}
+
+    O processo de recuperação de falhas (\textit{failover}) foi projetado para atuar rapidamente e, acima de tudo, garantir a consistência dos dados, mitigando o problema de \textit{split-brain}.
+
+    % INSERIR AQUI A IMAGEM DO DIAGRAMA DE SEQUÊNCIA DE FAILOVER
+    % \begin{figure}[htb]
+    %    \centering
+    %    \caption{Diagrama de Sequência do fluxo de Failover}
+    %    \includegraphics[width=\textwidth]{caminho/para/sequencia.png}
+    %    \fonte{Autor (2026).}
+    %    \label{fig:sequencia-failover}
+    % \end{figure}
+
+    Quando o monitoramento local detecta que o PostgreSQL do nó líder falhou (após os 9 segundos de limite), ocorre um \textit{Step-Down} voluntário. O nó líder renuncia imediatamente à sua posição, tornando-se um seguidor (\textit{FOLLOWER}) e cessando o envio de \textit{heartbeats}. Esse mecanismo previne que um líder sem banco de dados operacional trave o sistema. Com a interrupção dos \textit{heartbeats}, os \textit{election timeouts} (temporizadores de eleição, randomizados entre 15 e 30 segundos) dos nós restantes expiram, deflagrando uma nova eleição. O nó eleito então executa o utilitário \verb|pg_promote|, elevando seu banco de dados local da condição de réplica (\textit{STANDBY}) para primário (\textit{PRIMARY}).
+    
+    \subsection{Prevenção de Split-Brain}
+    Para cenários de particionamento de rede, onde um líder antigo isolado não tem conhecimento de que um novo líder foi eleito (estado conhecido como \textit{Rogue Primary}), o sistema utiliza uma combinação de \textit{Fencing} e \textit{Auto-Healing}:
+    
+    \begin{itemize}
+        \item \textbf{\textit{Fencing} (Isolamento Estrito)}: Se a máquina de estado do Raft de um nó estiver na condição de \textit{FOLLOWER}, mas seu PostgreSQL local relatar estar como \textit{PRIMARY}, o agente orquestrador intervém de forma forçada, executando o comando \verb|sudo systemctl stop postgresql|. Esse isolamento abrupto impede fisicamente que sistemas clientes, como as IHMs do SCADA, realizem gravações locais incorretas, seguindo o Princípio \textit{Fail-Safe};
+        \item \textbf{\textit{Auto-Healing} (Cura Automática)}: Imediatamente após a parada forçada, um script de recuperação automática (\verb|recovery-standby.sh|) é acionado. Este script destrói o diretório de dados corrompido ou desatualizado e realiza um clone completo do banco de dados líder legítimo do cluster utilizando a ferramenta \verb|pg_basebackup|, reiniciando o serviço como um nó \textit{STANDBY} seguro.
+    \end{itemize}
+
+    \subsection{Descoberta de Serviço e Redirecionamento de Clientes}
+    
+    A promoção interna de um novo nó ao papel de primário não é suficiente se as aplicações clientes — como as interfaces homem-máquina (IHMs) do sistema SCADA — não souberem para qual servidor enviar suas operações de gravação. Para solucionar a descoberta de serviço de forma transparente, sem necessidade de reconfiguração manual nos sistemas legados, a arquitetura prevê a utilização de um Endereço IP Virtual (\textit{Virtual IP} ou VIP). Quando ocorre um \textit{failover} e um novo líder é estabelecido, mecanismos de rede assumem a responsabilidade de migrar o IP Virtual automaticamente para a nova máquina primária. Com isso, as aplicações SCADA continuam disparando as requisições sempre para o mesmo endereço estático, enquanto o roteamento interno da rede cuida de direcionar o tráfego para o nó ativo naquele instante, minimizando drasticamente o tempo total de indisponibilidade da operação industrial.
+
+\section{Ambiente de Simulação}
+
+    O ecossistema utilizado para testar a aplicação consistiu em uma frota de 3 Máquinas Virtuais (\verb|VMs|) orquestradas no \textit{software} VirtualBox. A automação da criação do ambiente foi realizada por meio de um script em \textit{PowerShell} (\verb|vm-create.ps1|), responsável por configurar as máquinas dentro de uma rede \textit{Host-Only}, isolando o ambiente de interferências externas.
+
+    O processo de implantação e configuração do PostgreSQL na versão 16, e do \textit{raft-ha-manager}, executado em uma \textit{Java Virtual Machine} (\verb|JVM|)\nomenclature{JVM}{Java Virtual Machine} 21, foi automatizado através de \textit{shell scripts} executados de forma sequencial:
+    
+    \begin{enumerate}
+        \item \verb|01-base.sh|: realiza a configuração inicial do sistema operacional em todos os nós, definindo o endereço IP estático, ajustando as regras de \textit{firewall}, editando o arquivo \verb|/etc/hosts| para a resolução de nomes locais, além de instalar o Java e criar o usuário de serviço;
+        
+        \item \verb|02-postgres-primary.sh|: configura o PostgreSQL como primário no primeiro nó, ajustando os parâmetros de rede no arquivo \verb|postgresql.conf| e as regras de acesso no arquivo \verb|pg_hba.conf|, finalizando com a criação dos usuários de replicação;
+        
+        \item \verb|03-postgres-standby.sh|: atua nos demais nós de dados para configurá-los como réplicas, realizando a clonagem inicial através da ferramenta \verb|pg_basebackup| e estabelecendo o canal de \textit{streaming replication};
+        
+        \item \verb|04-deploy-raft.sh|: implanta o executável Java da aplicação, distribui os arquivos de configuração no formato YAML e registra o \textit{raft-ha-manager} como um serviço do \textit{systemd}, garantindo a sua execução contínua em \textit{background}.
+    \end{enumerate}
+    
+    Essa padronização garantiu que os testes de \textit{failover}, \textit{fencing} e \textit{self-healing} fossem validados em um ambiente controlado e perfeitamente replicável, espelhando os desafios operacionais do ambiente \verb|SCADA| industrial.
+
+    \subsection{Parametrização e Limitações da Simulação}
+    
+    A literatura acadêmica clássica do algoritmo Raft, concebida por \citeonline{raft2014}, determina que os \textit{heartbeats} devem ser enviados em intervalos muito curtos (na escala de 10 a 50 milissegundos) com \textit{timeouts} de eleição oscilando entre 150 e 300 milissegundos. Tais valores garantem um tempo de inatividade da rede quase imperceptível, requisito crítico para um ambiente \verb|SCADA| real de missão crítica operando em hardware dedicado (\textit{bare-metal}).
+    
+    Contudo, exclusivamente para a prova de conceito e validação funcional neste trabalho acadêmico, os valores foram configurados de forma conservadora: \textit{heartbeats} de 5 segundos e temporizadores de eleição entre 15 e 30 segundos. Esta calibração superdimensionada foi estritamente necessária para compensar a sobrecarga introduzida pelo próprio ambiente de simulação. Como os testes foram realizados em Máquinas Virtuais compartilhando recursos do mesmo processador físico, aliado à execução do orquestrador na \verb|JVM|, o sistema tornou-se suscetível a micropausas de escalonamento do hospedeiro e a rotinas de coleta de lixo (\textit{Garbage Collection}). Utilizar os valores de milissegundos no ambiente virtualizado geraria latências falsas e expirações prematuras, provocando eleições de líder desnecessárias e instabilidade no cluster. Dessa forma, a adoção de valores maiores permitiu homologar com segurança a lógica estrita de \textit{failover} sem os ruídos oriundos da virtualização.
