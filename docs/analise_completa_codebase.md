@@ -22,7 +22,7 @@
 | `com.tcc.raft.grpc` | [RaftServiceImpl.java](file:///C:/Users/guimi/.gemini/antigravity/worktrees/tcc/monografia-postgresql-scada-raft/raft-ha-manager/src/main/java/com/tcc/raft/grpc/RaftServiceImpl.java) | 68 | Delegador gRPC → RaftNode para RequestVote e AppendEntries |
 | `com.tcc.raft.grpc` | [ClusterManagementServiceImpl.java](file:///C:/Users/guimi/.gemini/antigravity/worktrees/tcc/monografia-postgresql-scada-raft/raft-ha-manager/src/main/java/com/tcc/raft/grpc/ClusterManagementServiceImpl.java) | 90 | API gRPC para status do cluster e mudanças de configuração |
 | `com.tcc.raft.postgres` | [PostgresHealthChecker.java](file:///C:/Users/guimi/.gemini/antigravity/worktrees/tcc/monografia-postgresql-scada-raft/raft-ha-manager/src/main/java/com/tcc/raft/postgres/PostgresHealthChecker.java) | 149 | Monitoramento periódico do PostgreSQL via JDBC |
-| `com.tcc.raft.postgres` | [FailoverExecutor.java](file:///C:/Users/guimi/.gemini/antigravity/worktrees/tcc/monografia-postgresql-scada-raft/raft-ha-manager/src/main/java/com/tcc/raft/postgres/FailoverExecutor.java) | 255 | Executa promoção, fencing e auto-healing do PostgreSQL |
+| `com.tcc.raft.postgres` | [FailoverExecutor.java](file:///C:/Users/guimi/.gemini/antigravity/worktrees/tcc/monografia-postgresql-scada-raft/raft-ha-manager/src/main/java/com/tcc/raft/postgres/FailoverExecutor.java) | 255 | Executa promoção, fencing e self-healing do PostgreSQL |
 | `com.tcc.raft.config` | [NodeConfig.java](file:///C:/Users/guimi/.gemini/antigravity/worktrees/tcc/monografia-postgresql-scada-raft/raft-ha-manager/src/main/java/com/tcc/raft/config/NodeConfig.java) | 166 | Configuração raiz carregada do YAML |
 | `com.tcc.raft.config` | [PeerConfig.java](file:///C:/Users/guimi/.gemini/antigravity/worktrees/tcc/monografia-postgresql-scada-raft/raft-ha-manager/src/main/java/com/tcc/raft/config/PeerConfig.java) | 76 | Configuração de cada par do cluster |
 | `com.tcc.raft.config` | [PostgresConfig.java](file:///C:/Users/guimi/.gemini/antigravity/worktrees/tcc/monografia-postgresql-scada-raft/raft-ha-manager/src/main/java/com/tcc/raft/config/PostgresConfig.java) | 73 | Conexão JDBC e parâmetros do PostgreSQL |
@@ -44,7 +44,7 @@
 | [02-postgres-primary.sh](file:///C:/Users/guimi/.gemini/antigravity/worktrees/tcc/monografia-postgresql-scada-raft/raft-ha-manager/scripts/setup/02-postgres-primary.sh) | Configura PostgreSQL como Primary no node-1: `postgresql.conf`, `pg_hba.conf`, usuários | ⚠️ Instalação do PG comentada |
 | [03-postgres-standby.sh](file:///C:/Users/guimi/.gemini/antigravity/worktrees/tcc/monografia-postgresql-scada-raft/raft-ha-manager/scripts/setup/03-postgres-standby.sh) | Configura PostgreSQL como Standby: clona via `pg_basebackup`, streaming replication | ⚠️ Instalação do PG comentada; `CREATE USER` em standby read-only |
 | [04-deploy-raft.sh](file:///C:/Users/guimi/.gemini/antigravity/worktrees/tcc/monografia-postgresql-scada-raft/raft-ha-manager/scripts/setup/04-deploy-raft.sh) | Implanta o JAR, config YAML e serviço systemd em cada nó | ⚠️ `JAVA_OPTS` definido mas não utilizado |
-| [recovery-standby.sh](file:///C:/Users/guimi/.gemini/antigravity/worktrees/tcc/monografia-postgresql-scada-raft/scripts/setup/recovery-standby.sh) | Usado pelo Auto-Healing: para o PG, limpa dados, re-clona do líder | ✅ Atualizado |
+| [recovery-standby.sh](file:///C:/Users/guimi/.gemini/antigravity/worktrees/tcc/monografia-postgresql-scada-raft/scripts/setup/recovery-standby.sh) | Usado pelo Self-Healing: para o PG, limpa dados, re-clona do líder | ✅ Atualizado |
 | [vm-create.ps1](file:///C:/Users/guimi/.gemini/antigravity/worktrees/tcc/monografia-postgresql-scada-raft/raft-ha-manager/scripts/vm-create.ps1) | PowerShell: cria VMs no VirtualBox com rede Host-Only | ✅ Atualizado |
 
 ### 1.4 Configurações YAML
@@ -62,7 +62,7 @@
 ### 2.1 Por que implementar o Raft do zero?
 A decisão de implementar o algoritmo Raft manualmente ao invés de utilizar uma biblioteca pronta (como Apache Ratis ou etcd) foi motivada por três fatores:
 1. **Propósito acadêmico**: O TCC exige que o aluno demonstre profundidade teórica e domínio do protocolo, algo que não seria possível com uma biblioteca "caixa-preta".
-2. **Integração fina com PostgreSQL**: O sistema precisa acoplar a máquina de estados do Raft diretamente ao ciclo de vida do banco de dados (promoção, fencing, auto-healing), o que exigiria extensões significativas em qualquer biblioteca existente.
+2. **Integração fina com PostgreSQL**: O sistema precisa acoplar a máquina de estados do Raft diretamente ao ciclo de vida do banco de dados (promoção, fencing, self-healing), o que exigiria extensões significativas em qualquer biblioteca existente.
 3. **Controle total sobre o comportamento de falha**: O sistema precisa de lógica de decisão customizada (como bloquear a candidatura quando o PostgreSQL está UNHEALTHY), o que não é facilmente configurável em implementações genéricas.
 
 ### 2.2 Por que gRPC e não REST/HTTP?
@@ -81,9 +81,9 @@ A decisão de implementar o algoritmo Raft manualmente ao invés de utilizar uma
 - **Depuração**: O formato é legível por humanos, facilitando auditoria manual durante o desenvolvimento e testes.
 - **Durabilidade**: O `BufferedWriter` faz `flush()` após cada escrita (embora não seja um `fsync()` completo — ver seção de issues).
 
-### 2.5 Padrão de Fencing + Auto-Healing para Split-Brain
-- **Fencing (Isolamento)**: Quando um nó FOLLOWER detecta que seu banco local ainda é PRIMARY (Rogue Primary), o Java executa `sudo systemctl stop postgresql` para parar imediatamente as escritas divergentes.
-- **Auto-Healing (Cura Automática)**: Após o fencing, o script `recovery-standby.sh` é executado: apaga o diretório de dados e re-clona via `pg_basebackup` do líder legítimo.
+### 2.5 Padrão de Fencing + Self-Healing para Split-Brain
+- **Fencing (Isolamento)**: Quando um nó FOLLOWER detecta que seu banco local ainda é PRIMARY (delusional leader), o Java executa `sudo systemctl stop postgresql` para parar imediatamente as escritas divergentes.
+- **Self-Healing (Cura Automática)**: Após o fencing, o script `recovery-standby.sh` é executado: apaga o diretório de dados e re-clona via `pg_basebackup` do líder legítimo.
 - **Justificativa**: É mais seguro destruir a base local e ficar indisponível por alguns segundos do que correr o risco de corromper dados com escritas divergentes (Princípio Fail-Safe).
 
 ### 2.6 Step-Down Voluntário na Falha do PostgreSQL
@@ -141,7 +141,7 @@ A decisão de implementar o algoritmo Raft manualmente ao invés de utilizar uma
 
 #### 3.2.4 `README.md` — Falta Instrução para Copiar `recovery-standby.sh`
 - **Localização**: [README.md](file:///C:/Users/guimi/.gemini/antigravity/worktrees/tcc/monografia-postgresql-scada-raft/raft-ha-manager/scripts/README.md)
-- **Problema**: O README não instrui o usuário a enviar o `recovery-standby.sh` para as VMs via SCP. Sem esse script, o Auto-Healing falhará em tempo de execução.
+- **Problema**: O README não instrui o usuário a enviar o `recovery-standby.sh` para as VMs via SCP. Sem esse script, o Self-Healing falhará em tempo de execução.
 
 #### 3.2.5 `RaftNode.java` — `currentTerm` e `commitIndex` sem Sincronização
 - **Localização**: [RaftNode.java](file:///C:/Users/guimi/.gemini/antigravity/worktrees/tcc/monografia-postgresql-scada-raft/raft-ha-manager/src/main/java/com/tcc/raft/core/RaftNode.java) — getters nas linhas 934-938
@@ -255,21 +255,60 @@ sequenceDiagram
     F1->>FE_F1: promote() via pg_promote()
     FE_F1-->>F1: PostgreSQL agora é PRIMARY
     
-    Note over RN: Detecta Rogue Primary
+    Note over RN: Detecta delusional leader
     RN->>RN: Banco local ainda é PRIMARY<br/>mas sou FOLLOWER!
     RN->>FE_RN: fenceAndRecover()
     FE_RN->>FE_RN: sudo systemctl stop postgresql
     FE_RN->>FE_RN: recovery-standby.sh<br/>pg_basebackup do novo líder
-    FE_RN-->>RN: Auto-Healing concluído<br/>PostgreSQL agora é STANDBY
+    FE_RN-->>RN: Self-Healing concluído<br/>PostgreSQL agora é STANDBY
 ```
 
 ---
 
-## 7. Conclusão
+## 8. Fluxo de Failover — Dividido por Cenário
+
+### Figura A — Seção 3.5: Falha no Banco de Dados (Step-Down → Eleição → Promoção)
+
+```mermaid
+flowchart TD
+    A([PostgreSQL do Líder]) --> B[Falha no processo\ndo PostgreSQL]
+    B --> C{PostgresHealthChecker\ndetecta 3 falhas\nconsecutivas?}
+    C -- Não --> C
+    C -- Sim --> D[Nó Líder executa\nStep-Down voluntário\nbecomeFollower]
+    D --> E[Heartbeats cessam\npara os seguidores]
+    E --> F{Election timeout\nexpira em algum\nseguidor?}
+    F -- Não --> F
+    F -- Sim --> G[Seguidor vira CANDIDATE\nincrementa term\nstartElection]
+    G --> H[Envia RequestVote\npara todos os nós\nvia gRPC]
+    H --> I{Quórum de votos\natingido?}
+    I -- Não: split vote --> G
+    I -- Sim --> J[Vencedor executa\nbecomeLeader]
+    J --> K[checkAndExecutePostgresPromotion\nchama pg_promote]
+    K --> L([Novo nó PRIMARY ativo])
+```
+
+---
+
+### Figura B — Seção 3.5.1: Particionamento de Rede (Fencing e Self-Healing)
+
+```mermaid
+flowchart TD
+    A([Líder isolado da rede\nparticionamento TCP]) --> B[Líder continua elevando\nterm no escuro\nsem receber respostas]
+    B --> C[Partição majoritária\nelege novo líder legítimo\nver Figura A]
+    C --> D[Rede é restaurada:\nantigo líder se reconecta]
+    D --> E{Estado Raft = FOLLOWER\nmas PostgreSQL local\n= PRIMARY?}
+    E -- Não --> F([Nó sincroniza log\nnormalmente como FOLLOWER])
+    E -- Sim --> G[Split-Brain detectado!\nfenceAndRecover acionado]
+    G --> H[Fencing:\nsudo systemctl stop postgresql\nPostgreSQL interrompido forçado]
+    H --> I[Self-Healing:\ndiretório de dados descartado\npg_basebackup clona líder legítimo]
+    I --> J[PostgreSQL reiniciado\ncomo streaming replica]
+    J --> K([Nó reintegrado\ncomo STANDBY seguro])
+```
+
 
 ### O que está sólido e maduro ✅
 - **Algoritmo Raft completo**: Eleição, replicação de log, persistência de estado, e avanço de commitIndex estão implementados fielmente ao paper de Ongaro & Ousterhout.
-- **Integração PostgreSQL**: Promoção (`pg_promote`), Fencing (`systemctl stop`), Auto-Healing (`pg_basebackup`) funcionam e foram validados em testes reais com 3 VMs.
+- **Integração PostgreSQL**: Promoção (`pg_promote`), Fencing (`systemctl stop`), Self-Healing (`pg_basebackup`) funcionam e foram validados em testes reais com 3 VMs.
 - **Step-Down + Bloqueio de Candidatura**: A renúncia voluntária e o impedimento de eleição para nós com banco UNHEALTHY funcionam conforme projetado.
 - **Comunicação gRPC**: Protobuf bem documentado e geração automática de código com Maven.
 - **Nó Árbitro**: Funciona corretamente — vota mas não se candidata e não tem PostgreSQL.
