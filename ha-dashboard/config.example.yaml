@@ -1,0 +1,51 @@
+# =============================================================================
+# Configuração do ha-dashboard
+#
+# Copie para config.yaml (ignorado pelo Git) e ajuste.
+# Nenhuma senha é lida deste arquivo: a senha do PostgreSQL vem da variável
+# de ambiente indicada em postgres.password-env.
+# =============================================================================
+
+# Endereço do painel. Mantenha 127.0.0.1: o painel executa comandos com sudo
+# nas VMs e não deve ficar acessível pela rede.
+listen:
+  host: "127.0.0.1"
+  port: 8000
+
+# Intervalo entre consultas de status (gRPC + PostgreSQL + systemd), em segundos.
+# Também define a resolução das medições de "primary visível" nos experimentos.
+poll-interval-s: 1.0
+
+# Tempo máximo de espera de um experimento de failover antes de encerrá-lo.
+experiment-timeout-s: 180
+
+ssh:
+  user: "ubuntu"
+  # Chave privada usada para autenticar nas VMs (sem senha).
+  key-file: "~/.ssh/id_ed25519"
+  # true: exige que as VMs estejam em ~/.ssh/known_hosts (faça um "ssh" manual uma vez).
+  # false: aceita qualquer chave de host. Só use em laboratório, quando recriar VMs com frequência.
+  strict-host-keys: true
+
+grpc:
+  port: 9090
+  timeout-s: 1.5
+
+postgres:
+  port: 5432
+  database: "postgres"
+  user: "raft_monitor"
+  # Nome da variável de ambiente com a senha do usuário acima.
+  password-env: "HA_PG_PASSWORD"
+  timeout-s: 2.0
+
+nodes:
+  - id: "node-1"
+    host: "192.168.56.101"
+    arbiter: false
+  - id: "node-2"
+    host: "192.168.56.102"
+    arbiter: false
+  - id: "node-3"
+    host: "192.168.56.103"
+    arbiter: true

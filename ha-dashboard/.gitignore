@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Configuração local (IPs, caminho da chave SSH)
+config.yaml
+
+# Experimentos do modo demo (os reais, results/experimentos.csv, são dados do TCC)
+results/*-demo.csv
+
+# Stubs gRPC gerados a partir de raft-ha-manager/src/main/proto
+ha_dashboard/proto_gen/

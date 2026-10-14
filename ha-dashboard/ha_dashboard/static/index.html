@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Painel do cluster</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>raft-ha-manager</h1>
+      <span id="mode" class="tag" hidden>DEMO</span>
+    </div>
+    <dl class="summary">
+      <div><dt>Líder</dt><dd id="sum-leader">—</dd></div>
+      <div><dt>Mandato</dt><dd id="sum-term">—</dd></div>
+      <div><dt>Primary</dt><dd id="sum-primary">—</dd></div>
+    </dl>
+    <span id="conn" class="conn" data-state="off">desconectado</span>
+  </header>
+
+  <main>
+    <ul id="alerts" class="alerts" aria-live="polite"></ul>
+
+    <section class="nodes" id="nodes" aria-label="Nós do cluster"></section>
+
+    <section class="row">
+      <div class="panel" id="exp-panel">
+        <div class="panel-head">
+          <h2>Experimentos de failover</h2>
+          <a id="csv-link" class="link" href="/api/experiments.csv">Baixar CSV</a>
+        </div>
+        <p class="hint">Uma ação disruptiva (parar, isolar) no líder ou no primary inicia a medição.
+          Os tempos usam o relógio deste computador.</p>
+        <div id="exp-active"></div>
+        <div class="table-wrap">
+          <table class="exp-table">
+            <thead>
+              <tr>
+                <th>#</th><th>Cenário</th><th>Alvo</th><th>Novo líder</th>
+                <th class="num">Eleição</th><th class="num">Líder</th><th class="num">Promovido</th>
+                <th class="num">Primary visível</th><th>Desfecho</th>
+              </tr>
+            </thead>
+            <tbody id="exp-history"><tr><td colspan="9" class="empty">Nenhum experimento ainda.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel" id="timeline-panel">
+        <div class="panel-head"><h2>Eventos</h2></div>
+        <ol id="timeline" class="timeline"></ol>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Logs</h2>
+        <label class="toggle"><input type="checkbox" id="only-events"> só eventos</label>
+      </div>
+      <div class="logs" id="logs"></div>
+    </section>
+  </main>
+
+  <template id="node-tpl">
+    <article class="node">
+      <header class="node-head">
+        <div>
+          <h3 class="node-id"></h3>
+          <span class="node-host"></span>
+        </div>
+        <span class="role"></span>
+      </header>
+      <dl class="facts">
+        <div><dt>Mandato</dt><dd class="f-term"></dd></div>
+        <div><dt>Líder visto</dt><dd class="f-leader"></dd></div>
+        <div><dt>Commit</dt><dd class="f-commit"></dd></div>
+      </dl>
+      <div class="pg">
+        <span class="pg-label">PostgreSQL</span>
+        <span class="pg-state"></span>
+        <p class="pg-detail"></p>
+      </div>
+      <ul class="services"></ul>
+      <div class="actions"></div>
+    </article>
+  </template>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
