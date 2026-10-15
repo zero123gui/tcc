@@ -168,7 +168,7 @@ function renderNode(card, n) {
 
   const pg = $(".pg-state", card);
   pg.dataset.v = n.pg_state;
-  pg.textContent = n.pg_state === "SEM_CREDENCIAL" ? "sem senha" : n.pg_state;
+  pg.textContent = { SEM_CREDENCIAL: "sem senha", SENHA_INVALIDA: "senha recusada" }[n.pg_state] || n.pg_state;
   $(".pg-detail", card).textContent = pgDetail(n);
 
   const services = $(".services", card);

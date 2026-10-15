@@ -56,6 +56,13 @@ def test_missing_password_is_reported_once_without_false_no_primary_alert():
     assert "Nenhum PostgreSQL PRIMARY" not in t
 
 
+def test_rejected_password_gets_its_own_alert():
+    s = summarize([node(1, role="LEADER", pg_state="SENHA_INVALIDA"), node(2, pg_state="SENHA_INVALIDA"), node(3)])
+    t = texts(s)
+    assert t.count("recusou a senha") == 1
+    assert "Nenhum PostgreSQL PRIMARY" not in t
+
+
 def test_unreachable_node():
     s = summarize([node(1, role="LEADER", pg_state="PRIMARY"), node(2, grpc_ok=False, ssh_ok=False, pg_state="DOWN"),
                    node(3)])

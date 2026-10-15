@@ -131,7 +131,7 @@ main { padding: 16px 20px 40px; display: grid; gap: 16px; max-width: 1600px; mar
 .role[data-v="OFFLINE"] { background: var(--err-bg); color: var(--err); }
 .pg-state[data-v="PRIMARY"] { background: var(--ok-bg); color: var(--ok); }
 .pg-state[data-v="STANDBY"] { background: var(--info-bg); color: var(--info); }
-.pg-state[data-v="DOWN"], .pg-state[data-v="ERRO"] { background: var(--err-bg); color: var(--err); }
+.pg-state[data-v="DOWN"], .pg-state[data-v="ERRO"], .pg-state[data-v="SENHA_INVALIDA"] { background: var(--err-bg); color: var(--err); }
 
 .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0; }
 .facts dt { color: var(--muted); font-size: 11px; }

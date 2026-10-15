@@ -38,6 +38,7 @@ class RealBackend:
         # outro loop: por isso são criados sob demanda, já dentro do loop em execução.
         self._channels: dict[str, grpc.aio.Channel] = {}
         self._log_tasks: list[asyncio.Task] = []
+        self._pg_auth_blocked_until = 0.0
 
     def _channel(self, node: NodeDef) -> grpc.aio.Channel:
         ch = self._channels.get(node.id)
@@ -143,11 +144,21 @@ class RealBackend:
         if password is None:
             st.pg_state = "SEM_CREDENCIAL"
             return
+        # Senha recusada: não insiste a cada ciclo (evita encher o log do banco)
+        if time.monotonic() < self._pg_auth_blocked_until:
+            st.pg_state = "SENHA_INVALIDA"
+            st.pg_error = "senha do raft_monitor recusada pelo PostgreSQL"
+            return
         try:
             conn = await asyncpg.connect(
                 host=node.host, port=self.cfg.pg_port, user=self.cfg.pg_user,
                 password=password, database=self.cfg.pg_database, timeout=self.cfg.pg_timeout_s,
             )
+        except asyncpg.InvalidPasswordError:
+            self._pg_auth_blocked_until = time.monotonic() + 30
+            st.pg_state = "SENHA_INVALIDA"
+            st.pg_error = "senha do raft_monitor recusada pelo PostgreSQL"
+            return
         except (OSError, asyncio.TimeoutError, asyncpg.CannotConnectNowError) as e:
             st.pg_state, st.pg_error = "DOWN", _short(e)
             return

@@ -61,6 +61,9 @@ def summarize(statuses: list[NodeStatus]) -> dict:
         if not s.grpc_ok and not s.ssh_ok:
             alerts.append(_alert("error", f"{s.id} não responde (gRPC e SSH)."))
 
+    if any(s.pg_state == "SENHA_INVALIDA" for s in statuses):
+        alerts.append(_alert("error", "O PostgreSQL recusou a senha do usuário raft_monitor. Reinicie o painel "
+                                      "com a senha correta (tabela de credenciais do scripts/README.md)."))
     if any(s.pg_state == "SEM_CREDENCIAL" for s in statuses):
         alerts.append(_alert("info", "Senha do PostgreSQL não definida: defina a variável de ambiente "
                                      "indicada em postgres.password-env para ver o estado dos bancos."))
