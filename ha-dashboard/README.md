@@ -100,7 +100,7 @@ Um experimento começa automaticamente quando uma ação disruptiva é executada
 | `primary_visible_s` | polling SQL vê `pg_is_in_recovery() = false` em outro nó (resolução: `poll-interval-s`) |
 | `split_brain_s` / `healed_s` | logs de fencing e self-healing no antigo primary (cenário de partição) |
 
-O experimento termina sozinho quando há novo líder e novo primary visível. No cenário de partição, ele espera também o self-healing do antigo primary depois da reconexão. Também termina por timeout (`experiment-timeout-s`) ou pelo botão "Encerrar medição".
+O experimento termina sozinho quando há novo líder e novo primary visível **e** o agente registrou a confirmação da promoção. Se esse log não chegar em 5 s, o experimento encerra mesmo assim e anota isso nas observações. No cenário de partição, ele espera também o self-healing do antigo primary depois da reconexão. Também termina por timeout (`experiment-timeout-s`) ou pelo botão "Encerrar medição".
 
 **Partição de rede:** `ha-partition` usa iptables (cadeias inseridas na posição 1 de INPUT/OUTPUT) e não `ufw deny`. O UFW aceita conexões já estabelecidas antes das regras do usuário, então os canais gRPC abertos continuariam funcionando. Só os IPs dos outros nós são bloqueados: o Windows continua acessando a VM isolada. As regras não sobrevivem a um reboot.
 

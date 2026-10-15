@@ -1,6 +1,6 @@
 import csv
 
-from ha_dashboard.experiments import ExperimentLog
+from ha_dashboard.experiments import PROMOTED_GRACE_S, ExperimentLog
 from ha_dashboard.models import NodeStatus
 
 
@@ -31,6 +31,40 @@ def test_raft_stop_on_leader_measures_each_milestone(tmp_path):
     assert d["marks"]["leader_elected"] == 25.5
     assert d["marks"]["promoted"] == 27.0
     assert d["marks"]["primary_visible"] == 27.4
+
+
+def test_waits_for_promotion_log_after_primary_is_visible(tmp_path):
+    """Caso real do Exp. 1: o SQL vê o novo primary 0,5 s antes do log de confirmação."""
+    exp = ExperimentLog(tmp_path / "e.csv", 180).start("raft-stop", "node-1", 0.0, "node-1", "node-1")
+    exp.on_log("node-2", "ELECTION", 14.3, 5)
+    exp.on_log("node-2", "LEADER", 14.6, 5)
+    exp.on_log("node-2", "PROMOTING", 14.6)
+    exp.on_status([status("node-1", "PRIMARY"), status("node-2", "PRIMARY")], 15.5)
+    assert exp.active                       # antes: encerrava aqui e deixava "promoted" vazio
+    assert exp.seconds("promoted") is None
+
+    exp.tick(16.0)                          # ainda dentro da espera
+    assert exp.active
+    exp.on_log("node-2", "PROMOTED", 16.0)
+    assert not exp.active
+    assert exp.outcome == "concluído"
+    assert exp.seconds("primary_visible") == 15.5
+    assert exp.seconds("promoted") == 16.0
+    assert exp.notes == []
+
+
+def test_gives_up_waiting_for_promotion_log_after_grace(tmp_path):
+    exp = ExperimentLog(tmp_path / "e.csv", 180).start("raft-stop", "node-1", 0.0, "node-1", "node-1")
+    exp.on_log("node-2", "LEADER", 14.6, 5)
+    exp.on_status([status("node-2", "PRIMARY")], 15.5)
+    assert exp.active
+    exp.tick(15.5 + PROMOTED_GRACE_S - 0.1)
+    assert exp.active
+    exp.tick(15.5 + PROMOTED_GRACE_S)
+    assert not exp.active
+    assert exp.outcome == "concluído"
+    assert exp.seconds("promoted") is None
+    assert any("confirmação da promoção" in n for n in exp.notes)
 
 
 def test_leader_event_from_old_leader_is_ignored(tmp_path):

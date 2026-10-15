@@ -34,6 +34,9 @@ MILESTONES = [
 
 _ids = itertools.count(1)
 
+# Espera máxima pelo log de confirmação da promoção depois que o novo primary já está visível
+PROMOTED_GRACE_S = 5.0
+
 
 @dataclass
 class Experiment:
@@ -52,6 +55,8 @@ class Experiment:
     finished_at: float | None = None
     outcome: str | None = None
     persisted: bool = False
+    # Quando já havia novo líder e novo primary visível (início da espera pela confirmação)
+    _failover_ready_at: float | None = field(default=None, repr=False)
 
     @property
     def active(self) -> bool:
@@ -102,8 +107,12 @@ class Experiment:
             self.notes.append(f"ação {action} em {node} (+{ts - self.started_at:.1f}s)")
 
     def tick(self, ts: float) -> None:
-        if self.active and ts - self.started_at >= self.timeout_s:
+        if not self.active:
+            return
+        if ts - self.started_at >= self.timeout_s:
             self.finish(ts, "timeout")
+        else:
+            self._check_done(ts)  # a espera pela confirmação da promoção expira com o tempo
 
     def finish(self, ts: float, outcome: str) -> None:
         if self.active:
@@ -116,7 +125,17 @@ class Experiment:
             if failover_done and ("healed" in self.marks):
                 self.finish(ts, "concluído")
         elif failover_done:
-            self.finish(ts, "concluído")
+            # O novo primary costuma ficar visível na consulta SQL ~0,5 s antes de o agente
+            # registrar "confirmou papel de PRIMARY". Espera esse log para o marco "promoted"
+            # não ficar vazio, mas não prende o experimento se ele nunca chegar.
+            if "promoted" in self.marks:
+                self.finish(ts, "concluído")
+            elif self._failover_ready_at is None:
+                self._failover_ready_at = ts
+            elif ts - self._failover_ready_at >= PROMOTED_GRACE_S:
+                self.notes.append(
+                    f"log de confirmação da promoção não chegou em {PROMOTED_GRACE_S:g} s")
+                self.finish(ts, "concluído")
 
     # ------------------------------------------------------------------ saída
 

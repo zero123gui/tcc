@@ -1,0 +1,3 @@
+id,inicio,cenario,alvo,lider_anterior,primary_anterior,novo_lider,novo_mandato,novo_primary,pg_unhealthy_s,step_down_s,first_election_s,leader_elected_s,promoting_s,promoted_s,primary_visible_s,split_brain_s,healed_s,desfecho,observacoes
+1,2026-10-15T15:26:22.135,raft-stop,node-1,node-1,node-1,node-2,5,node-2,,,14.261,14.568,14.568,,15.483,,,concluído,
+2,2026-10-15T15:27:47.002,pg-stop,node-2,node-2,node-2,node-1,6,node-1,9.077,9.077,29.756,29.756,29.757,31.004,32.684,,,concluído,
