@@ -104,6 +104,8 @@ def test_http_guards(fast_demo, tmp_path):
     hub = Hub(fast_demo, backend_demo.DemoBackend(fast_demo), tmp_path / "exp.csv", "demo")
     with TestClient(create_app(hub), base_url="http://127.0.0.1:8000") as client:
         assert client.get("/").status_code == 200
+        # JS/CSS antigos em cache já fizeram o botão "Parar" parar de responder
+        assert client.get("/static/app.js").headers["cache-control"] == "no-store"
         assert client.get("/api/state").json()["mode"] == "demo"
 
         # Sem o cabeçalho, uma página de outra origem não consegue disparar ações

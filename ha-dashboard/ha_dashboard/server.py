@@ -44,7 +44,11 @@ def create_app(hub: Hub) -> FastAPI:
             return JSONResponse({"detail": "Host não permitido"}, status_code=403)
         if request.method not in ("GET", "HEAD") and request.headers.get(ACTION_HEADER) != "1":
             return JSONResponse({"detail": "Cabeçalho X-HA-Dashboard ausente"}, status_code=403)
-        return await call_next(request)
+        response = await call_next(request)
+        # O painel é local e muda com frequência: nunca servir JS/CSS antigo do cache.
+        if request.url.path.startswith("/static/"):
+            response.headers["Cache-Control"] = "no-store"
+        return response
 
     app.mount("/static", StaticFiles(directory=STATIC), name="static")
 

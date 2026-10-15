@@ -63,6 +63,19 @@
     </section>
   </main>
 
+  <!-- Diálogos da própria página: confirm()/alert() nativos são bloqueados em navegadores embutidos -->
+  <dialog id="confirm-dlg" class="dlg" aria-labelledby="confirm-title">
+    <form method="dialog">
+      <h2 id="confirm-title">Confirmar ação</h2>
+      <p id="confirm-text"></p>
+      <div class="dlg-actions">
+        <button value="cancel" class="secondary">Cancelar</button>
+        <button value="ok" class="danger" autofocus>Confirmar</button>
+      </div>
+    </form>
+  </dialog>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
   <template id="node-tpl">
     <article class="node">
       <header class="node-head">

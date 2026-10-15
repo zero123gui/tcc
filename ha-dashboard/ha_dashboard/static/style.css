@@ -245,6 +245,34 @@ button[aria-busy="true"] { cursor: progress; opacity: .6; }
   font-family: system-ui, sans-serif;
 }
 
+/* ---------------------------------------------------------------- diálogo e avisos */
+
+.dlg {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  padding: 18px 20px;
+  max-width: min(420px, calc(100vw - 32px));
+}
+.dlg::backdrop { background: rgba(0, 0, 0, .5); }
+.dlg h2 { margin-bottom: 8px; }
+.dlg p { margin: 0 0 16px; color: var(--muted); }
+.dlg-actions { display: flex; justify-content: flex-end; gap: 8px; }
+
+.toasts { position: fixed; right: 16px; bottom: 16px; display: grid; gap: 8px; z-index: 5; max-width: min(420px, calc(100vw - 32px)); }
+.toast {
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .25);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.toast[data-level="error"] { border-color: var(--err); color: var(--err); }
+.toast[data-level="ok"] { border-color: var(--ok); }
+
 @media (max-width: 600px) {
   .topbar, main { padding-left: 16px; padding-right: 16px; }
   .summary { gap: 12px; }

@@ -112,8 +112,29 @@ function shortLabel(key) {
            "partition-on": "Isolar", "partition-off": "Reconectar" }[key] || key;
 }
 
+// confirm()/alert() nativos são suprimidos em navegadores embutidos: usa <dialog> e avisos na página.
+function ask(text) {
+  const dlg = $("#confirm-dlg");
+  if (typeof dlg.showModal !== "function") return Promise.resolve(window.confirm(text));
+  $("#confirm-text").textContent = text;
+  return new Promise((resolve) => {
+    dlg.addEventListener("close", () => resolve(dlg.returnValue === "ok"), { once: true });
+    dlg.returnValue = "cancel";
+    dlg.showModal();
+  });
+}
+
+function toast(text, level = "ok", ms = 6000) {
+  const el = document.createElement("div");
+  el.className = "toast";
+  el.dataset.level = level;
+  el.textContent = text;
+  $("#toasts").append(el);
+  setTimeout(() => el.remove(), ms);
+}
+
 async function runAction(nodeId, action, button) {
-  if (action.disruptive && !confirm(`${action.label} em ${nodeId}?`)) return;
+  if (action.disruptive && !(await ask(`${action.label} em ${nodeId}? Isso pode provocar um failover.`))) return;
   button.setAttribute("aria-busy", "true");
   button.disabled = true;
   try {
@@ -121,10 +142,11 @@ async function runAction(nodeId, action, button) {
       method: "POST", headers: { "X-HA-Dashboard": "1" },
     });
     const body = await res.json();
-    if (!res.ok) alert(body.detail || `Erro ${res.status}`);
-    else if (body.exit !== 0) alert(`${action.label} falhou em ${nodeId} (código ${body.exit}).\n${body.stderr || body.stdout}`);
+    if (!res.ok) toast(body.detail || `Erro ${res.status}`, "error", 10000);
+    else if (body.exit !== 0) toast(`${action.label} falhou em ${nodeId} (código ${body.exit}).\n${body.stderr || body.stdout}`, "error", 12000);
+    else toast(`${action.label}: ${nodeId} ✔`, "ok", 4000);
   } catch (e) {
-    alert(`Falha ao contatar o painel: ${e}`);
+    toast(`Falha ao contatar o painel: ${e}`, "error", 10000);
   } finally {
     button.removeAttribute("aria-busy");
     button.disabled = false;
