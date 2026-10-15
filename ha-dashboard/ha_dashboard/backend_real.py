@@ -34,10 +34,17 @@ class RealBackend:
         self._pb2, self._pb2_grpc = protos.load()
         self._ssh: dict[str, asyncssh.SSHClientConnection] = {}
         self._ssh_locks = {n.id: asyncio.Lock() for n in cfg.nodes}
-        self._channels = {
-            n.id: grpc.aio.insecure_channel(f"{n.host}:{cfg.grpc_port}") for n in cfg.nodes
-        }
+        # Canais grpc.aio ficam presos ao loop em que são criados, e o uvicorn roda em
+        # outro loop: por isso são criados sob demanda, já dentro do loop em execução.
+        self._channels: dict[str, grpc.aio.Channel] = {}
         self._log_tasks: list[asyncio.Task] = []
+
+    def _channel(self, node: NodeDef) -> grpc.aio.Channel:
+        ch = self._channels.get(node.id)
+        if ch is None:
+            ch = grpc.aio.insecure_channel(f"{node.host}:{self.cfg.grpc_port}")
+            self._channels[node.id] = ch
+        return ch
 
     # ------------------------------------------------------------------ ciclo de vida
 
@@ -115,7 +122,7 @@ class RealBackend:
         return st
 
     async def _poll_grpc(self, node: NodeDef, st: NodeStatus) -> None:
-        stub = self._pb2_grpc.ClusterManagementServiceStub(self._channels[node.id])
+        stub = self._pb2_grpc.ClusterManagementServiceStub(self._channel(node))
         try:
             resp = await stub.GetClusterStatus(self._pb2.ClusterStatusRequest(), timeout=self.cfg.grpc_timeout_s)
         except grpc.aio.AioRpcError as e:
