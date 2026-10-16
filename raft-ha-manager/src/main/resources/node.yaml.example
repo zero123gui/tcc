@@ -75,6 +75,19 @@ raft:
   # Se um par não responder dentro deste tempo, a chamada é tratada como falha.
   rpc-timeout-ms: 3000
 
+  # Pré-votação (tese do Raft, seção 9.6). Antes de se candidatar, o nó pergunta
+  # aos outros se votariam nele, sem subir o próprio mandato. Quem ouviu o líder
+  # há menos de election-timeout-min-ms responde que não. Assim, um nó que volta
+  # ao cluster depois de ficar fora não derruba um líder que está funcionando.
+  # Padrão: true. Use false só para experimentos comparativos.
+  pre-vote: true
+
+  # Check-quorum (tese do Raft, seção 6.2). O líder renuncia se ficar mais de
+  # election-timeout-min-ms sem resposta da maioria do cluster (ex.: partição de
+  # rede), em vez de continuar se declarando líder.
+  # Padrão: true. Use false só para experimentos comparativos.
+  check-quorum: true
+
 # ==============================================================================
 # Persistência do estado Raft
 # ==============================================================================

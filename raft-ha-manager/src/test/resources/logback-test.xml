@@ -1,0 +1,12 @@
+<configuration>
+    <!-- Testes: só console e só avisos, sem gravar em /var/lib/raft-ha-manager/logs -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%level] [%thread] [%logger{20}] - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <logger name="com.tcc.raft" level="WARN"/>
+    <root level="WARN">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

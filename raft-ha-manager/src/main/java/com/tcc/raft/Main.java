@@ -2,6 +2,7 @@ package com.tcc.raft;
 
 import com.tcc.raft.config.NodeConfig;
 import com.tcc.raft.config.PeerConfig;
+import com.tcc.raft.core.PeerClient;
 import com.tcc.raft.core.RaftLog;
 import com.tcc.raft.core.RaftNode;
 import com.tcc.raft.grpc.RaftGrpcClient;
@@ -60,6 +61,9 @@ public class Main {
         NodeConfig config = NodeConfig.load(configPath);
         System.setProperty("node.id", config.getNodeId());
         log.info("Configuração carregada: {}", config);
+        log.info("Pré-votação: {} | Check-quorum: {}",
+            config.getRaft().isPreVote() ? "ligada" : "DESLIGADA",
+            config.getRaft().isCheckQuorum() ? "ligado" : "DESLIGADO");
 
         // =====================================================================
         // 2. Log Raft persistido em disco
@@ -69,7 +73,7 @@ public class Main {
         // =====================================================================
         // 3. Clientes gRPC para os pares (todos exceto este nó)
         // =====================================================================
-        Map<String, RaftGrpcClient> peerClients = new HashMap<>();
+        Map<String, PeerClient> peerClients = new HashMap<>();
         for (PeerConfig peer : config.getPeers()) {
             if (!peer.getId().equals(config.getNodeId())) {
                 RaftGrpcClient client = new RaftGrpcClient(
@@ -125,7 +129,7 @@ public class Main {
                 config.getNodeId());
             grpcServer.stop();
             raftNode.stop();
-            for (RaftGrpcClient client : peerClients.values()) {
+            for (PeerClient client : peerClients.values()) {
                 client.shutdown();
             }
             log.info("Nó {} encerrado com sucesso.", config.getNodeId());

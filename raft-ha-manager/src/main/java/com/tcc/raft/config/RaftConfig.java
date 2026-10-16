@@ -28,12 +28,28 @@ public class RaftConfig {
     // Timeout para chamadas gRPC entre pares, em milissegundos
     private long rpcTimeoutMs;
 
+    /**
+     * Pré-votação (tese do Raft, seção 9.6) e "líder pegajoso" (seção 4.2.3): um nó só
+     * inicia eleição se a maioria confirmar que não há líder ativo. Impede que um nó que
+     * volta ao cluster derrube um líder saudável. Desligável para experimentos comparativos.
+     */
+    private boolean preVote;
+
+    /**
+     * Check-quorum (tese do Raft, seção 6.2): o líder renuncia se ficar sem resposta da
+     * maioria por mais de election-timeout-min-ms. Impede um líder isolado de continuar
+     * se considerando líder. Desligável para experimentos comparativos.
+     */
+    private boolean checkQuorum;
+
     public static RaftConfig withDefaults() {
         RaftConfig cfg = new RaftConfig();
         cfg.heartbeatIntervalMs = 5000;
         cfg.electionTimeoutMinMs = 15000;
         cfg.electionTimeoutMaxMs = 30000;
         cfg.rpcTimeoutMs = 3000;
+        cfg.preVote = true;
+        cfg.checkQuorum = true;
         return cfg;
     }
 
@@ -50,6 +66,12 @@ public class RaftConfig {
         }
         if (raw.containsKey("rpc-timeout-ms")) {
             cfg.rpcTimeoutMs = toLong(raw.get("rpc-timeout-ms"));
+        }
+        if (raw.containsKey("pre-vote")) {
+            cfg.preVote = toBoolean("pre-vote", raw.get("pre-vote"));
+        }
+        if (raw.containsKey("check-quorum")) {
+            cfg.checkQuorum = toBoolean("check-quorum", raw.get("check-quorum"));
         }
         cfg.validate();
         return cfg;
@@ -78,8 +100,15 @@ public class RaftConfig {
         throw new IllegalStateException("Valor numérico esperado, recebido: " + value);
     }
 
+    private static boolean toBoolean(String key, Object value) {
+        if (value instanceof Boolean) return (Boolean) value;
+        throw new IllegalStateException(key + " deve ser true ou false, recebido: " + value);
+    }
+
     public long getHeartbeatIntervalMs() { return heartbeatIntervalMs; }
     public long getElectionTimeoutMinMs() { return electionTimeoutMinMs; }
     public long getElectionTimeoutMaxMs() { return electionTimeoutMaxMs; }
     public long getRpcTimeoutMs() { return rpcTimeoutMs; }
+    public boolean isPreVote() { return preVote; }
+    public boolean isCheckQuorum() { return checkQuorum; }
 }

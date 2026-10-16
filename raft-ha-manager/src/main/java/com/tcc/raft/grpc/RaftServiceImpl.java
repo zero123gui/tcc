@@ -64,4 +64,22 @@ public class RaftServiceImpl extends RaftServiceGrpc.RaftServiceImplBase {
             responseObserver.onError(e);
         }
     }
+
+    /**
+     * Recebe uma pré-votação e retorna a resposta, sem alterar o estado do nó.
+     *
+     * <p>O processamento é delegado ao {@link RaftNode#handlePreVote}.
+     */
+    @Override
+    public void preVote(RaftProto.RequestVoteRequest request,
+                        StreamObserver<RaftProto.RequestVoteResponse> responseObserver) {
+        try {
+            RaftProto.RequestVoteResponse response = raftNode.handlePreVote(request);
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            log.error("Erro ao processar PreVote de {}.", request.getCandidateId(), e);
+            responseObserver.onError(e);
+        }
+    }
 }

@@ -16,6 +16,9 @@ raft:
   election-timeout-min-ms: 15000
   election-timeout-max-ms: 30000
   rpc-timeout-ms: 3000
+  # Proteção do líder ativo; false só para experimentos comparativos (ver node.yaml.example)
+  pre-vote: true
+  check-quorum: true
 
 storage:
   log-dir: "/var/lib/raft-ha-manager"
