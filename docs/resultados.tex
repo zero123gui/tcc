@@ -1,0 +1,73 @@
+\chapter{Testes Realizados}
+\label{cap:resultados}
+
+Este capítulo tem como objetivo demonstrar, através de cenários de injeção de falhas, a eficácia da arquitetura proposta. Os testes práticos foram executados em um ambiente de simulação composto por três nós. 
+
+\section{Análise do Cenário 1: Falha no Banco de Dados}
+
+    O primeiro cenário de teste consistiu na simulação de uma falha completa do processo do PostgreSQL no nó líder. O objetivo foi aferir a capacidade do \textit{raft-ha-manager} de detectar a queda do serviço, revogar a liderança localmente, convocar uma nova eleição no \textit{cluster} e promover um nó \textit{STANDBY} a \textit{PRIMARY}.
+    
+    O teste foi executado em três rodadas consecutivas para garantir a consistência dos resultados. A Tabela~\ref{tab:resultados_crash} apresenta os tempos observados para cada etapa do processo de \textit{failover}.
+    
+    \begin{table}[htb]
+        \ABNTEXfontereduzida
+        \centering
+        \caption[Métricas da Falha no Banco de Dados]{Métricas aferidas no cenário de Falha no Banco de Dados.}
+        \label{tab:resultados_crash}
+        \begin{tabular}{c|c|c|c|c}
+            \textbf{Rodada} & \textbf{Tempo de Detecção} & \textbf{Tempo de Eleição} & \textbf{MTTR} & \textbf{Recuperação} \\ \hline \hline
+            1 & 6 s & 16 s & 24 s & $\sim$ 8 s \\ \hline
+            2 & 6 s & 21 s & 29 s & $\sim$ 8 s \\ \hline
+            3 & 6 s & 16 s & 24 s & $\sim$ 8 s \\ \hline
+            \textbf{Média} & \textbf{6.0 s} & \textbf{17.6 s} & \textbf{25.6 s} & \textbf{$\sim$ 8.0 s} \\
+        \end{tabular}
+        \legend{Fonte: Autor (2026).}
+    \end{table}
+    
+    Os resultados numéricos demonstram a conformidade com o comportamento matemático esperado do algoritmo. A detecção da falha em 6 segundos é explicada pelo ciclo de \textit{polling} do \textit{PostgresHealthChecker}, que opera com um intervalo de 3 segundos e exige duas falhas consecutivas antes de agir. 
+    
+    A variabilidade do tempo de eleição, oscilando entre 16 e 21 segundos, ocorreu dentro da janela de randomização estipulada no código de 15 a 30 segundos, um mecanismo desenvolvido originalmente por \citeonline{raft2014} para mitigar o risco de \textit{split votes}. 
+    
+    O tempo médio de recuperação, MTTR, de 25,6 segundos comprova que o sistema funcionou como projetado. Em um cenário real de produção, a janela de eleição e o tempo de \textit{polling} seriam ajustados para a casa dos milissegundos, reduzindo o MTTR e mantendo a garantia e integridade arquitetural provada por este teste.
+    
+\section{Análise do Cenário 2: Particionamento de Rede}
+
+    O segundo cenário validou a resiliência do sistema frente ao isolamento total de rede do nó líder, a falha que culmina no problemático estado de \textit{Split-Brain}. Foram realizadas três rodadas utilizando regras de bloqueio de tráfego \textit{Transmission Control Protocol} (\verb|TCP|)\nomenclature{TCP}{Transmission Control Protocol} na porta de comunicação do \verb|gRPC|.
+
+    A Tabela~\ref{tab:resultados_splitbrain} expõe os resultados observados durante o período de isolamento e após o restabelecimento da rede.
+
+    \begin{table}[htb]
+        \ABNTEXfontereduzida
+        \centering
+        \caption[Métricas do Particionamento de Rede]{Métricas aferidas no cenário de Particionamento de Rede.}
+        \label{tab:resultados_splitbrain}
+        \begin{tabular}{c|c|c|c}
+            \textbf{Rodada} & \textbf{Tempo de Eleição} & \textbf{MTTR} & \textbf{Self-Healing} \\ \hline \hline
+            1 & $\sim$ 20 s & $\sim$ 22 s & 8 s \\ \hline
+            2 & $\sim$ 20 s & $\sim$ 22 s & 8 s \\ \hline
+            3 & $\sim$ 15 s & $\sim$ 17 s & 8 s \\ \hline
+            \textbf{Média} & \textbf{$\sim$ 18.3 s} & \textbf{$\sim$ 20.3 s} & \textbf{8.0 s} \\
+        \end{tabular}
+        \legend{Fonte: Autor (2026).}
+    \end{table}
+    
+    Nesse teste, a distinção entre o tempo de eleição, ocorrido na partição saudável da rede, e o tempo de reconstrução local, \textit{Fencing} e \textit{Self-Healing} ocorridos na reconexão do nó isolado, foi separada. Essa escolha comprova de forma numérica que o sistema não apenas percebe a anomalia elegendo um novo líder em média após 18,3 segundos, mas consegue estancar a divergência de dados e forçar o retorno a um estado íntegro em tempo hábil.
+    
+    Quando a conectividade do antigo líder foi restaurada, a rotina de isolamento interrompeu o banco de dados desatualizado e desencadeou a clonagem automatizada do líder legítimo, via \textit{pg\_basebackup}. Esse processo destrutivo e corretivo durou em média 8 segundos, demonstrando eficiência na mitigação do \textit{Split-Brain}, prescindindo de intervenção humana.
+    
+\section{Limitações da Arquitetura}
+\label{sec:limitacoes}
+
+    Apesar do êxito na orquestração da falha e recuperação, a análise dos \textit{logs} e do protocolo revelou limitações na arquitetura atual que devem ser discutidas.
+
+    \subsection{Modelo Crash Fault Tolerance}
+        Do ponto de vista avaliativo, é importante reconhecer que o algoritmo Raft e a solução construída atuam sob a premissa de um modelo \textit{Crash Fault Tolerant} (\verb|CFT|)\nomenclature{CFT}{Crash Fault Tolerant} \cite{raft2014}. O algoritmo foi concebido para suportar a interrupção de processos, atrasos de mensagens e o isolamento de rede, pressupondo, contudo, que os nós sempre enviem informações verdadeiras. Caso a infraestrutura sofra uma falha bizantina, isto é, caso um nó minta sobre seus valores, altere votos ou encaminhe pacotes corrompidos, intencionalmente ou não, o sistema não garante a consistência do consenso. A solução atual não implementa tolerância a falhas bizantinas, detalhada em protocolos avançados como o de \citeonline{Castro1999}, o que a torna vulnerável a certos ataques maliciosos no âmbito industrial.
+
+    \subsection{Problema de Reconexão}
+        A observação prática durante a primeira rodada do particionamento de rede diagnosticou um comportamento esperado no algoritmo base. Ao ser isolado, o antigo nó líder elevou continuamente o seu mandato, ou \textit{term}, no escuro. Na reconexão, esse mandato artificialmente alto forçou o líder legítimo do \textit{cluster} a abdicar temporariamente de sua posição, ocasionando uma oscilação de instabilidade transiente. 
+    
+        A causa desta oscilação é a ausência da fase de pré-votação, o mecanismo conhecido como \textit{Pre-Vote}. Sem ele, não há um bloqueio do sistema que impeça o incremento de mandato durante o isolamento. A possibilidade de observar essa limitação do algoritmo mostra que a implementação do algoritmo foi bem sucedida, tendo o \textit{raft-ha-manager} simulado essa mesma limitação. A implementação do mecanismo de \textit{Pre-Vote} como uma melhoria na aplicação seria um próximo passo a ser melhor explorado em trabalhos futuros.
+
+\section{Considerações Finais do Capítulo}
+
+    Esta análise mostra o valor prático da arquitetura construída em comparação com o esforço de uma intervenção manual. A delegação da alta disponibilidade para o protocolo de consenso Raft reduziu o tempo de recuperação total de sistemas, que normalmente demoraria pelo menos uma hora, para alguns segundos. A orquestração protege a base de dados com integridade e mostra a implementação da tese central defendida por \citeonline{raft2014} frente aos sistemas distribuídos.
