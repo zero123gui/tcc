@@ -86,8 +86,10 @@ async def test_partition_heals_only_the_isolated_old_primary(fast_demo, tmp_path
         await hub.run_action("node-1", "partition-on")
         exp = hub.experiments.active
         await wait_for(lambda: hub.statuses["node-2"].pg_state == "PRIMARY")
-        # O líder isolado não sabe que perdeu o quorum
-        assert hub.statuses["node-1"].role == "LEADER"
+        # Check-quorum: o líder isolado renuncia em vez de continuar se declarando líder
+        await wait_for(lambda: hub.statuses["node-1"].role != "LEADER")
+        assert any(l.kind == "QUORUM_LOST" for l in hub.logs["node-1"])
+        assert exp.seconds("step_down") is not None
 
         await hub.run_action("node-1", "partition-off")
         await wait_for(lambda: not exp.active)
@@ -96,6 +98,26 @@ async def test_partition_heals_only_the_isolated_old_primary(fast_demo, tmp_path
         assert hub.statuses["node-2"].role == "LEADER" and hub.statuses["node-2"].pg_state == "PRIMARY"
         assert not any(l.kind in ("SPLIT_BRAIN", "HEALED") for l in hub.logs["node-2"])
         assert not any("inesperado" in n for n in exp.notes)
+    finally:
+        await hub.stop()
+
+
+async def test_rejoining_node_does_not_depose_the_leader(fast_demo, tmp_path):
+    """Item 1: um nó que volta depois de ficar fora não derruba o líder (pré-votação)."""
+    hub = Hub(fast_demo, backend_demo.DemoBackend(fast_demo), tmp_path / "exp.csv", "demo")
+    await hub.start()
+    try:
+        await wait_for(lambda: hub.statuses["node-1"].role == "LEADER")
+        term = hub.statuses["node-1"].term
+        await hub.run_action("node-2", "partition-on")
+        # Isolado, o node-2 tenta se candidatar e a pré-votação não passa
+        await wait_for(lambda: any(l.kind == "PRE_VOTE_LOST" for l in hub.logs["node-2"]))
+        await hub.run_action("node-2", "partition-off")
+        await wait_for(lambda: hub.statuses["node-2"].leader_id == "node-1")
+        await asyncio.sleep(1.0)  # mais de uma janela de eleição
+        assert hub.statuses["node-1"].role == "LEADER"
+        assert hub.statuses["node-1"].term == term
+        assert not any(l.kind == "STEP_DOWN" for l in hub.logs["node-1"] if not l.history)
     finally:
         await hub.stop()
 

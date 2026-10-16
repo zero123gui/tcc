@@ -25,6 +25,15 @@ from ha_dashboard.events import classify, level_of
     ("[INFO] [Auto-Healing]   Auto-Healing concluído com sucesso!", "HEALED", None),
     ("[ERROR] Auto-Healing falhou com código de saída 1", "HEAL_FAILED", None),
     ("[INFO] Nó node-3 pronto. Aguardando eventos do cluster.", "STARTED", None),
+    # Pré-votação, líder pegajoso e check-quorum (RaftNode, item 1 do aperfeiçoamento)
+    ("[INFO] Pré-voto negado para node-2 (mandato proposto 23): líder node-1 ativo (último contato há 812 ms).",
+     "PRE_VOTE_DENIED", None),
+    ("[INFO] Voto negado para node-2 no mandato 27: líder node-1 ativo (último contato há 40 ms). "
+     "Mandato mantido em 22.", "PRE_VOTE_DENIED", None),
+    ("[INFO] Pré-votação sem maioria (1/3) para o mandato 23: há um líder ativo ou o log deste nó está "
+     "desatualizado. Mandato mantido em 22.", "PRE_VOTE_LOST", None),
+    ("[WARN] Renunciando à liderança: sem resposta da maioria do cluster há mais de 15000 ms (check-quorum).",
+     "QUORUM_LOST", None),
 ])
 def test_classify_real_messages(line, kind, term):
     det = classify(line)
@@ -35,6 +44,8 @@ def test_classify_real_messages(line, kind, term):
 
 def test_ordinary_lines_are_not_events():
     assert classify("[INFO] Voto concedido para node-2 no mandato 4.") is None
+    assert classify("[INFO] Pré-voto concedido para node-2 (mandato proposto 23).") is None
+    assert classify("[DEBUG] Voto negado para node-2: canVote=true, logUpToDate=false.") is None
     assert classify("[DEBUG] Scheduler de heartbeats iniciado (intervalo: 5000 ms).") is None
 
 

@@ -109,7 +109,7 @@ O experimento termina sozinho quando há novo líder e novo primary visível **e
 Estes pontos vêm do código atual do `raft-ha-manager`; o modo demo os reproduz:
 
 - **Parar só o `raft-ha-manager` do líder** deixa o PostgreSQL dele rodando como PRIMARY. Depois do failover existem dois primaries até o agente desse nó voltar e executar o fencing.
-- **Um líder isolado continua se declarando LEADER.** O agente não implementa check-quorum. O painel mostra "Mais de um nó se declara LEADER" até a partição acabar.
+- **Proteção do líder ativo** (pré-votação e check-quorum, ligadas por padrão no `node.yaml`). Um nó que volta ao cluster não derruba o líder: o painel mostra **PRÉ-VOTO NEGADO** nos outros nós e **PRÉ-VOTO SEM MAIORIA** no nó que tentou se candidatar. Um líder isolado renuncia depois de `election-timeout-min-ms` e aparece como **SEM QUÓRUM**. Com `pre-vote: false` e `check-quorum: false`, o comportamento antigo volta, o que permite comparar os dois nos experimentos.
 - **Os standbys não são reapontados para o novo primary.** `FailoverExecutor.reconfigureStandby` não é chamado. Num cluster com mais de um standby, o painel avisa quando um deles continua replicando do primary antigo.
 
 ---

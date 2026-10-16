@@ -72,7 +72,7 @@ class Experiment:
             return
         if kind == "PG_UNHEALTHY" and node == self.target:
             self._mark("pg_unhealthy", ts)
-        elif kind == "STEP_DOWN" and node == self.old_leader:
+        elif kind in ("STEP_DOWN", "QUORUM_LOST") and node == self.old_leader:
             self._mark("step_down", ts)
         elif kind == "ELECTION":
             self._mark("first_election", ts)
