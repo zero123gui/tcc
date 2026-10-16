@@ -1,0 +1,2 @@
+# Scripts executados nas VMs Linux precisam de LF, mesmo com checkout no Windows
+*.sh text eol=lf
