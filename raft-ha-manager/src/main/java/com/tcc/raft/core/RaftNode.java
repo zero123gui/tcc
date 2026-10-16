@@ -1,7 +1,6 @@
 package com.tcc.raft.core;
 
 import com.tcc.raft.config.NodeConfig;
-import com.tcc.raft.grpc.RaftGrpcClient;
 import com.tcc.raft.grpc.proto.RaftProto;
 import com.tcc.raft.postgres.FailoverExecutor;
 import com.tcc.raft.postgres.PostgresHealthChecker;
@@ -96,13 +95,29 @@ public class RaftNode {
     private volatile String currentLeaderId = null;
 
     // =========================================================================
+    // Contato com o líder e com os seguidores (pré-votação e check-quorum)
+    // =========================================================================
+
+    /**
+     * Instante ({@link System#nanoTime()}) do último AppendEntries aceito de um líder
+     * válido. Usado para negar pré-votos e votos enquanto o líder está ativo. 0 = nunca.
+     */
+    private volatile long lastLeaderContactNanos = 0;
+
+    /**
+     * Para cada seguidor: instante da última resposta a um AppendEntries. Usado pelo
+     * líder para saber se ainda fala com a maioria (check-quorum).
+     */
+    private final Map<String, Long> lastPeerResponseNanos = new ConcurrentHashMap<>();
+
+    // =========================================================================
     // Dependências
     // =========================================================================
 
     private final NodeConfig config;
     private final RaftLog raftLog;
     private final ElectionTimer electionTimer;
-    private final Map<String, RaftGrpcClient> peerClients;
+    private final Map<String, ? extends PeerClient> peerClients;
     private final PostgresHealthChecker healthChecker;
     private final FailoverExecutor failoverExecutor;
 
@@ -135,7 +150,7 @@ public class RaftNode {
 
     public RaftNode(NodeConfig config,
                     RaftLog raftLog,
-                    Map<String, RaftGrpcClient> peerClients,
+                    Map<String, ? extends PeerClient> peerClients,
                     PostgresHealthChecker healthChecker,
                     FailoverExecutor failoverExecutor) {
         this.config = config;
@@ -228,6 +243,17 @@ public class RaftNode {
                 return buildVoteResponse(false);
             }
 
+            // Proteção contra servidores disruptivos ("leader stickiness", tese do Raft,
+            // seção 4.2.3): enquanto o lease do líder é válido (heartbeat há menos de
+            // election-timeout-min-ms), candidaturas com mandato maior são ignoradas SEM
+            // atualizar o mandato. Sem isso, um nó que volta ao cluster com o mandato
+            // inflado derrubaria o líder.
+            if (config.getRaft().isPreVote() && request.getTerm() > currentTerm && hasActiveLeader()) {
+                log.info("Voto negado para {} no mandato {}: {}. Mandato mantido em {}.",
+                    request.getCandidateId(), request.getTerm(), activeLeaderDescription(), currentTerm);
+                return buildVoteResponse(false);
+            }
+
             // Regra 2: Atualiza o mandato se o do candidato for maior
             if (request.getTerm() > currentTerm) {
                 becomeFollower(request.getTerm(), null);
@@ -272,6 +298,7 @@ public class RaftNode {
             if (request.getTerm() >= currentTerm) {
                 becomeFollower(request.getTerm(), request.getLeaderId());
             }
+            lastLeaderContactNanos = System.nanoTime();
 
             // Reinicia o temporizador de eleição: recebemos heartbeat de um líder válido
             electionTimer.reset();
@@ -308,6 +335,87 @@ public class RaftNode {
         }
     }
 
+    /**
+     * Processa uma pré-votação (tese do Raft, seção 9.6).
+     *
+     * <p>Responde se este nó votaria no candidato no mandato proposto
+     * ({@code request.term}, que é o mandato atual do candidato + 1). Diferente de
+     * {@link #handleRequestVote}, NÃO altera nada: nem o mandato, nem o voto, nem o
+     * temporizador. Nega quando:
+     * <ol>
+     *   <li>o mandato proposto é menor que o atual deste nó;
+     *   <li>há um líder ativo (este nó é o líder com quórum, ou ouviu o líder há menos
+     *       de election-timeout-min-ms);
+     *   <li>o log do candidato está menos atualizado que o deste nó.
+     * </ol>
+     */
+    public RaftProto.RequestVoteResponse handlePreVote(RaftProto.RequestVoteRequest request) {
+        synchronized (stateLock) {
+            String denial = null;
+            if (request.getTerm() < currentTerm) {
+                denial = "mandato proposto desatualizado (" + request.getTerm() + " < " + currentTerm + ")";
+            } else if (hasActiveLeader()) {
+                denial = activeLeaderDescription();
+            } else if (!isCandidateLogUpToDate(request.getLastLogIndex(), request.getLastLogTerm())) {
+                denial = "log do candidato menos atualizado que o deste nó";
+            }
+
+            if (denial != null) {
+                log.info("Pré-voto negado para {} (mandato proposto {}): {}.",
+                    request.getCandidateId(), request.getTerm(), denial);
+            } else {
+                log.info("Pré-voto concedido para {} (mandato proposto {}).",
+                    request.getCandidateId(), request.getTerm());
+            }
+            return buildVoteResponse(denial == null);
+        }
+    }
+
+    // =========================================================================
+    // Líder ativo (pré-votação, proteção contra servidores disruptivos e check-quorum)
+    // =========================================================================
+
+    /**
+     * true se há um líder ativo do ponto de vista deste nó: ele mesmo é o líder e fala
+     * com a maioria, ou é seguidor e recebeu AppendEntries do líder há menos de
+     * election-timeout-min-ms. Deve ser chamado dentro do stateLock.
+     */
+    private boolean hasActiveLeader() {
+        if (role == RaftRole.LEADER) {
+            return leaderHasQuorumContact();
+        }
+        return currentLeaderId != null
+            && millisSince(lastLeaderContactNanos) < config.getRaft().getElectionTimeoutMinMs();
+    }
+
+    private String activeLeaderDescription() {
+        if (role == RaftRole.LEADER) {
+            return "este nó é o líder e fala com a maioria";
+        }
+        return "líder " + currentLeaderId + " ativo (último contato há "
+            + millisSince(lastLeaderContactNanos) + " ms)";
+    }
+
+    /**
+     * true se o líder recebeu resposta da maioria do cluster (contando ele mesmo) há
+     * menos de election-timeout-min-ms. Deve ser chamado dentro do stateLock.
+     */
+    private boolean leaderHasQuorumContact() {
+        long window = config.getRaft().getElectionTimeoutMinMs();
+        int reachable = 1; // o próprio líder
+        for (String peerId : peerClients.keySet()) {
+            Long last = lastPeerResponseNanos.get(peerId);
+            if (last != null && millisSince(last) < window) {
+                reachable++;
+            }
+        }
+        return reachable >= quorumSize();
+    }
+
+    private static long millisSince(long nanos) {
+        return nanos == 0 ? Long.MAX_VALUE : (System.nanoTime() - nanos) / 1_000_000;
+    }
+
     // =========================================================================
     // Eleição
     // =========================================================================
@@ -329,6 +437,14 @@ public class RaftNode {
 
         if (!healthChecker.isHealthy()) {
             log.debug("Este nó está com o PostgreSQL não saudável. Ignorando timeout de eleição (não pode ser candidato).");
+            electionTimer.reset();
+            return;
+        }
+
+        // Pré-votação: só incrementa o mandato se a maioria confirmar que não há líder
+        // ativo. Um nó que volta ao cluster cai aqui, descobre o líder pelo próximo
+        // heartbeat e vira seguidor sem ter derrubado ninguém.
+        if (config.getRaft().isPreVote() && !runPreVote()) {
             electionTimer.reset();
             return;
         }
@@ -366,9 +482,9 @@ public class RaftNode {
             .build();
 
         // Envia RequestVote para todos os pares em paralelo (fora do lock)
-        for (Map.Entry<String, RaftGrpcClient> entry : peerClients.entrySet()) {
+        for (Map.Entry<String, ? extends PeerClient> entry : peerClients.entrySet()) {
             final String peerId = entry.getKey();
-            final RaftGrpcClient client = entry.getValue();
+            final PeerClient client = entry.getValue();
 
             electionExecutor.submit(() -> {
                 try {
@@ -403,6 +519,87 @@ public class RaftNode {
                 }
             });
         }
+    }
+
+    /**
+     * Executa a pré-votação para o mandato currentTerm + 1, sem alterar o estado.
+     *
+     * <p>Decide assim que a maioria responde a favor (para não atrasar o failover
+     * esperando o timeout de um par que caiu), quando todos responderam, ou no
+     * timeout de RPC.
+     *
+     * @return true se a maioria (contando este nó) concedeu o pré-voto.
+     */
+    private boolean runPreVote() {
+        final long proposedTerm;
+        final RaftProto.RequestVoteRequest request;
+        synchronized (stateLock) {
+            if (hasActiveLeader()) {
+                return false; // um heartbeat chegou enquanto o temporizador disparava
+            }
+            proposedTerm = currentTerm + 1;
+            request = RaftProto.RequestVoteRequest.newBuilder()
+                .setTerm(proposedTerm)
+                .setCandidateId(config.getNodeId())
+                .setLastLogIndex(raftLog.lastIndex())
+                .setLastLogTerm(raftLog.lastTerm())
+                .build();
+        }
+
+        int quorum = quorumSize();
+        int peers = peerClients.size();
+        AtomicInteger granted = new AtomicInteger(1); // o próprio pré-voto
+        AtomicInteger answered = new AtomicInteger(0);
+        CompletableFuture<Boolean> decision = new CompletableFuture<>();
+        if (granted.get() >= quorum || peers == 0) {
+            decision.complete(granted.get() >= quorum);
+        }
+
+        for (Map.Entry<String, ? extends PeerClient> entry : peerClients.entrySet()) {
+            final String peerId = entry.getKey();
+            final PeerClient client = entry.getValue();
+            electionExecutor.submit(() -> {
+                try {
+                    if (client.preVote(request).getVoteGranted()
+                            && granted.incrementAndGet() >= quorum) {
+                        decision.complete(true);
+                    }
+                } catch (Exception e) {
+                    log.debug("Erro ao solicitar pré-voto de {}: {}.", peerId, e.getMessage());
+                } finally {
+                    if (answered.incrementAndGet() == peers) {
+                        decision.complete(granted.get() >= quorum);
+                    }
+                }
+            });
+        }
+
+        boolean won;
+        try {
+            won = decision.get(config.getRaft().getRpcTimeoutMs() + 500, TimeUnit.MILLISECONDS);
+        } catch (TimeoutException e) {
+            won = granted.get() >= quorum;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return false;
+        } catch (ExecutionException e) {
+            won = false;
+        }
+
+        synchronized (stateLock) {
+            if (won && hasActiveLeader()) {
+                won = false; // um líder apareceu durante a pré-votação
+            }
+            if (won) {
+                log.info("Pré-votação aprovada ({}/{}) para o mandato {}. Iniciando eleição.",
+                    granted.get(), peers + 1, proposedTerm);
+            } else {
+                log.info("Pré-votação sem maioria ({}/{}) para o mandato {}: há um líder ativo "
+                    + "ou o log deste nó está desatualizado. Mandato mantido em {}.",
+                    granted.get(), peers + 1, proposedTerm, currentTerm);
+            }
+        }
+        return won;
     }
 
     // =========================================================================
@@ -505,9 +702,12 @@ public class RaftNode {
 
         // Inicializa nextIndex e matchIndex para todos os seguidores
         long nextIdx = raftLog.lastIndex() + 1;
+        long now = System.nanoTime();
         for (String peerId : peerClients.keySet()) {
             nextIndex.put(peerId, nextIdx);
             matchIndex.put(peerId, 0L);
+            // Os votos recebidos valem como contato: o check-quorum começa a contar daqui
+            lastPeerResponseNanos.put(peerId, now);
         }
 
         // Insere entrada NO_OP: força o avanço do commitIndex sobre
@@ -575,13 +775,24 @@ public class RaftNode {
 
         synchronized (stateLock) {
             if (role != RaftRole.LEADER) return;
+
+            // Check-quorum (tese do Raft, seção 6.2): um líder que perdeu contato com a
+            // maioria (ex.: partição de rede) renuncia, em vez de continuar se declarando
+            // líder enquanto o outro lado elege um novo.
+            if (config.getRaft().isCheckQuorum() && !leaderHasQuorumContact()) {
+                log.warn("Renunciando à liderança: sem resposta da maioria do cluster há mais de {} ms "
+                    + "(check-quorum).", config.getRaft().getElectionTimeoutMinMs());
+                becomeFollower(currentTerm, null);
+                return;
+            }
+
             term = currentTerm;
             commitIdx = commitIndex;
         }
 
-        for (Map.Entry<String, RaftGrpcClient> entry : peerClients.entrySet()) {
+        for (Map.Entry<String, ? extends PeerClient> entry : peerClients.entrySet()) {
             final String peerId = entry.getKey();
-            final RaftGrpcClient client = entry.getValue();
+            final PeerClient client = entry.getValue();
 
             replicationExecutor.submit(() -> sendAppendEntriesToPeer(peerId, client, term, commitIdx));
         }
@@ -592,7 +803,7 @@ public class RaftNode {
      * Se o seguidor estiver desatualizado, envia as entradas pendentes.
      * Se estiver atualizado, envia um heartbeat vazio.
      */
-    private void sendAppendEntriesToPeer(String peerId, RaftGrpcClient client,
+    private void sendAppendEntriesToPeer(String peerId, PeerClient client,
                                           long term, long leaderCommit) {
         final long prevLogIndex;
         final long prevLogTerm;
@@ -624,6 +835,8 @@ public class RaftNode {
 
         try {
             RaftProto.AppendEntriesResponse response = client.appendEntries(request);
+            // Qualquer resposta mostra que o par está alcançável (check-quorum)
+            lastPeerResponseNanos.put(peerId, System.nanoTime());
 
             synchronized (stateLock) {
                 if (role != RaftRole.LEADER || currentTerm != term) return;
@@ -644,10 +857,14 @@ public class RaftNode {
                     // Verifica se alguma nova entrada pode ser confirmada
                     tryAdvanceCommitIndex();
                 } else {
-                    // Seguidor rejeitou: recua nextIndex para tentar na próxima rodada
+                    // Seguidor rejeitou: recua nextIndex para tentar na próxima rodada.
+                    // A resposta informa o último índice do seguidor; um nó que voltou
+                    // com o log muito atrasado é alcançado em uma rodada, em vez de
+                    // recuar uma entrada por heartbeat.
                     long current = nextIndex.getOrDefault(peerId, 1L);
-                    if (current > 1) {
-                        nextIndex.put(peerId, current - 1);
+                    long next = Math.min(current - 1, response.getMatchIndex() + 1);
+                    if (next >= 1) {
+                        nextIndex.put(peerId, next);
                     }
                     log.debug("Seguidor {} rejeitou AppendEntries. nextIndex recuado para {}.",
                         peerId, nextIndex.get(peerId));
@@ -930,6 +1147,15 @@ public class RaftNode {
     // =========================================================================
     // Getters para consulta de estado (usados pelo ClusterManagementService)
     // =========================================================================
+
+    /** Papel, mandato e líder lidos juntos, sob o lock: nunca mistura estado antigo e novo. */
+    public record StatusSnapshot(RaftRole role, long term, String leaderId, long commitIndex) { }
+
+    public StatusSnapshot snapshot() {
+        synchronized (stateLock) {
+            return new StatusSnapshot(role, currentTerm, currentLeaderId, commitIndex);
+        }
+    }
 
     public RaftRole getRole() { return role; }
     public long getCurrentTerm() { return currentTerm; }

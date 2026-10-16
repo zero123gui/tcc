@@ -72,7 +72,7 @@ class Experiment:
             return
         if kind == "PG_UNHEALTHY" and node == self.target:
             self._mark("pg_unhealthy", ts)
-        elif kind == "STEP_DOWN" and node == self.old_leader:
+        elif kind in ("STEP_DOWN", "QUORUM_LOST") and node == self.old_leader:
             self._mark("step_down", ts)
         elif kind == "ELECTION":
             self._mark("first_election", ts)
@@ -188,6 +188,16 @@ class ExperimentLog:
         self.csv_path = csv_path
         self.timeout_s = timeout_s
         self.history: list[Experiment] = []
+        # Continua a numeração do CSV: reiniciar em 1 a cada vez que o painel sobe
+        # gerava IDs repetidos no mesmo arquivo.
+        self._next_id = self._last_id_in_csv() + 1
+
+    def _last_id_in_csv(self) -> int:
+        if not self.csv_path.exists():
+            return 0
+        with self.csv_path.open(encoding="utf-8", newline="") as f:
+            ids = [int(r["id"]) for r in csv.DictReader(f) if (r.get("id") or "").isdigit()]
+        return max(ids, default=0)
 
     @property
     def active(self) -> Experiment | None:
@@ -197,7 +207,8 @@ class ExperimentLog:
               old_leader: str | None, old_primary: str | None) -> Experiment:
         # Partições ficam abertas até o operador reconectar o nó, então ganham mais tempo.
         timeout = max(self.timeout_s, 600.0) if scenario == "partition-on" else self.timeout_s
-        exp = Experiment(scenario, target, ts, old_leader, old_primary, timeout)
+        exp = Experiment(scenario, target, ts, old_leader, old_primary, timeout, id=self._next_id)
+        self._next_id += 1
         self.history.append(exp)
         return exp
 

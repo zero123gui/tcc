@@ -111,6 +111,21 @@ def test_timeout_and_csv(tmp_path):
     assert rows[0]["desfecho"] == "timeout"
 
 
+def test_ids_continue_from_existing_csv(tmp_path):
+    """Reiniciar o painel não pode repetir IDs já gravados no CSV."""
+    path = tmp_path / "exp.csv"
+    first = ExperimentLog(path, timeout_s=30)
+    for _ in range(2):
+        e = first.start("raft-stop", "node-1", 0.0, "node-1", "node-1")
+        e.finish(1.0, "timeout")
+        first.persist(e)
+
+    second = ExperimentLog(path, timeout_s=30)   # painel reiniciado
+    e = second.start("pg-stop", "node-2", 0.0, "node-2", "node-2")
+    assert e.id == 3
+    assert ExperimentLog(tmp_path / "novo.csv", 30).start("raft-stop", "n", 0.0, None, None).id == 1
+
+
 def test_events_after_finish_are_ignored(tmp_path):
     exp = ExperimentLog(tmp_path / "e.csv", 180).start("raft-stop", "node-1", 0.0, "node-1", "node-1")
     exp.finish(5.0, "encerrado manualmente")

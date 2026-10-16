@@ -42,10 +42,18 @@ public class NodeConfig {
         Yaml yaml = new Yaml();
         try (InputStream in = new FileInputStream(path)) {
             Map<String, Object> raw = yaml.load(in);
-            NodeConfig config = parseFromMap(raw);
-            config.validate();
-            return config;
+            return fromMap(raw);
         }
+    }
+
+    /**
+     * Monta e valida a configuração a partir da estrutura já lida do YAML.
+     * Usado por {@link #load(String)} e pelos testes, que montam o cluster em memória.
+     */
+    public static NodeConfig fromMap(Map<String, Object> raw) {
+        NodeConfig config = parseFromMap(raw);
+        config.validate();
+        return config;
     }
 
     @SuppressWarnings("unchecked")

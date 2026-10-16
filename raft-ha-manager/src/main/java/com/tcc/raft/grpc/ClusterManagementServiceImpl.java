@@ -38,16 +38,19 @@ public class ClusterManagementServiceImpl
     @Override
     public void getClusterStatus(ClusterProto.ClusterStatusRequest request,
                                  StreamObserver<ClusterProto.ClusterStatusResponse> responseObserver) {
+        // Lidos juntos: papel e mandato separados podiam mostrar um líder que já
+        // tinha renunciado com o mandato novo.
+        RaftNode.StatusSnapshot s = raftNode.snapshot();
         ClusterProto.NodeInfo selfInfo = ClusterProto.NodeInfo.newBuilder()
             .setNodeId(raftNode.getNodeId())
-            .setRaftRole(raftNode.getRole().name())
+            .setRaftRole(s.role().name())
             .setReachable(true)
             .build();
 
         ClusterProto.ClusterStatusResponse response = ClusterProto.ClusterStatusResponse.newBuilder()
-            .setLeaderId(raftNode.getCurrentLeaderId() != null ? raftNode.getCurrentLeaderId() : "")
-            .setCurrentTerm(raftNode.getCurrentTerm())
-            .setCommitIndex(raftNode.getCommitIndex())
+            .setLeaderId(s.leaderId() != null ? s.leaderId() : "")
+            .setCurrentTerm(s.term())
+            .setCommitIndex(s.commitIndex())
             .addNodes(selfInfo)
             .build();
 

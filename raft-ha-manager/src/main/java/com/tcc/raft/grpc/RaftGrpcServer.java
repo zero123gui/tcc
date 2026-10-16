@@ -3,7 +3,7 @@ package com.tcc.raft.grpc;
 import com.tcc.raft.config.NodeConfig;
 import com.tcc.raft.core.RaftNode;
 import io.grpc.Server;
-import io.grpc.ServerBuilder;
+import io.grpc.netty.shaded.io.grpc.netty.NettyServerBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,11 +26,16 @@ public class RaftGrpcServer {
 
     public RaftGrpcServer(NodeConfig config, RaftNode raftNode) {
         this.port = config.getGrpcPort();
-        this.server = ServerBuilder.forPort(port)
+        this.server = NettyServerBuilder.forPort(port)
             .addService(new RaftServiceImpl(raftNode))
             .addService(new ClusterManagementServiceImpl(raftNode))
             // Limites de tamanho de mensagem (entradas de log podem crescer)
             .maxInboundMessageSize(16 * 1024 * 1024) // 16 MB
+            // Os clientes (RaftGrpcClient) enviam keep-alive a cada 10 s, inclusive sem
+            // chamadas em andamento. O padrão do servidor só aceita um ping a cada 5 min
+            // e derrubava a conexão com GOAWAY "too_many_pings" (visto nos logs das VMs).
+            .permitKeepAliveTime(5, TimeUnit.SECONDS)
+            .permitKeepAliveWithoutCalls(true)
             .build();
     }
 

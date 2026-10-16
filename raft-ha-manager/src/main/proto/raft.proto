@@ -131,4 +131,11 @@ service RaftService {
 
   // Chamado pelo líder para replicar entradas de log e enviar heartbeats.
   rpc AppendEntries(AppendEntriesRequest) returns (AppendEntriesResponse);
+
+  // Pré-votação (tese do Raft, seção 9.6). Chamada por um nó cujo temporizador de
+  // eleição expirou, ANTES de incrementar o próprio mandato. "term" é o mandato que
+  // o nó usaria se iniciasse a eleição (currentTerm + 1). O receptor responde se
+  // votaria nele, mas não altera o próprio mandato nem o voto: um nó que volta ao
+  // cluster depois de ficar isolado não consegue derrubar um líder que está ativo.
+  rpc PreVote(RequestVoteRequest) returns (RequestVoteResponse);
 }

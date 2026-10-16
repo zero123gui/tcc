@@ -1,9 +1,11 @@
 """Simulador do cluster para usar o painel sem as VMs (python -m ha_dashboard --demo).
 
 Imita o comportamento observável do agente Java, incluindo as mensagens de log
-reais e as limitações atuais:
+reais:
+  - pré-votação: um nó só se candidata se a maioria não estiver ouvindo um líder;
+  - check-quorum: um líder isolado renuncia depois de election-timeout-min;
+e as limitações que ainda existem:
   - parar só o raft-ha-manager do líder deixa o PostgreSQL dele como PRIMARY;
-  - um líder isolado continua se declarando LEADER (não há check-quorum);
   - standbys não são reapontados para o novo primary após o failover.
 Os timeouts são menores que os do node.yaml para a demonstração ser rápida.
 """
@@ -42,6 +44,7 @@ class SimNode:
     last_hb: float = field(default_factory=time.time)
     timeout: float = field(default_factory=lambda: random.uniform(ELECTION_MIN_S, ELECTION_MAX_S))
     pg_down_since: float | None = None
+    quorum_lost_since: float | None = None  # líder sem contato com a maioria desde
     pending: list[tuple[float, str]] = field(default_factory=list)  # (quando, ação agendada)
 
 
@@ -160,9 +163,24 @@ class DemoBackend:
                 n.last_hb = now
 
         # Heartbeats do(s) líder(es)
+        quorum = len(nodes) // 2 + 1
         for leader in [n for n in nodes if self._alive(n) and n.role == "LEADER"]:
             if leader.role != "LEADER":
                 continue  # recuou neste mesmo ciclo ao encontrar um mandato maior
+            # Check-quorum: sem contato com a maioria por election-timeout-min → renuncia
+            reachable = 1 + sum(1 for f in nodes if f is not leader and self._alive(f) and self._linked(leader, f))
+            if reachable < quorum:
+                if leader.quorum_lost_since is None:
+                    leader.quorum_lost_since = now
+                elif now - leader.quorum_lost_since >= ELECTION_MIN_S:
+                    await self._log(leader, "WARN", "RaftNode",
+                                    "Renunciando à liderança: sem resposta da maioria do cluster há mais de "
+                                    f"{int(ELECTION_MIN_S * 1000)} ms (check-quorum).")
+                    await self._become_follower(leader, leader.term, None)
+                    leader.last_hb, leader.quorum_lost_since = now, None
+                    continue
+            else:
+                leader.quorum_lost_since = None
             for f in nodes:
                 if f is leader or not self._alive(f) or not self._linked(leader, f):
                     continue
@@ -184,7 +202,35 @@ class DemoBackend:
                 continue  # árbitros e nós com PG não saudável não se candidatam
             await self._election(n, nodes, now)
 
+    def _sees_active_leader(self, v: SimNode, now: float) -> str | None:
+        """Motivo para negar o pré-voto (líder ativo do ponto de vista de v), ou None."""
+        if v.role == "LEADER":
+            return "este nó é o líder e fala com a maioria"
+        if v.leader_id and now - v.last_hb < ELECTION_MIN_S:
+            return f"líder {v.leader_id} ativo (último contato há {int((now - v.last_hb) * 1000)} ms)"
+        return None
+
     async def _election(self, cand: SimNode, nodes: list[SimNode], now: float) -> None:
+        # Pré-votação: só sobe o mandato se a maioria não estiver ouvindo um líder
+        proposed = cand.term + 1
+        granted = 1
+        for v in nodes:
+            if v is cand or not self._alive(v) or not self._linked(cand, v):
+                continue
+            reason = self._sees_active_leader(v, now)
+            if reason:
+                await self._log(v, "INFO", "RaftNode",
+                                f"Pré-voto negado para {cand.d.id} (mandato proposto {proposed}): {reason}.")
+            else:
+                granted += 1
+        if granted < len(nodes) // 2 + 1:
+            await self._log(cand, "INFO", "RaftNode",
+                            f"Pré-votação sem maioria ({granted}/{len(nodes)}) para o mandato {proposed}: há um líder "
+                            f"ativo ou o log deste nó está desatualizado. Mandato mantido em {cand.term}.")
+            return
+        await self._log(cand, "INFO", "RaftNode",
+                        f"Pré-votação aprovada ({granted}/{len(nodes)}) para o mandato {proposed}. Iniciando eleição.")
+
         previous_leader = cand.leader_id
         cand.term += 1
         cand.role = "CANDIDATE"
@@ -217,7 +263,7 @@ class DemoBackend:
         n.term, n.role, n.leader_id = max(n.term, term), "FOLLOWER", leader_id
         # checkSplitBrain(): seguidor com PG PRIMARY e líder conhecido → fencing + self-healing
         if (not n.d.arbiter and n.pg_on and n.pg_role == "PRIMARY" and leader_id
-                and not any(w == "heal" for _, w in n.pending)):
+                and not any(w.startswith("heal") for _, w in n.pending)):
             await self._log(n, "WARN", "RaftNode",
                             f"Detectado estado Rogue Primary! Acionando Fencing e Auto-Healing assíncrono. Líder legítimo: {leader_id}")
             await self._log(n, "ERROR", "FailoverExecutor",

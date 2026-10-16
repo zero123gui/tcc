@@ -1,0 +1,4 @@
+id,inicio,cenario,alvo,lider_anterior,primary_anterior,novo_lider,novo_mandato,novo_primary,pg_unhealthy_s,step_down_s,first_election_s,leader_elected_s,promoting_s,promoted_s,primary_visible_s,split_brain_s,healed_s,desfecho,observacoes
+1,2026-10-16T10:15:50.706,raft-stop,node-1,node-1,,node-2,35,,,,28.501,28.501,28.501,30.000,,,,encerrado manualmente,
+2,2026-10-16T10:17:19.650,pg-stop,node-2,node-2,,node-1,36,,7.305,7.305,24.199,24.199,24.199,26.028,,,,encerrado manualmente,
+3,2026-10-16T10:18:32.612,partition-on,node-1,node-1,,node-2,37,,,16.547,22.106,22.106,22.106,23.593,,,,encerrado manualmente,ação partition-off em node-1 (+24.3s); SPLIT_BRAIN inesperado em node-1 (+27.1s); SPLIT_BRAIN inesperado em node-1 (+27.1s); SPLIT_BRAIN inesperado em node-1 (+32.1s); HEALED inesperado em node-1 (+35.1s); HEALED inesperado em node-1 (+35.1s)
