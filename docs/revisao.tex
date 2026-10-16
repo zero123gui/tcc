@@ -1,6 +1,6 @@
 \chapter{Revisão Bibliográfica}
 \label{revisao}
-    Neste capítulo, serão apresentados primeiramente os conceitos referentes aos sistemas \textit{Supervisory Control and Data Acquisition} (\verb|SCADA|)\nomenclature{SCADA}{Supervisory Control and Data Acquisition}, que contextualizam a aplicação prática e a relevância deste trabalho. Em seguida, serão detalhados os fundamentos teóricos e práticos sobre Alta Disponibilidade (\verb|HA| - High Availability)\nomenclature{HA}{High Availability}, consenso em sistemas distribuídos, bancos de dados PostgreSQL e protocolos de comunicação, pilares essenciais para a arquitetura que será desenvolvida ao longo do projeto.
+    Neste capítulo, serão apresentados primeiramente os conceitos referentes aos sistemas \textit{Supervisory Control and Data Acquisition} (\verb|SCADA|), que contextualizam a aplicação prática e a relevância deste trabalho. Em seguida, serão detalhados os fundamentos teóricos e práticos sobre Alta Disponibilidade (\verb|HA| - High Availability)\nomenclature{HA}{High Availability}, consenso em sistemas distribuídos, bancos de dados PostgreSQL e protocolos de comunicação, pilares essenciais para a arquitetura que será desenvolvida ao longo do projeto.
 
 %----------------------------------------------------------------------------------
 %                    Alta Disponibilidade e Sistemas SCADA
@@ -34,7 +34,7 @@
 
         Com isso, é possível afirmar que para desenvolver um sistema altamente disponível, é necessário combinar um conjunto de tecnologias, estratégias e conceitos, aplicados para garantir a continuidade de um sistema.
         
-        No atual cenário tecnológico, a continuidade operacional dos sistemas é um requisito não funcional crítico, dado que a falha desses sistemas, na maioria dos cenários, acarreta diversos problemas, como por exemplo: perda de confiança por parte dos clientes, perdas financeiras e perda de informações em sistemas críticos.
+        No atual cenário tecnológico, a continuidade operacional dos sistemas é um requisito não funcional crítico, dado que a falha desses sistemas, na maioria dos cenários, acarreta diversos problemas, como por exemplo: perda de informações em tempo real e atrasos na comunicação entre clientes e servidores.
 
     \subsection{Métricas de Disponibilidade} 
 
@@ -75,7 +75,7 @@
 
     \subsection{Problemas de Consenso}
     
-        Atingir o consenso em um sistema distribuído é uma tarefa desafiadora. Os algoritmos devem ser resilientes a uma variedade de falhas, como falhas de nós (\textit{crash}), particionamento da rede, atraso, perda ou duplicação de mensagens \cite{Bhardwaj2020}.
+        Atingir o consenso em um sistema distribuído é uma tarefa desafiadora. Os algoritmos devem ser resilientes a uma variedade de falhas, como falhas de nós, conhecidas como \textit{crash}, particionamento da rede, atraso, perda ou duplicação de mensagens \cite{Bhardwaj2020}.
 
         Dentre os problemas propostos no estudo do consenso em sistemas distribuídos, um dos mais conhecidos é o Problema dos Generais Bizantinos. Proposto por \citeonline{lamport1982}, consiste em um cenário onde alguns componentes do sistema podem falhar de maneira arbitrária ou maliciosa, enviando assim informações conflitantes para diferentes partes do sistema. Um algoritmo de consenso robusto precisa assegurar que os nós honestos cheguem a um acordo, mesmo na presença desses nós maliciosos.  
 
@@ -83,7 +83,7 @@
 
     \subsection{Algoritmo de Paxos}
 
-        O algoritmo Paxos \cite{lamport2001paxos}, proposto por Leslie Lamport, é um dos mais influentes para alcançar consenso em sistemas distribuídos tolerantes a falhas. Embora tenha a reputação de ser complexo, sua lógica fundamental deriva de maneira direta das propriedades de segurança que um sistema de consenso precisa satisfazer. O algoritmo foi projetado para operar em um ambiente assíncrono, onde os processos podem falhar parando (\textit{crash failure}), reiniciando, e as mensagens podem sofrer atrasos, perdas ou duplicações, mas não são corrompidas.
+        O algoritmo Paxos \cite{lamport2001paxos}, proposto por Leslie Lamport, é um dos mais influentes para alcançar consenso em sistemas distribuídos tolerantes a falhas. Embora tenha a reputação de ser complexo, sua lógica fundamental deriva de maneira direta das propriedades de segurança que um sistema de consenso precisa satisfazer. O algoritmo foi projetado para operar em um ambiente assíncrono, onde os processos podem falhar por interrupção, também chamadas de \textit{crash failure}, reiniciando, e as mensagens podem sofrer atrasos, perdas ou duplicações, mas não são corrompidas.
 
         Para simplificar a explicação, o algoritmo divide os processos em três papéis distintos:
 
@@ -136,6 +136,7 @@
         Paxos e Raft são ambos algoritmos projetados para resolver o problema de consenso em sistemas tolerantes a falhas, mas eles o fazem com abordagens e focos diferentes.
 
         \begin{table}[htb]
+            \ABNTEXfontereduzida
             \centering
             \begin{tabular}{|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}p{5.1cm}|>{\raggedright\arraybackslash}p{5.1cm}|}
                 \hline
@@ -164,7 +165,7 @@
             \end{tabular}
             \caption{Comparativo entre os algoritmos Paxos e Raft}
             \label{table:paxos-raft}
-            \legend{Fonte: Autor (2026)}
+            \legend{Fonte: Autor (2026).}
         \end{table}
 
 \section{Alta Disponibilidade em Bancos de Dados PostgreSQL}

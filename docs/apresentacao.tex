@@ -1,0 +1,684 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+
+% --- Configurações de Pacotes ---
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{helvet}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,fit,backgrounds}
+
+% --- Tema e Esquema de Cores Profissional UNIOESTE ---
+\usetheme{Madrid}
+\usecolortheme{default}
+
+\definecolor{UnioesteNavy}{RGB}{15, 23, 42}       % #0F172A
+\definecolor{UnioesteBlue}{RGB}{30, 58, 138}      % #1E3A8A
+\definecolor{UnioesteCyan}{RGB}{14, 165, 233}     % #0EA5E9
+\definecolor{UnioesteLight}{RGB}{248, 250, 252}   % #F8FAFC
+\definecolor{CardBg}{RGB}{255, 255, 255}
+\definecolor{TextDark}{RGB}{15, 23, 42}
+\definecolor{TextMuted}{RGB}{100, 116, 139}
+\definecolor{SuccessGreen}{RGB}{16, 185, 129}
+\definecolor{AlertAmber}{RGB}{245, 158, 11}
+
+\setbeamercolor{palette primary}{bg=UnioesteNavy,fg=white}
+\setbeamercolor{palette secondary}{bg=UnioesteBlue,fg=white}
+\setbeamercolor{palette tertiary}{bg=UnioesteNavy,fg=white}
+\setbeamercolor{palette quaternary}{bg=UnioesteNavy,fg=white}
+\setbeamercolor{structure}{fg=UnioesteBlue}
+\setbeamercolor{title}{bg=UnioesteNavy,fg=white}
+\setbeamercolor{frametitle}{bg=UnioesteBlue,fg=white}
+\setbeamercolor{block title}{bg=UnioesteBlue,fg=white}
+\setbeamercolor{block body}{bg=UnioesteLight,fg=TextDark}
+\setbeamercolor{block title alerted}{bg=AlertAmber,fg=white}
+\setbeamercolor{block body alerted}{bg=UnioesteLight,fg=TextDark}
+\setbeamercolor{block title example}{bg=SuccessGreen,fg=white}
+\setbeamercolor{block body example}{bg=UnioesteLight,fg=TextDark}
+
+% --- Numeração em Todas as Páginas (Footer) ---
+\setbeamertemplate{footline}{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,left]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\hspace*{2ex}Guilherme K. T. Miller (UNIOESTE)
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}Defesa de TCC (2026)
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\textbf{Página \insertframenumber{} de \inserttotalframenumber}\hspace*{2ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+\setbeamertemplate{navigation symbols}{}
+
+% --- Metadados da Apresentação ---
+\title[Alta Disponibilidade com Raft \& PostgreSQL]{Desenvolvimento de uma Solução de Alta Disponibilidade: Uma Abordagem Prática}
+\subtitle{Orquestração Autônoma de Failover com Raft e PostgreSQL em Ambientes SCADA}
+\author[Guilherme K. T. Miller]{%
+  \textbf{Acadêmico:} Guilherme Kenzo Takano Miller\\[1ex]
+  \small \textbf{Orientadora:} Ma. Teresinha Arnauts Hachisuca\\
+  \small \textbf{Coorientador:} Me. Filipe Ventura Muggiati
+}
+\institute[UNIOESTE]{%
+  UNIVERSIDADE ESTADUAL DO OESTE DO PARANÁ -- UNIOESTE\\
+  Centro de Engenharias e Ciências Exatas\\
+  Curso de Bacharelado em Ciência da Computação
+}
+\date[2026]{Foz do Iguaçu -- 2026}
+
+\begin{document}
+
+% ==========================================
+% SLIDE 1: CAPA
+% ==========================================
+\begin{frame}[plain]
+  \titlepage
+  \begin{center}
+    \vspace{-1.5em}
+    \scriptsize \textcolor{TextMuted}{Página 1 de \inserttotalframenumber}
+  \end{center}
+\end{frame}
+
+% ==========================================
+% SLIDE 2: SUMÁRIO
+% ==========================================
+\begin{frame}{Sumário}
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{1. Introdução \& Fundamentos}
+        \begin{itemize}
+          \item Contextualização \& Motivação (SCADA)
+          \item Delimitação do Problema
+          \item Objetivos (Geral e Específicos)
+          \item Fundamentação Teórica (HA \& Consenso)
+        \end{itemize}
+      \end{block}
+      \begin{block}{2. Proposta \& Arquitetura}
+        \begin{itemize}
+          \item O Agente \textit{raft-ha-manager}
+          \item Topologia de Quórum \& Nó Árbitro
+          \item Camadas de Detecção de Falhas
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{3. Dinâmica de Failover}
+        \begin{itemize}
+          \item Step-Down Voluntário do Líder
+          \item Prevenção de \textit{Split-Brain} (Fencing)
+          \item Auto-recuperação (\textit{Self-Healing})
+        \end{itemize}
+      \end{block}
+      \begin{block}{4. Validação \& Conclusões}
+        \begin{itemize}
+          \item Ambiente de Testes \& Resultados (MTTR)
+          \item Limitações da Arquitetura
+          \item Trabalhos Futuros \& Conclusões
+          \item Referências Bibliográficas (2 páginas)
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ==========================================
+% SLIDE 3: CONTEXTUALIZAÇÃO & MOTIVAÇÃO
+% ==========================================
+\begin{frame}{1. Contextualização \& Motivação}{Sistemas SCADA e a Dependência de SGBDs}
+  \begin{columns}[t]
+    \begin{column}{0.32\textwidth}
+      \begin{block}{Infraestruturas Críticas}
+        \begin{itemize}
+          \item Redes de energia, saneamento e automação fabril.
+          \item Supervisão contínua com sensores, PLCs e RTUs.
+          \item Falhas geram impactos operacionais e financeiros.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \begin{block}{Papel do PostgreSQL}
+        \begin{itemize}
+          \item Retenção de variáveis históricas, alarmes e telemetria.
+          \item Rigor em integridade e transações ACID.
+          \item Indisponibilidade do banco paralisa a supervisão.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \begin{block}{Custo de Parada}
+        \begin{itemize}
+          \item Intervenção manual: dezenas de minutos a horas.
+          \item Exigência de tolerância a falhas autônoma.
+          \item Recuperação (\textit{failover}) em poucos segundos.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ==========================================
+% SLIDE 4: DELIMITAÇÃO DO PROBLEMA
+% ==========================================
+\begin{frame}{2. Delimitação do Problema}{O Descompasso entre Rede e a Saúde do Banco}
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Isolamento de Camadas (Heartbeat Cego)}
+        \begin{itemize}
+          \item Processo do PostgreSQL pode sofrer \textit{crash} ou falha de disco local.
+          \item Agente gerenciador continua emitindo \textit{heartbeats} gRPC normais.
+          \item No Raft clássico, o líder mantém o mandato mesmo sem conseguir gravar dados.
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Risco Crítico de Split-Brain}
+        \begin{itemize}
+          \item Particionamento de rede isola o líder antigo (\textit{delusional leader}).
+          \item Partição majoritária elege novo líder legítimo.
+          \item Sem isolamento forçado (\textit{fencing}), múltiplos nós aceitariam escritas, corrompendo a base.
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ==========================================
+% SLIDE 5: OBJETIVOS
+% ==========================================
+\begin{frame}{3. Objetivos do Trabalho}
+  \begin{block}{Objetivo Geral}
+    Desenvolver e validar uma arquitetura autônoma de gerenciamento de \textit{failover} para o PostgreSQL em ambientes SCADA, utilizando o algoritmo de consenso Raft para assegurar consistência e alta disponibilidade dos dados.
+  \end{block}
+  \vspace{0.5em}
+  \begin{exampleblock}{Objetivos Específicos}
+    \begin{itemize}
+      \item \textbf{Motor Raft Nativo:} Implementar em Java 21 com comunicação gRPC / Protocol Buffers.
+      \item \textbf{Monitor de Saúde:} Desenvolver \textit{PostgresHealthChecker} via JDBC com filtro de falso positivo.
+      \item \textbf{Fencing \& Self-Healing:} Automação de isolamento forçado e reconexão via \texttt{pg\_basebackup}.
+      \item \textbf{Validação Experimental:} Avaliar quantitativamente em ambiente virtualizado (MTTR e tempos de eleição).
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+% ==========================================
+% SLIDE 6: FUNDAMENTAÇÃO: ALTA DISPONIBILIDADE
+% ==========================================
+\begin{frame}{4. Fundamentação Teórica}{Métricas e Pilares de Alta Disponibilidade (HA)}
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Métricas de Disponibilidade}
+        \begin{itemize}
+          \item \textbf{MTBF:} Tempo médio entre falhas consecutivas.
+          \item \textbf{MTTF:} Tempo médio até falha (medida de \textit{uptime}).
+          \item \textbf{MTTR:} Tempo médio para reparar e restaurar o serviço.
+        \end{itemize}
+      \end{block}
+      \begin{exampleblock}{Regra dos ``Cinco Noves'' (99,999\%)}
+        \begin{itemize}
+          \item 99,0\% $\rightarrow$ 3,65 dias de indisponibilidade/ano.
+          \item \textbf{99,999\% $\rightarrow \le$ 5,26 minutos de downtime/ano!}
+        \end{itemize}
+      \end{exampleblock}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Pilares de HA (Rajesh \& Kumar, 2025)}
+        \begin{itemize}
+          \item \textbf{Tolerância a Falhas:} Continuidade operacional perante incidentes.
+          \item \textbf{Redundância:} Eliminação de pontos únicos de falha (SPOF).
+          \item \textbf{Failover Automático:} Transferência transparente de carga para réplicas.
+          \item \textbf{Replicação e Consistência:} Sincronização WAL física contínua.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ==========================================
+% SLIDE 7: FUNDAMENTAÇÃO: CONSENSO (RAFT vs. PAXOS)
+% ==========================================
+\begin{frame}{4. Fundamentação Teórica}{Consenso Distribuído: Paxos vs. Raft}
+  \begin{table}
+    \small
+    \centering
+    \begin{tabular}{p{2.6cm} p{5.0cm} p{5.0cm}}
+      \toprule
+      \textbf{Critério} & \textbf{Paxos (Lamport, 2001)} & \textbf{Raft (Ongaro \& Ousterhout, 2014)} \\
+      \midrule
+      \textbf{Abordagem} & Simétrica peer-to-peer (Proposer/Acceptor) & \textbf{Centrada no Líder} (fluxo unidirecional) \\
+      \textbf{Compreensibilidade} & Reconhecidamente complexo & \textbf{Decomposto em 3 subproblemas} \\
+      \textbf{Subproblemas} & Protocolo em 2 fases (Prepare/Accept) & \textbf{Eleição, Replicação de Log e Segurança} \\
+      \textbf{Tolerância} & Crash Fault Tolerant (CFT) & Crash Fault Tolerant (CFT) \\
+      \textbf{Aplicação no TCC} & Dificuldade de acoplamento customizado & \textbf{Motor próprio integrado ao ciclo do PostgreSQL} \\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+\end{frame}
+
+% ==========================================
+% SLIDE 8: COMUNICAÇÃO & PROTOCOLOS
+% ==========================================
+\begin{frame}{4. Fundamentação Teórica}{Comunicação em Duas Camadas \& Tecnologias}
+  \begin{columns}[t]
+    \begin{column}{0.32\textwidth}
+      \begin{block}{Camada SCADA}
+        \begin{itemize}
+          \item Protocolo \textbf{OPC-UA} para aquisição de variáveis e chão de fábrica.
+          \item Rico em metadados semânticos e criptografia.
+          \item Pacotes pesados para consenso de servidores.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \begin{block}{Camada HA (gRPC)}
+        \begin{itemize}
+          \item Protocolo \textbf{gRPC} rodando sobre HTTP/2 multiplexado.
+          \item Serialização binária via \textbf{Protocol Buffers}.
+          \item Latência mínima para \textit{heartbeats} ininterruptos.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \begin{block}{Persistência}
+        \begin{itemize}
+          \item Log persistente em \textbf{JSON Lines} (\texttt{.jsonl}) rápido e auditável.
+          \item Rotinas de \textbf{Snapshotting} para liberar disco e compactar histórico.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ==========================================
+% SLIDE 9: ARQUITETURA PROPOSTA
+% ==========================================
+\begin{frame}{5. Metodologia \& Arquitetura Proposta}{Estrutura Geral do \textit{raft-ha-manager}}
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Componentes do Agente Java 21}
+        \begin{itemize}
+          \item \textbf{RaftNode:} Máquina de estados (Follower, Candidate, Leader).
+          \item \textbf{PostgresHealthChecker:} Polling local via JDBC.
+          \item \textbf{FailoverExecutor:} Execução de \texttt{pg\_promote}, \textit{fencing} e \textit{self-healing}.
+          \item \textbf{gRPC Server/Client:} RPCs \textit{RequestVote} e \textit{AppendEntries}.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{PostgreSQL 16 \& Replicação}
+        \begin{itemize}
+          \item Replicação física via \textit{Streaming Replication} (WAL).
+          \item \textbf{Líder Raft $\leftrightarrow$ PostgreSQL PRIMARY} (recebe leituras e escritas).
+          \item \textbf{Seguidores Raft $\leftrightarrow$ PostgreSQL STANDBY} (somente leitura).
+          \item Acoplamento síncrono entre estado do nó e integridade local.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ==========================================
+% SLIDE 10: TOPOLOGIA & NÓ ÁRBITRO
+% ==========================================
+\begin{frame}{5. Metodologia \& Arquitetura Proposta}{Topologia Industrial \& O Papel do Nó Árbitro}
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Desafio de 2 Sites (4 Nós Físicos)}
+        \begin{itemize}
+          \item Site A: 2 nós de dados | Site B: 2 nós de dados.
+          \item Em partição 2x2, nenhum lado alcança maioria absoluta ($\ge 3$). O cluster travaria.
+        \end{itemize}
+      \end{alertblock}
+      \begin{exampleblock}{Solução: Nó Árbitro}
+        \begin{itemize}
+          \item Nó leve sem PostgreSQL, participa apenas da votação Raft.
+          \item Garante quórum ímpar estrito ($\ge 3$ de 5 participantes).
+        \end{itemize}
+      \end{exampleblock}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Topologia de Simulação (3 Nós)}
+        \begin{itemize}
+          \item \textbf{Node-1 (Dados):} PostgreSQL 16 + \textit{raft-ha-manager}
+          \item \textbf{Node-2 (Dados):} PostgreSQL 16 + \textit{raft-ha-manager}
+          \item \textbf{Node-3 (Árbitro):} Apenas \textit{raft-ha-manager}
+          \item Valida com fidelidade o quórum ímpar estrito ($\ge 2$ de 3).
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ==========================================
+% SLIDE 11: MECANISMOS DE DETECÇÃO
+% ==========================================
+\begin{frame}{5. Metodologia \& Arquitetura Proposta}{Dupla Camada de Detecção de Falhas}
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{1. Monitoramento Local (JDBC)}
+        \begin{itemize}
+          \item Classe \textbf{PostgresHealthChecker}.
+          \item Consulta \texttt{SELECT pg\_is\_in\_recovery()} a cada \textbf{3 segundos}.
+          \item \textbf{Filtro Anti-Falso Positivo:} Exige 2 falhas consecutivas ($3 + 3 = 6$ segundos) antes de classificar como \textit{UNHEALTHY}.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{2. Monitoramento de Rede / Cluster (gRPC)}
+        \begin{itemize}
+          \item \textbf{Heartbeats:} Líder envia a cada \textbf{5 segundos}.
+          \item \textbf{Election Timeout:} Temporizador randomizado entre \textbf{15 e 30 segundos}.
+          \item Ausência de heartbeat $\rightarrow$ expiração do timer $\rightarrow$ transição para CANDIDATE $\rightarrow$ nova eleição.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ==========================================
+% SLIDE 12: DINÂMICA DE FAILOVER: CRASH DO BANCO
+% ==========================================
+\begin{frame}{6. Dinâmica de Failover}{Falha no Banco Local: Step-Down Voluntário}
+  \begin{columns}[t]
+    \begin{column}{0.32\textwidth}
+      \begin{block}{1. Step-Down Voluntário}
+        \begin{itemize}
+          \item Líder detecta PostgreSQL local \textit{UNHEALTHY}.
+          \item Executa \texttt{becomeFollower()} imediatamente.
+          \item Cessa o envio de heartbeats para a rede.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \begin{block}{2. Eleição Rápida}
+        \begin{itemize}
+          \item Timeouts expiram nos nós seguidores saudáveis.
+          \item Nó seguidor vira CANDIDATE, incrementa \textit{term} e envia \textit{RequestVote}.
+          \item Atinge maioria do quórum ($\ge 2$).
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \begin{exampleblock}{3. Promoção Local}
+        \begin{itemize}
+          \item Vencedor executa \texttt{becomeLeader()}.
+          \item Invoca \texttt{pg\_promote} no PostgreSQL.
+          \item STANDBY $\rightarrow$ PRIMARY em $\sim 2$s.
+          \item Escritas SCADA restauradas!
+        \end{itemize}
+      \end{exampleblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ==========================================
+% SLIDE 13: PREVENÇÃO DE SPLIT-BRAIN
+% ==========================================
+\begin{frame}{6. Dinâmica de Failover}{Prevenção de Split-Brain: Fencing \& Self-Healing}
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Fencing (Isolamento Forçado)}
+        \begin{itemize}
+          \item Problema: Líder isolado (\textit{delusional leader}) se reconecta após nova eleição.
+          \item \textbf{Gatilho:} Estado Raft = \textit{FOLLOWER}, mas PostgreSQL = \textit{PRIMARY}.
+          \item \textbf{Ação:} Executa forçadamente \texttt{sudo systemctl stop postgresql}.
+          \item Garante o princípio \textit{Fail-Safe}: estanca qualquer escrita indevida.
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{exampleblock}{Self-Healing (Auto-Recuperação)}
+        \begin{itemize}
+          \item Após a parada forçada, descarta o diretório de dados defasado/corrompido.
+          \item Executa \texttt{pg\_basebackup} clonando a base integral do líder legítimo.
+          \item Reinicia o serviço como réplica \textit{STANDBY} sincronizada.
+          \item Reintegração 100\% automatizada sem operador humano.
+        \end{itemize}
+      \end{exampleblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ==========================================
+% SLIDE 14: AMBIENTE DE SIMULAÇÃO
+% ==========================================
+\begin{frame}{7. Metodologia \& Ambiente de Testes}{Ambiente Virtualizado \& Scripts de Automação}
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Infraestrutura Virtualizada}
+        \begin{itemize}
+          \item 3 VMs Ubuntu Linux no VirtualBox (\textit{Host-Only Network}).
+          \item Provisionamento automático via PowerShell (\texttt{vm-create.ps1}).
+          \item PostgreSQL 16 + Java Virtual Machine 21 (OpenJDK).
+        \end{itemize}
+      \end{block}
+      \begin{block}{Pipeline de Deploy}
+        \begin{itemize}
+          \item \texttt{01-base.sh:} Rede, firewall, Java e usuário.
+          \item \texttt{02-postgres-primary.sh:} Configuração primário/WAL.
+          \item \texttt{03-postgres-standby.sh:} Clone e replicação.
+          \item \texttt{04-deploy-raft.sh:} Instalação do agente como serviço \textit{systemd}.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Ajuste Conservador dos Temporizadores}
+        \begin{itemize}
+          \item \textbf{Raft Teórico:} Heartbeats de 10--50 ms, Timeouts de 150--300 ms.
+          \item \textbf{Ajuste na Simulação:} Heartbeats de 5 s, Timeouts de 15--30 s.
+          \item \textbf{Justificativa:} Evitar falsos disparos provocados por pausas de \textit{Garbage Collection} da JVM e contenção de CPU compartilhada nas VMs do mesmo hospedeiro.
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ==========================================
+% SLIDE 15: RESULTADOS - CENÁRIO 1
+% ==========================================
+\begin{frame}{8. Resultados Experimentais}{Cenário 1: Falha no Banco de Dados (Crash no Líder)}
+  \begin{table}
+    \centering
+    \small
+    \begin{tabular}{ccccc}
+      \toprule
+      \textbf{Rodada} & \textbf{Tempo de Detecção} & \textbf{Tempo de Eleição} & \textbf{MTTR Total} & \textbf{Recuperação} \\
+      \midrule
+      1 & 6,0 s & 16,0 s & 24,0 s & $\sim$ 8,0 s \\
+      2 & 6,0 s & 21,0 s & 29,0 s & $\sim$ 8,0 s \\
+      3 & 6,0 s & 16,0 s & 24,0 s & $\sim$ 8,0 s \\
+      \midrule
+      \textbf{Média} & \textbf{6,0 s} & \textbf{17,6 s} & \textbf{25,6 s} & \textbf{$\sim$ 8,0 s} \\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+  \vspace{-0.5em}
+  \begin{block}{Equação e Análise do MTTR}
+    \[ \text{MTTR} = T_{\text{detecção}} (6\text{s}) + T_{\text{eleição}} (17,6\text{s}) + T_{\text{promoção}} (\sim 2\text{s}) = \mathbf{25,6\text{ s}} \]
+    \begin{itemize}
+      \item Detecção determinística e imune a ruídos transitórios de rede.
+      \item A recuperação em background ($\sim 8$s) restabelece a réplica sem prolongar a indisponibilidade.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% ==========================================
+% SLIDE 16: RESULTADOS - CENÁRIO 2
+% ==========================================
+\begin{frame}{8. Resultados Experimentais}{Cenário 2: Particionamento de Rede (Split-Brain)}
+  \begin{table}
+    \centering
+    \small
+    \begin{tabular}{cccc}
+      \toprule
+      \textbf{Rodada} & \textbf{Tempo de Eleição} & \textbf{MTTR Total} & \textbf{Self-Healing (Reconexão)} \\
+      \midrule
+      1 & $\sim$ 20,0 s & $\sim$ 22,0 s & 8,0 s \\
+      2 & $\sim$ 20,0 s & $\sim$ 22,0 s & 8,0 s \\
+      3 & $\sim$ 15,0 s & $\sim$ 17,0 s & 8,0 s \\
+      \midrule
+      \textbf{Média} & \textbf{$\sim$ 18,3 s} & \textbf{$\sim$ 20,3 s} & \textbf{8,0 s} \\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+  \vspace{-0.5em}
+  \begin{exampleblock}{Destaques da Mitigação de Split-Brain}
+    \begin{itemize}
+      \item Partição majoritária assumiu o serviço em média após \textbf{20,3 segundos}.
+      \item \textbf{Self-Healing determinístico em 8,0 s:} Fencing paralisou o antigo líder na reconexão e clonou a base do novo líder com integridade absoluta de dados.
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+% ==========================================
+% SLIDE 17: LIMITAÇÕES DA ARQUITETURA
+% ==========================================
+\begin{frame}{9. Limitações \& Análise Crítica}{Limitações Identificadas no Protótipo}
+  \begin{columns}[t]
+    \begin{column}{0.32\textwidth}
+      \begin{alertblock}{Modelo CFT}
+        \begin{itemize}
+          \item Tolera quedas e partições, mas não falhas bizantinas.
+          \item Pressupõe que os nós não enviam mensagens forjadas ou dados maliciosos.
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \begin{alertblock}{Reconexão sem Pre-Vote}
+        \begin{itemize}
+          \item Nó isolado eleva seu mandato (\textit{term}) no escuro.
+          \item Na reconexão, provoca renúncia momentânea do líder legítimo (instabilidade transiente).
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \begin{block}{Persistência em Disco}
+        \begin{itemize}
+          \item Log em \texttt{.jsonl} sujeito a \textit{page cache} do SO.
+          \item Necessidade de chamadas explícitas de \texttt{fsync} para durabilidade contra corte total de energia.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ==========================================
+% SLIDE 18: TRABALHOS FUTUROS
+% ==========================================
+\begin{frame}{10. Trabalhos Futuros}{Direções para Evolução da Ferramenta}
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{1. Mecanismo de Pre-Vote}
+        \begin{itemize}
+          \item Validar quórum preliminar antes de incrementar mandato.
+          \item Elimina oscilação espúria na reconexão de nós.
+        \end{itemize}
+      \end{block}
+      \begin{block}{2. Tolerância Bizantina \& Segurança}
+        \begin{itemize}
+          \item Implementação de assinaturas criptográficas em RPCs.
+          \item Avaliação de variações PBFT contra ciberataques industriais.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{3. Chamadas Nativas de \texttt{fsync}}
+        \begin{itemize}
+          \item Forçar escrita síncrona dos registros do Raft no disco físico.
+        \end{itemize}
+      \end{block}
+      \begin{block}{4. Replicação Integrada de WAL}
+        \begin{itemize}
+          \item Transportar arquivos WAL diretamente pelo canal gRPC do Raft, unificando consenso e replicação de dados.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ==========================================
+% SLIDE 19: CONCLUSÕES
+% ==========================================
+\begin{frame}{11. Conclusões}{Contribuições e Impacto do Projeto}
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Objetivos Concluídos}
+        \begin{itemize}
+          \item Sucesso no desenvolvimento do \textit{raft-ha-manager} nativo em Java 21.
+          \item Acoplamento direto entre saúde do banco e máquina de estados Raft.
+          \item Eliminação definitiva do perigo de \textit{Split-Brain} via \textit{Fencing} e \textit{Self-Healing}.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{exampleblock}{Impacto Operacional}
+        \begin{itemize}
+          \item \textbf{Redução drástica do MTTR:} De horas/dezenas de minutos para \textbf{$\sim 25$ segundos} na simulação.
+          \item Em hardware dedicado com intervalos de milissegundos, o MTTR será reduzido para \textbf{frações de segundo}.
+          \item Autonomia total com confiabilidade matemática e tolerância a falhas.
+        \end{itemize}
+      \end{exampleblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ==========================================
+% SLIDE 20: REFERÊNCIAS (PARTE 1)
+% ==========================================
+\begin{frame}{Referências Bibliográficas (1 / 2)}
+  \scriptsize
+  \begin{itemize}
+    \item ALANAZI, M.; MAHMOOD, A.; CHOWDHURY, M. J. M. SCADA vulnerabilities and attacks: A review of the state-of-the-art and open issues. \textbf{Computers and Security}, v. 125, p. 103028, 2023.
+    \item BHARDWAJ, R.; DATTA, D. Consensus Algorithm. In: \textbf{Springer International Publishing}, 2020. ISBN 978-3-030-38677-1.
+    \item GRAY, J.; SIEWIOREK, D. P. High-availability computer systems. \textbf{Computer}, v. 24, n. 9, p. 39--48, 1991.
+    \item KLEPPMANN, M. \textbf{Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems}. O'Reilly Media, Inc., 2017.
+    \item LAMPORT, L. Paxos made simple. \textbf{ACM SIGACT News (Distributed Computing Column)}, v. 32, n. 4, p. 51--58, 2001.
+    \item LAMPORT, L.; SHOSTAK, R.; PEASE, M. The Byzantine Generals Problem. \textbf{ACM Transactions on Programming Languages and Systems}, v. 4, n. 3, p. 382--401, 1982.
+    \item ONGARO, D.; OUSTERHOUT, J. \textbf{In Search of an Understandable Consensus Algorithm (Extended Version)}. USENIX Association, 2014.
+  \end{itemize}
+\end{frame}
+
+% ==========================================
+% SLIDE 21: REFERÊNCIAS (PARTE 2)
+% ==========================================
+\begin{frame}{Referências Bibliográficas (2 / 2)}
+  \scriptsize
+  \begin{itemize}
+    \item CASTRO, M.; LISKOV, B. Practical Byzantine Fault Tolerance. In: \textbf{Proceedings of the Symposium on Operating System Design and Implementation}, 1999.
+    \item DAS, A.; GUPTA, I.; MOTIVALA, A. SWIM: Scalable Weakly-consistent Infection-style Process Group Membership Protocol. In: \textbf{DSN '02, IEEE Computer Society}, p. 303--312, 2002.
+    \item DRAHOŠ, P. et al. Trends in industrial communication and OPC UA. In: \textbf{2018 Cybernetics \& Informatics (K\&I)}, p. 1--5, 2018.
+    \item HAYASHIBARA, N. et al. The $\varphi$ Accrual Failure Detector. In: \textbf{23rd IEEE International Symposium on Reliable Distributed Systems}, p. 66--78, 2004.
+    \item INDRASIRI, K.; KURUPPU, D. \textbf{gRPC: Up and Running: Building Cloud Native Applications with Go and Java for Docker and Kubernetes}. O'Reilly Media, 2020.
+    \item RAJESH, S. C.; KUMAR, D. R. High availability strategies in distributed systems: A practical guide. \textbf{ResearchGate}, 2025.
+    \item TOEROE, M.; TAM, F. \textbf{Service Availability: Principles and Practice}. John Wiley \& Sons, 2012.
+    \item YADAV, G.; PAUL, K. Architecture and security of SCADA systems: A review. \textbf{International Journal of Critical Infrastructure Protection}, v. 34, 2021.
+  \end{itemize}
+\end{frame}
+
+% ==========================================
+% SLIDE 22: ENCERRAMENTO
+% ==========================================
+\begin{frame}[plain]
+  \begin{center}
+    \vspace{2.5em}
+    {\Huge \textbf{\textcolor{UnioesteBlue}{Obrigado pela Atenção!}}}\\[1.5em]
+    {\large \textbf{Desenvolvimento de uma Solução de Alta Disponibilidade: Uma Abordagem Prática}}\\[1.5em]
+    \textbf{Acadêmico:} Guilherme Kenzo Takano Miller\\[0.5ex]
+    \textbf{Orientadora:} Ma. Teresinha Arnauts Hachisuca \quad|\quad \textbf{Coorientador:} Me. Filipe Ventura Muggiati\\[1.5em]
+    \small \textcolor{UnioesteNavy}{UNIVERSIDADE ESTADUAL DO OESTE DO PARANÁ -- UNIOESTE}\\
+    \small Bacharelado em Ciência da Computação -- Foz do Iguaçu, 2026\\[1.8em]
+    \large \textcolor{SuccessGreen}{\textbf{Aberto para arguição e comentários da banca examinadora.}}
+  \end{center}
+  \vspace{1.5em}
+  \begin{flushright}
+    \scriptsize \textcolor{TextMuted}{Página 22 de \inserttotalframenumber}
+  \end{flushright}
+\end{frame}
+
+\end{document}

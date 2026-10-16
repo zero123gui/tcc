@@ -1,0 +1,43 @@
+\chapter{Introdução}
+\label{cap:introducao}
+
+Sistemas de supervisão, controle e aquisição de dados, conhecidos na literatura técnica pela sigla \textit{Supervisory Control and Data Acquisition} (\verb|SCADA|)\nomenclature{SCADA}{Supervisory Control and Data Acquisition}, constituem a infraestrutura central para o monitoramento de processos industriais críticos, como redes de distribuição de energia, saneamento e manufatura automatizada \cite{yadav2021}. A operação contínua dessas plataformas exige a retenção estável de variáveis históricas, alarmes e estados operacionais, tarefas delegadas a sistemas de gerenciamento de bancos de dados relacionais, onde o PostgreSQL se destaca pela robustez e integridade transacional. Conforme apontado por \citeonline{kleppmann2017designing}, falhas em nós que sustentam esses repositórios impactam diretamente a continuidade do negócio, exigindo mecanismos rigorosos de tolerância a falhas para assegurar índices elevados de disponibilidade de serviço.
+
+A resiliência em sistemas distribuídos modernos é frequentemente obtida por meio da replicação de estado e do emprego de algoritmos de consenso estruturados \cite{sa2011mecanismos}. O protocolo Raft, proposto por \citeonline{raft2014}, fundamenta-se na eleição de um nó líder encarregado de centralizar as escritas e coordenar a replicação dos registros para os nós seguidores, garantindo que o agrupamento opere de forma coerente mesmo sob condições de perda parcial de conectividade.
+
+\section{Delimitação do Problema}
+
+Apesar da robustez teórica dos algoritmos de consenso baseados em liderança única, soluções convencionais de tratamento de falhas automáticas enfrentam limitações severas devido ao isolamento entre a camada de rede e a saúde real da aplicação subjacente. Em cenários práticos de falha, o processo do banco de dados PostgreSQL local pode sofrer uma interrupção abrupta ou uma falha física de leitura em disco, enquanto a pilha de comunicação do agente gerenciador permanece intacta.
+
+Nessa situação, o nó afetado continua a disparar pulsos de rede periódicos, as mensagens de batimento cardíaco do protocolo, para os demais integrantes do cluster. Como o algoritmo clássico do Raft assume que a liderança é mantida enquanto houver quórum de comunicação gRPC, o líder retém indevidamente o seu papel operacional, inviabilizando o processamento de novas escritas pela aplicação supervisora e paralisando a coleta de dados do SCADA.
+
+Ademais, falhas na detecção precisa desses estados de degradação elevam o risco de ocorrência do fenômeno \textit{split-brain}, cenário crítico em que múltiplos nós assumem a identidade de principal de forma simultânea e passam a aceitar comandos divergentes, corrompendo a consistência soberana do histórico industrial. Mitigar esses riscos exige a introdução de rotinas automáticas de isolamento de nós defeituosos, técnica conhecida como \textit{fencing}, combinada a um monitoramento de saúde indissociável da máquina de estados distribuída.
+
+\section{Justificativa e Motivação}
+
+A decisão de projetar e implementar um agente orquestrador customizado, denominado \textit{raft-ha-manager}, desenvolvido nativamente na linguagem Java, justifica-se pela necessidade de estabelecer um acoplamento fino e direto entre o núcleo do motor de consenso e o ciclo de vida do PostgreSQL. Ferramentas comerciais fechadas ou pacotes genéricos tratam o banco de dados como uma caixa externa, dependendo de \textit{scripts} terceirizados e rotinas de sondagem superficiais que inserem latência e imprecisão ao diagnóstico de crises.
+
+O desenvolvimento da solução a partir de seus fundamentos teóricos possibilita que os eventos reportados pelo monitor de integridade local disparem, de forma imediata e síncrona, ações críticas na máquina de estados distribuída. Esse nível de controle permite que um nó líder, ao identificar a degradação irrecuperável de seu banco de dados, abdique voluntariamente da liderança e bloqueie candidaturas subsequentes, acelerando a eleição para um seguidor saudável e automatizando a posterior sincronização de dados via cópia de segurança física, sem a exigência de supervisão humana constante.
+
+\section{Objetivos do Trabalho}
+
+Este trabalho de conclusão de curso delimita os seus propósitos operacionais por meio das metas estruturadas a seguir.
+
+\subsection{Objetivo Geral}
+
+Desenvolver e validar uma arquitetura autônoma de gerenciamento de \textit{failover} para o banco de dados PostgreSQL em ambientes supervisores SCADA, utilizando o algoritmo de consenso Raft para garantir a consistência e a alta disponibilidade dos dados industriais.
+
+\subsection{Objetivos Específicos}
+
+Para a consecução do objetivo geral, estabelecem-se as seguintes metas específicas:
+
+\begin{itemize}
+    \item Construir de forma nativa o motor do algoritmo Raft na linguagem Java, utilizando chamadas gRPC para a comunicação de baixo nível entre os nós do agrupamento.
+    \item Desenvolver um monitor de saúde integrado que avalie continuamente a integridade do serviço PostgreSQL local, provido de filtros de tolerância contra falsos positivos decorrentes de oscilações de carga momentâneas.
+    \item Implementar rotinas automatizadas de isolamento físico e auto-recuperação de dados com o uso do utilitário \textit{pg\_basebackup}, reestabelecendo a integridade do nó recuperado como servidor reserva.
+    \item Avaliar de forma empírica o desempenho da arquitetura por meio de testes de injeção de falhas em ambiente virtualizado, quantificando estatisticamente os tempos de eleição e o tempo médio de recuperação do sistema.
+\end{itemize}
+
+\section{Organização da Monografia}
+
+Este documento técnico encontra-se estruturado em cinco capítulos. O Capítulo~\ref{revisao} detalha a revisão bibliográfica, abordando os conceitos de sistemas SCADA, alta disponibilidade, teoria de consenso distribuído e as características de replicação do PostgreSQL. O Capítulo~\ref{arquitetura} descreve a especificação da arquitetura projetada, apresentando os componentes de \textit{software}, o \textit{PostgresHealthChecker} e as regras de transição de estado. O Capítulo~\ref{cap:resultados} expõe a metodologia de validação empírica, detalhando o ambiente de simulação virtualizado e os resultados cronometrados para cada cenário de injeção de falhas. Por fim, o Capítulo~\ref{cap:conclusao} apresenta as conclusões obtidas na pesquisa e elenca propostas de trabalhos futuros para a evolução contínua da ferramenta desenvolvida.

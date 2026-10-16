@@ -1,0 +1,207 @@
+\chapter {Exemplos selecionados} 
+\label{cap:exemplos}
+
+
+\section {Considerações Iniciais} 
+
+Nesse capítulo são apresentados alguns exemplos de comandos em \LaTeX\ que objetivam facilitar o processo de escrita da monografia.
+
+\section {Uso das "Aspas"/ ``Aspas''}
+
+    Para que as aspas fiquem certas no \LaTeX\ precisa-se abri-las com duas crases seguidas. Pode-se ver no título dessa seção o uso incorreto contrastando com o correto.
+    
+\section{Figuras}
+
+Para centralizar a inclusão de figuras, foram criados dois comandos em \LaTeX\ que já incoporam o padrão brasileiro de inclusão de imagens: \verb'\conteudoFigura'  e 
+\verb'\duasFiguras'.
+
+Os formatos de figuras testados para esse comando foram \verb'.png' ou \verb'.pdf'.
+
+Na Figura \ref{fig:unioeste1} é exibido um exemplo de inclusão simples de figura.
+
+\begin{figure}[h!]
+    \conteudoFigura
+    [\citeonline{Unioeste2017}]         % Fonte   
+    {0.4}                               % scale: 0.01 - 1
+    {topo_unioeste.png}                 % filename. A figura deve estar na pasta Imagens
+    {Exemplo de inclusão de figura}     % Texto
+    {fig:unioeste1}                      % identificador da figura
+\end{figure}
+   
+Os exemplo exibido através da \ref{fig:unioeste2} ilustra como dispor figuras lado a lado caso o autor das imagens seja o mesmo.
+
+\begin{figure}[htb!]
+    \duasFiguras
+        [\citeonline{Unioeste2017}] % Fonte, opcional
+        {Exemplos de figuras lado a lado. a) corresponde a um exemplo de inclusão de figura a esquerda e b) um exemplo a direita. } % caption           
+        {fig:unioeste2}       % label
+        % Dados da primeira Figura
+        {0.5}                 % scale figura 1
+        {topo_unioeste.png}   % filename da figura 1
+        {a) Figura esquerda}  % Texto da figura 1
+        % Dados da segunda Figura
+        {0.5}                 % scale figura 2
+        {topo_unioeste.png}   % filename figura 2
+        {b) Figura direita}  % Texto figura 2
+\end{figure}
+
+Os exemplos exibidos através das Figuras \ref{fig:unioeste3} e \ref{fig:unioeste4} ilustram como dispor figuras lado a lado. Esse exemplo pode ser utilizado quando as fontes das figuras correspondem a autores diferentes.
+
+\begin{figure}[h!]
+    \begin{minipage}[b]{0.50\linewidth}
+    \conteudoFigura 
+        [\citeonline{Unioeste2017}]         % Fonte     
+        {0.5}                               % scale: 0.01 - 1
+        {topo_unioeste.png}                 % filename. A figura deve estar na pasta Imagens
+        {Exemplo figura esquerda}           % Texto
+        {fig:unioeste3}                     % identificador da figura
+    \end{minipage} \hfill
+    \begin{minipage}[b]{0.48\linewidth}    
+    \conteudoFigura
+        [\citeonline{Unioeste2017}]         % Fonte      
+        {0.5}                               % scale: 0.01 - 1
+        {topo_unioeste.png}                 % filename. A figura deve estar na pasta Imagens
+        {Exemplo figura direita}           % Texto   
+        {fig:unioeste4}                     % identificador da figura
+    \end{minipage}
+\end{figure}
+
+É possível organizar as imagens de outras formas, rotacioná-las, elaborá-las a partir do próprio \LaTeX, tudo depende da necessidade de cada um.
+
+
+\section{Tabelas}
+
+A \autoref{tab:exemplo} é um exemplo de tabela construída em \LaTeX.
+
+\begin{table}[htb]
+\ABNTEXfontereduzida
+\centering
+
+\caption[Exemplo de tabela 1]{Exemplo de Tabela 1}
+\label{tab:exemplo}
+
+\begin{tabular}{r|p{6.0cm}|c|p{3.40cm}}
+  %\hline
+   \textbf{Coluna 1} & \textbf{Coluna 2}  & \textbf{Coluna 3}  & \textbf{Coluna ....}  \\  \hline \hline
+    Texto 1 1 & Texto 1 2 & Texto 1 3 & Texto 1 4  \\     \hline
+    Texto 2 1 & Texto 2 2 & Texto 2 3 & Texto 2 4 \\     \hline
+    Texto 3 1 & Texto 3 2 & Texto 3 3  & Texto 3 4   \\   
+    % \hline
+\end{tabular}
+%\legend{Fonte: \citeonline{identificador}}
+\legend{Fonte: Autor}
+\end{table}
+
+\section{Equações}
+
+
+Nessa seção são dispostos alguns exemplos de equações. Elas servem somente como base. 
+Caso seja necessária a inclusão de equações mais complexas na monografia, deverá ser utilizar outro material como base.
+
+\subsection{Equações simples}
+
+Quando deseja-se incluir um exemplo de equação na mesma linha pode utilizar os comandos \verb'\(equação\)'. Por exemplo o teorema de Pitágoras \(a^2 + b^2 = c^2\). Caso deseje-se que a mesma seja exibida na linha seguinte deve-se mudar os parênteses por chaves \verb'\[equação\]':  \[ a^n + b^n = c^n \]
+
+Outra forma simples de apresentar uma equação é através do uso do dólar para iniciar e fechar o modo de edição de equação: \verb'$E=mc^2$', resultando em  $E=mc^2$.
+
+Nesse tipo de exemplo não é gerada referência para a equação.
+
+\subsection{Equações mais robustas}
+% Example 1
+Por exemplo a Equação \ref{eq:Einstein}, que é a fórmula de Einstein:
+
+\begin{equation}
+e = m \cdot c^2 \; ,
+\label{eq:Einstein}
+\end{equation}
+
+que é ao mesmo tempo a mais conhecida e a menos compreendida fórmula física. 
+
+% Example 2
+De onde segue a lei actual de Kirchhoff:
+
+\begin{equation}
+\sum_{k=1}^{n} I_k = 0 \; .
+\end{equation}
+
+\section{Matrizes}
+
+Estão listados aqui três exemplo sismples de criação de matriz. 
+
+$$
+A=\left[\begin{array}{rrr}
+ 1 & 3 &  0\\
+ 2 & 4 & -2
+ \end{array}
+ \right],\quad
+ B =\left[\begin{array}{ccc}
+ 1 & 3 & -2
+\end{array}\right],
+\quad \mbox{e}\quad
+C=\left[\begin{array}{r}
+1\\4\\-3
+\end{array}\right]
+$$
+
+
+% ---
+\section{Notas de rodapé}
+% ---
+
+As notas de rodapé são anotações extras vinculadas a um determinado texto. A nota de rodapé pode ser inserida após a palavra ou frase a qual se refere através do comando: \verb'\footnote'\{texto\}.  
+
+Exemplo: Nota de radapé\footnote{nota de rodapé}.
+
+
+\section{Nomenclaturas / Siglas}
+
+Ao usar pela primeira vez uma sigla não se deve esquecer de fornecer sua descrição e criar a entrada na lista de siglas. Um exemplo da sigla \verb'TCC' pode ser observado no 
+\hyperref[exemplo:nomenclatura]{Capítulo Introdução},  página \pageref{exemplo:nomenclatura} deste documento.
+
+Não há problemas em repetir as siglas, o próprio \LaTeX\ de encarrega de remover a duplicidade. O \LaTeX\ também as organiza de forma ordenada.
+
+Exemplos de fórmulas e texto em itálico: Área do $i^{th}$ elemento ($A_i$)\nomenclature{$A_i$}{Área do $i^{th}$ elemento}; \textit{Artificial Neural Network} (\verb'ANN') \nomenclature{ANN}{\textit{Artificial Neural Network}}.
+
+
+\section{Referências Cruzadas}
+\label{sec:exemplo}
+
+Pode-se usar o comando \verb'\label'\{identificador\} para  marcar diferentes locais no texto, tais como capítulos, seções, figuras, tabelas, equações... Para referenciar um local identificado deve-se usar o comandos \verb'\ref' \{identificador\} ou \verb'\pageref' \{identificador\}. No inicio dessa seção foi criado uma referência a mesma e a seguir um exemplo do uso dos dois comandos para usar a referência.
+
+Pode-se ver um exemplo de referência na Seção \ref{sec:exemplo} da página \pageref{sec:exemplo}.
+
+É possível também criar um \textit{link} para a página referenciada através do comando 
+\verb'\hyperref'. A sintaxe é: \verb'\hyperref'[identificador]\{texto\}. 
+
+Se o identificador já foi definido então será criado um \textit{link} para o mesmo, caso contrário será apresentado somente o texto. 
+
+Exemplo de link: \hyperref[cap:introducao]{Link para o capítulo Introdução}. 
+
+\section {Referências Bibliográficas} 
+
+Ha diferenças em se realizar citações simples no final da frase, múltiplas citações ou citação no meio da frase/parágrafo. 
+
+Abaixo estão relacionados alguns exemplos das formas mais utilizadas:
+\begin{itemize}
+    \item Citação simples no final da frase: coloque o texto, não pode ser a cópia exata, mas sim a idéia que representa o texto. O \textit{Waikato Environment for Knowledge Analysis} (\verb'WEKA') 
+    \nomenclature{WEKA}{\textit{Waikato Environment for Knowledge Analysis}} é uma ferramenta de código aberto que pode ser incorporado nas mais diversas aplicações \cite{Weka2014};
+    
+    \item Citação literal: ``O \verb'WEKA' é uma ferramenta de código aberto que pode ser incorporado nas mais diversas aplicações"~\cite{Weka2014}. Há outras formas de se fazer citação literal, converse com seu orientador caso opte por outro formato;
+    
+    \item Citações múltiplas: basta acrescentar vírgula entre as citações dentro do comando \textit{cite}. Exemplo: \cite{Weka2014,Scipy2013};
+    
+    \item Usar o nome do autor como terceira pessoa: Conforme \citeonline{Scipy2013}, \textit{open source} é ...
+    
+\end{itemize}
+
+
+No arquivo \verb'Geral/bibliografia.bib' há diversos tipos de referências, exemplificados conforme o tipo de documento referenciado.
+
+
+
+
+\section {Considerações Finais}
+
+Esse Capítulo teve por objetivo apresentar uma miscelânea de comandos \LaTeX\ mais utilizados na elaboração da monografia de \verb'TCC' do curso de Ciência da Computação da Unioeste, Campos de Foz do Iguaçu. 
+
+Espera-se que o mesmo tenha contribuído positivamente para o desenvolvimento de sua monografia.
