@@ -13,6 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.LongSupplier;
 
 /**
  * Executa o failover do PostgreSQL quando o nó Raft vence uma eleição e
@@ -31,10 +33,32 @@ public class FailoverExecutor {
 
     private static final Logger log = LoggerFactory.getLogger(FailoverExecutor.class);
 
+    /**
+     * Intervalo mínimo entre duas recuperações. O health check do PostgreSQL só
+     * atualiza a cada poucos segundos, então logo após uma recuperação o status
+     * ainda pode indicar PRIMARY e disparar o self-healing de novo, apagando o
+     * standby recém-clonado.
+     */
+    static final long DEFAULT_RECOVERY_COOLDOWN_MS = 30_000;
+
     private final PostgresConfig config;
+    private final long recoveryCooldownMs;
+    private final LongSupplier clock;
+
+    /** true enquanto uma recuperação (fencing + clone) está em execução neste nó. */
+    private final AtomicBoolean recoveryInProgress = new AtomicBoolean(false);
+
+    /** Instante (clock) em que a última recuperação terminou; 0 = nunca. */
+    private volatile long lastRecoveryFinishedAt = 0;
 
     public FailoverExecutor(PostgresConfig config) {
+        this(config, DEFAULT_RECOVERY_COOLDOWN_MS, System::currentTimeMillis);
+    }
+
+    FailoverExecutor(PostgresConfig config, long recoveryCooldownMs, LongSupplier clock) {
         this.config = config;
+        this.recoveryCooldownMs = recoveryCooldownMs;
+        this.clock = clock;
     }
 
     /**
@@ -126,8 +150,35 @@ public class FailoverExecutor {
      * <p>Acionado quando o nó local detecta um cenário de Split-Brain (ex: é FOLLOWER
      * no Raft, mas o banco de dados é PRIMARY). Ele usa comandos do SO (via sudoers)
      * para parar o PostgreSQL imediatamente e executar um script de recuperação.
+     *
+     * <p>É seguro chamá-lo várias vezes: o {@code RaftNode} verifica o split-brain a
+     * cada heartbeat e a cada mudança de status do PostgreSQL, então a mesma situação
+     * dispara chamadas repetidas enquanto o banco ainda reporta PRIMARY. Só uma
+     * recuperação roda por vez, e novas chamadas dentro do período de espera após uma
+     * recuperação são ignoradas. Sem isso, execuções concorrentes apagavam o diretório
+     * de dados umas das outras no meio do {@code pg_basebackup}.
      */
     public void fenceAndRecover(String leaderIp) {
+        if (!recoveryInProgress.compareAndSet(false, true)) {
+            log.info("Self-Healing já está em andamento neste nó. Chamada ignorada.");
+            return;
+        }
+        try {
+            long finishedAt = lastRecoveryFinishedAt;
+            if (finishedAt != 0 && clock.getAsLong() - finishedAt < recoveryCooldownMs) {
+                log.info("Self-Healing concluído há menos de {} s. O status do PostgreSQL pode "
+                    + "estar desatualizado; chamada ignorada.", recoveryCooldownMs / 1000);
+                return;
+            }
+            runFenceAndRecover(leaderIp);
+            lastRecoveryFinishedAt = clock.getAsLong();
+        } finally {
+            recoveryInProgress.set(false);
+        }
+    }
+
+    /** Fencing + clone do líder. Separado de {@link #fenceAndRecover} para poder ser testado. */
+    void runFenceAndRecover(String leaderIp) {
         log.error("=======================================================================");
         log.error(" SPLIT-BRAIN DETECTADO! Banco de dados local reportando como PRIMARY,");
         log.error(" mas este nó é FOLLOWER. Iniciando Fencing e Auto-Healing...");
