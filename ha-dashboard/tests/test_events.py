@@ -25,7 +25,7 @@ from ha_dashboard.events import classify, level_of
     ("[INFO] [Auto-Healing]   Auto-Healing concluído com sucesso!", "HEALED", None),
     ("[ERROR] Auto-Healing falhou com código de saída 1", "HEAL_FAILED", None),
     ("[INFO] Nó node-3 pronto. Aguardando eventos do cluster.", "STARTED", None),
-    # Pré-votação, líder pegajoso e check-quorum (RaftNode, item 1 do aperfeiçoamento)
+    # Pré-votação, proteção contra servidores disruptivos e check-quorum (RaftNode, item 1 do aperfeiçoamento)
     ("[INFO] Pré-voto negado para node-2 (mandato proposto 23): líder node-1 ativo (último contato há 812 ms).",
      "PRE_VOTE_DENIED", None),
     ("[INFO] Voto negado para node-2 no mandato 27: líder node-1 ativo (último contato há 40 ms). "

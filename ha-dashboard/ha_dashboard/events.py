@@ -19,7 +19,7 @@ _PATTERNS: list[tuple[str, re.Pattern[str]]] = [
     ("LEADER", re.compile(r"eleito LÍDER para o mandato (?P<term>\d+)")),
     ("QUORUM_LOST", re.compile(r"Renunciando à liderança: sem resposta da maioria")),
     ("STEP_DOWN", re.compile(r"deixou de ser LEADER|Renunciando à liderança")),
-    # Proteção do líder ativo (pré-votação e líder pegajoso)
+    # Proteção do líder ativo (pré-votação e proteção contra servidores disruptivos)
     ("PRE_VOTE_DENIED", re.compile(r"Pré-voto negado|Voto negado para \S+ no mandato \d+: ")),
     ("PRE_VOTE_LOST", re.compile(r"Pré-votação sem maioria")),
     ("PG_UNHEALTHY", re.compile(r"PostgreSQL declarado UNHEALTHY")),

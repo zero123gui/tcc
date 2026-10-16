@@ -29,9 +29,11 @@ public class RaftConfig {
     private long rpcTimeoutMs;
 
     /**
-     * Pré-votação (tese do Raft, seção 9.6) e "líder pegajoso" (seção 4.2.3): um nó só
-     * inicia eleição se a maioria confirmar que não há líder ativo. Impede que um nó que
-     * volta ao cluster derrube um líder saudável. Desligável para experimentos comparativos.
+     * Pré-votação (tese do Raft, seção 9.6) e proteção contra servidores disruptivos
+     * ("leader stickiness", seção 4.2.3): um nó só inicia eleição se a maioria confirmar
+     * que não há líder ativo, e quem ainda ouve o líder ignora candidaturas. Impede que um
+     * nó que volta ao cluster derrube um líder saudável. Desligável para experimentos
+     * comparativos.
      */
     private boolean preVote;
 

@@ -243,9 +243,11 @@ public class RaftNode {
                 return buildVoteResponse(false);
             }
 
-            // Líder "pegajoso" (tese do Raft, seção 4.2.3): enquanto há um líder ativo,
-            // candidaturas com mandato maior são ignoradas SEM atualizar o mandato. Sem
-            // isso, um nó que volta ao cluster com o mandato inflado derrubaria o líder.
+            // Proteção contra servidores disruptivos ("leader stickiness", tese do Raft,
+            // seção 4.2.3): enquanto o lease do líder é válido (heartbeat há menos de
+            // election-timeout-min-ms), candidaturas com mandato maior são ignoradas SEM
+            // atualizar o mandato. Sem isso, um nó que volta ao cluster com o mandato
+            // inflado derrubaria o líder.
             if (config.getRaft().isPreVote() && request.getTerm() > currentTerm && hasActiveLeader()) {
                 log.info("Voto negado para {} no mandato {}: {}. Mandato mantido em {}.",
                     request.getCandidateId(), request.getTerm(), activeLeaderDescription(), currentTerm);
@@ -370,7 +372,7 @@ public class RaftNode {
     }
 
     // =========================================================================
-    // Líder ativo (pré-votação, líder pegajoso e check-quorum)
+    // Líder ativo (pré-votação, proteção contra servidores disruptivos e check-quorum)
     // =========================================================================
 
     /**
