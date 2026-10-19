@@ -34,6 +34,16 @@ from ha_dashboard.events import classify, level_of
      "desatualizado. Mandato mantido em 22.", "PRE_VOTE_LOST", None),
     ("[WARN] Renunciando à liderança: sem resposta da maioria do cluster há mais de 15000 ms (check-quorum).",
      "QUORUM_LOST", None),
+    # Alinhamento entre o líder do Raft e o PRIMARY do PostgreSQL (item 2)
+    ("[WARN] Entregando a liderança: o PostgreSQL PRIMARY está em node-1 e o deste nó não é PRIMARY "
+     "(eleito sem failover). O nó do PRIMARY deve assumir a liderança.", "HANDOVER", None),
+    ("[INFO] Pré-votação: o PostgreSQL PRIMARY está em node-1. Este nó não se candidata, para que a "
+     "liderança do Raft fique com o nó do PRIMARY. Mandato mantido em 38.", "DEFER_TO_PRIMARY", None),
+    ("[WARN] O PostgreSQL local é PRIMARY, mas o do líder node-2 ainda não é. Fencing adiado: clonar o "
+     "líder agora copiaria um standby. Aguardando o líder promover o próprio PostgreSQL ou entregar a "
+     "liderança.", "FENCING_DEFERRED", None),
+    ("[ERROR] Auto-Healing abortado: o líder 192.168.56.102 não é PRIMARY ou não respondeu. Nenhum dado "
+     "foi apagado e o PostgreSQL local foi religado.", "HEAL_ABORTED", None),
 ])
 def test_classify_real_messages(line, kind, term):
     det = classify(line)

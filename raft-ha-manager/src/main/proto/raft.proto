@@ -37,6 +37,11 @@ message RequestVoteResponse {
 
   // true se o voto foi concedido ao candidato.
   bool vote_granted = 2;
+
+  // true se o PostgreSQL de quem responde é PRIMARY. Na pré-votação, um candidato
+  // cujo PostgreSQL é STANDBY desiste ao saber que o PRIMARY está em outro nó, para
+  // que a liderança do Raft fique com o nó do PRIMARY.
+  bool pg_primary = 3;
 }
 
 // ============================================================================
@@ -104,6 +109,11 @@ message AppendEntriesRequest {
   // Índice da última entrada confirmada pelo líder (commitIndex do líder).
   // O seguidor usa isso para avançar seu próprio commitIndex.
   int64 leader_commit = 6;
+
+  // true se o PostgreSQL do líder é PRIMARY. Um seguidor com o PostgreSQL PRIMARY só
+  // faz fencing e se clona do líder quando o líder já é o PRIMARY; antes disso o clone
+  // copiaria um standby e o cluster ficaria sem PRIMARY.
+  bool leader_pg_primary = 7;
 }
 
 message AppendEntriesResponse {
@@ -118,6 +128,10 @@ message AppendEntriesResponse {
   // O líder usa para atualizar matchIndex[followerId] com eficiência,
   // evitando retransmissões desnecessárias.
   int64 match_index = 3;
+
+  // true se o PostgreSQL do seguidor é PRIMARY. Um líder eleito sem promover o próprio
+  // PostgreSQL (primeira eleição) entrega a liderança quando um seguidor é o PRIMARY.
+  bool pg_primary = 4;
 }
 
 // ============================================================================

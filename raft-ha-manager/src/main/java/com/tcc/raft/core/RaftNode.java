@@ -1,6 +1,7 @@
 package com.tcc.raft.core;
 
 import com.tcc.raft.config.NodeConfig;
+import com.tcc.raft.config.PeerConfig;
 import com.tcc.raft.grpc.proto.RaftProto;
 import com.tcc.raft.postgres.FailoverExecutor;
 import com.tcc.raft.postgres.PostgresHealthChecker;
@@ -17,6 +18,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Máquina de estados do algoritmo Raft.
@@ -109,6 +111,25 @@ public class RaftNode {
      * líder para saber se ainda fala com a maioria (check-quorum).
      */
     private final Map<String, Long> lastPeerResponseNanos = new ConcurrentHashMap<>();
+
+    // =========================================================================
+    // Alinhamento entre o líder do Raft e o PRIMARY do PostgreSQL
+    // =========================================================================
+
+    /**
+     * true se o líder atual informou, no último AppendEntries, que o PostgreSQL dele é
+     * PRIMARY. O seguidor só faz fencing e se clona do líder quando isso é verdade.
+     */
+    private volatile boolean leaderPgPrimary = false;
+
+    /**
+     * true se este nó virou líder sem promover o PostgreSQL local (primeira eleição).
+     * Nesse caso ele entrega a liderança se um seguidor informar que é o PRIMARY.
+     */
+    private boolean leaderWithoutPromotion = false;
+
+    /** Líder e mandato do último aviso de fencing adiado, para não repetir a cada heartbeat. */
+    private String deferredFencingNotice = null;
 
     // =========================================================================
     // Dependências
@@ -294,7 +315,9 @@ public class RaftNode {
                 return buildAppendResponse(false);
             }
 
-            // Reconhece o líder e atualiza o mandato se necessário
+            // Reconhece o líder e atualiza o mandato se necessário. O papel do PostgreSQL
+            // do líder é registrado antes, porque becomeFollower verifica o split-brain.
+            leaderPgPrimary = request.getLeaderPgPrimary();
             if (request.getTerm() >= currentTerm) {
                 becomeFollower(request.getTerm(), request.getLeaderId());
             }
@@ -331,6 +354,7 @@ public class RaftNode {
                 .setTerm(currentTerm)
                 .setSuccess(true)
                 .setMatchIndex(raftLog.lastIndex())
+                .setPgPrimary(localPgPrimary())
                 .build();
         }
     }
@@ -410,6 +434,26 @@ public class RaftNode {
             }
         }
         return reachable >= quorumSize();
+    }
+
+    /** Quantidade de pares com PostgreSQL (não árbitros). */
+    private int pgPeerCount() {
+        int count = 0;
+        for (String peerId : peerClients.keySet()) {
+            if (!isArbiterPeer(peerId)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private boolean isArbiterPeer(String peerId) {
+        for (PeerConfig peer : config.getPeers()) {
+            if (peer.getId().equals(peerId)) {
+                return peer.isArbiter();
+            }
+        }
+        return false;
     }
 
     private static long millisSince(long nanos) {
@@ -526,17 +570,22 @@ public class RaftNode {
      *
      * <p>Decide assim que a maioria responde a favor (para não atrasar o failover
      * esperando o timeout de um par que caiu), quando todos responderam, ou no
-     * timeout de RPC.
+     * timeout de RPC. Se o PostgreSQL deste nó não é PRIMARY, espera também a resposta
+     * dos outros nós com PostgreSQL e desiste se um deles for o PRIMARY: a liderança
+     * do Raft deve ficar com o nó do PRIMARY.
      *
-     * @return true se a maioria (contando este nó) concedeu o pré-voto.
+     * @return true se a maioria (contando este nó) concedeu o pré-voto e nenhum outro
+     *         nó informou ser o PRIMARY.
      */
     private boolean runPreVote() {
+        final boolean selfPrimary;
         final long proposedTerm;
         final RaftProto.RequestVoteRequest request;
         synchronized (stateLock) {
             if (hasActiveLeader()) {
                 return false; // um heartbeat chegou enquanto o temporizador disparava
             }
+            selfPrimary = localPgPrimary();
             proposedTerm = currentTerm + 1;
             request = RaftProto.RequestVoteRequest.newBuilder()
                 .setTerm(proposedTerm)
@@ -550,6 +599,11 @@ public class RaftNode {
         int peers = peerClients.size();
         AtomicInteger granted = new AtomicInteger(1); // o próprio pré-voto
         AtomicInteger answered = new AtomicInteger(0);
+        // Um candidato que não é o PRIMARY espera também a resposta dos outros nós com
+        // PostgreSQL (não basta a maioria): se um deles for o PRIMARY, a liderança fica
+        // com ele. O árbitro sozinho não pode eleger um standby no lugar do primary.
+        AtomicInteger pgPeersPending = new AtomicInteger(selfPrimary ? 0 : pgPeerCount());
+        AtomicReference<String> primaryPeer = new AtomicReference<>();
         CompletableFuture<Boolean> decision = new CompletableFuture<>();
         if (granted.get() >= quorum || peers == 0) {
             decision.complete(granted.get() >= quorum);
@@ -558,17 +612,26 @@ public class RaftNode {
         for (Map.Entry<String, ? extends PeerClient> entry : peerClients.entrySet()) {
             final String peerId = entry.getKey();
             final PeerClient client = entry.getValue();
+            final boolean pgPeer = !isArbiterPeer(peerId);
             electionExecutor.submit(() -> {
                 try {
-                    if (client.preVote(request).getVoteGranted()
-                            && granted.incrementAndGet() >= quorum) {
-                        decision.complete(true);
+                    RaftProto.RequestVoteResponse response = client.preVote(request);
+                    if (response.getPgPrimary()) {
+                        primaryPeer.compareAndSet(null, peerId);
+                    }
+                    if (response.getVoteGranted()) {
+                        granted.incrementAndGet();
                     }
                 } catch (Exception e) {
                     log.debug("Erro ao solicitar pré-voto de {}: {}.", peerId, e.getMessage());
                 } finally {
+                    if (pgPeer && !selfPrimary) {
+                        pgPeersPending.decrementAndGet();
+                    }
                     if (answered.incrementAndGet() == peers) {
                         decision.complete(granted.get() >= quorum);
+                    } else if (granted.get() >= quorum && pgPeersPending.get() <= 0) {
+                        decision.complete(true);
                     }
                 }
             });
@@ -589,6 +652,13 @@ public class RaftNode {
         synchronized (stateLock) {
             if (won && hasActiveLeader()) {
                 won = false; // um líder apareceu durante a pré-votação
+            }
+            String primaryHolder = primaryPeer.get();
+            if (!selfPrimary && primaryHolder != null) {
+                log.info("Pré-votação: o PostgreSQL PRIMARY está em {}. Este nó não se candidata, para que "
+                    + "a liderança do Raft fique com o nó do PRIMARY. Mandato mantido em {}.",
+                    primaryHolder, currentTerm);
+                return false;
             }
             if (won) {
                 log.info("Pré-votação aprovada ({}/{}) para o mandato {}. Iniciando eleição.",
@@ -664,6 +734,20 @@ public class RaftNode {
 
         synchronized (stateLock) {
             if (role == RaftRole.FOLLOWER && pgStatus == PostgresHealthChecker.Status.PRIMARY && currentLeaderId != null) {
+                // Clonar um líder cujo PostgreSQL ainda é STANDBY deixaria o cluster sem
+                // PRIMARY (incidente de 15/10). Espera o líder promover o próprio banco ou
+                // entregar a liderança a este nó.
+                if (!leaderPgPrimary) {
+                    String notice = currentLeaderId + "@" + currentTerm;
+                    if (!notice.equals(deferredFencingNotice)) {
+                        deferredFencingNotice = notice;
+                        log.warn("O PostgreSQL local é PRIMARY, mas o do líder {} ainda não é. Fencing adiado: "
+                            + "clonar o líder agora copiaria um standby. Aguardando o líder promover o "
+                            + "próprio PostgreSQL ou entregar a liderança.", currentLeaderId);
+                    }
+                    return;
+                }
+                deferredFencingNotice = null;
                 String leaderIp = config.getPeerHost(currentLeaderId);
                 if (leaderIp != null) {
                     log.warn("Detectado estado Rogue Primary! Acionando Fencing e Auto-Healing assíncrono. Líder legítimo: {}", currentLeaderId);
@@ -730,10 +814,12 @@ public class RaftNode {
         // Eleição subsequente (previousLeader != null): líder anterior caiu → promover.
         if (!config.isArbiter()) {
             if (previousLeader != null && !previousLeader.equals(config.getNodeId())) {
+                leaderWithoutPromotion = false;
                 log.info("Líder anterior era '{}'. Verificando se o PostgreSQL local precisa ser promovido.",
                     previousLeader);
                 replicationExecutor.submit(this::checkAndExecutePostgresPromotion);
             } else {
+                leaderWithoutPromotion = true;
                 log.info("Primeira eleição do cluster (sem líder anterior). " +
                     "Nenhum failover PostgreSQL necessário.");
             }
@@ -831,6 +917,7 @@ public class RaftNode {
             .setPrevLogTerm(prevLogTerm)
             .addAllEntries(entriesToSend)
             .setLeaderCommit(leaderCommit)
+            .setLeaderPgPrimary(localPgPrimary())
             .build();
 
         try {
@@ -845,6 +932,17 @@ public class RaftNode {
                     log.info("Mandato mais alto ({}) detectado na resposta de {}. Revertendo para FOLLOWER.",
                         response.getTerm(), peerId);
                     becomeFollower(response.getTerm(), null);
+                    return;
+                }
+
+                // Líder da primeira eleição com o PostgreSQL STANDBY: o PRIMARY está no
+                // seguidor. Em vez de promover (dois primaries) ou deixar o seguidor se
+                // clonar de um standby, entrega a liderança. A pré-votação garante que
+                // o próximo líder seja o nó do PRIMARY.
+                if (leaderWithoutPromotion && response.getPgPrimary() && !localPgPrimary()) {
+                    log.warn("Entregando a liderança: o PostgreSQL PRIMARY está em {} e o deste nó não é "
+                        + "PRIMARY (eleito sem failover). O nó do PRIMARY deve assumir a liderança.", peerId);
+                    becomeFollower(currentTerm, null);
                     return;
                 }
 
@@ -1050,6 +1148,7 @@ public class RaftNode {
         return RaftProto.RequestVoteResponse.newBuilder()
             .setTerm(currentTerm)
             .setVoteGranted(granted)
+            .setPgPrimary(localPgPrimary())
             .build();
     }
 
@@ -1058,7 +1157,14 @@ public class RaftNode {
             .setTerm(currentTerm)
             .setSuccess(success)
             .setMatchIndex(raftLog.lastIndex())
+            .setPgPrimary(localPgPrimary())
             .build();
+    }
+
+    /** true se este nó não é árbitro e o PostgreSQL local está como PRIMARY. */
+    private boolean localPgPrimary() {
+        return !config.isArbiter()
+            && healthChecker.getCurrentStatus() == PostgresHealthChecker.Status.PRIMARY;
     }
 
     private String buildFailoverJson(String oldLeader, String newLeader, String reason) {
