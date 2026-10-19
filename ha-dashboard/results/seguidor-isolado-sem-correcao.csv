@@ -1,0 +1,6 @@
+rep,lider_antes,standby_isolado,mandato_antes,mandato_do_isolado_antes_de_voltar,mandato_final,lider_final,eleicoes,lider_derrubado,promocoes,self_healing_do_lider,sem_lider_s
+1,node-1,node-2,88,90,92,node-1,4,True,0,0,16.5
+2,node-1,node-2,92,94,95,node-2,3,True,1,2,0.0
+3,node-2,node-1,95,97,98,node-2,4,True,0,0,17.3
+4,node-2,node-1,98,100,101,node-1,3,True,1,2,8.0
+5,node-1,node-2,101,103,105,node-2,4,True,1,2,18.0
