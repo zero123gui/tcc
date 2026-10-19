@@ -59,7 +59,14 @@ class RaftGrpcClientReconnectTest {
         Server server = startServer(port);
         RaftGrpcClient client = new RaftGrpcClient("par", "127.0.0.1", port, 300);
         try {
-            assertTrue(tryCall(client), "chamada inicial deveria funcionar");
+            // A primeira conexão de uma JVM fria (carga de classes do Netty) pode passar do
+            // prazo de 300 ms; só a reconexão abaixo é medida.
+            long warmUntil = System.currentTimeMillis() + 5_000;
+            boolean warm = tryCall(client);
+            while (!warm && System.currentTimeMillis() < warmUntil) {
+                warm = tryCall(client);
+            }
+            assertTrue(warm, "chamada inicial deveria funcionar");
 
             // Par fora do ar por 8 s, com "heartbeats" a cada 100 ms falhando:
             // o suficiente para o backoff do gRPC passar de vários segundos.
