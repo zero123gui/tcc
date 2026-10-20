@@ -230,7 +230,7 @@ button[aria-busy="true"] { cursor: progress; opacity: .6; }
 .log-line[data-level="ERROR"] { color: var(--err); }
 .log-line[data-kind="PANEL"] { color: var(--accent); }
 .log-line[data-hl] { background: color-mix(in srgb, var(--leader) 12%, transparent); border-radius: 3px; }
-.log-line[data-kind="SPLIT_BRAIN"], .log-line[data-kind="PROMOTE_FAILED"], .log-line[data-kind="HEAL_FAILED"] { background: var(--err-bg); color: var(--err); }
+.log-line[data-kind="SPLIT_BRAIN"], .log-line[data-kind="PROMOTE_FAILED"], .log-line[data-kind="HEAL_FAILED"], .log-line[data-kind="HEAL_ABORTED"] { background: var(--err-bg); color: var(--err); }
 .only-events .log-line:not([data-hl]):not([data-kind="PANEL"]) { display: none; }
 
 .kind {

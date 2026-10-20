@@ -72,7 +72,7 @@ class Experiment:
             return
         if kind == "PG_UNHEALTHY" and node == self.target:
             self._mark("pg_unhealthy", ts)
-        elif kind in ("STEP_DOWN", "QUORUM_LOST") and node == self.old_leader:
+        elif kind in ("STEP_DOWN", "QUORUM_LOST", "HANDOVER") and node == self.old_leader:
             self._mark("step_down", ts)
         elif kind == "ELECTION":
             self._mark("first_election", ts)
@@ -89,7 +89,7 @@ class Experiment:
                 self._mark("split_brain" if kind == "SPLIT_BRAIN" else "healed", ts)
             else:
                 self.notes.append(f"{kind} inesperado em {node} (+{ts - self.started_at:.1f}s)")
-        elif kind in ("PROMOTE_FAILED", "HEAL_FAILED"):
+        elif kind in ("PROMOTE_FAILED", "HEAL_FAILED", "HEAL_ABORTED", "FENCING_DEFERRED"):
             self.notes.append(f"{kind} em {node} (+{ts - self.started_at:.1f}s)")
         self._check_done(ts)
 

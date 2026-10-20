@@ -24,10 +24,12 @@ import java.util.function.LongSupplier;
  * no PostgreSQL 12 ou superior. Se a função falhar, tenta via
  * {@code pg_ctl promote} como alternativa de linha de comando.
  *
- * <p>Após a promoção, outros nós do cluster precisam reconfigurar sua
- * replicação para apontar para o novo PRIMARY. Isso é feito pelo
- * {@link #reconfigureStandby(String, int, String, String)} chamado
- * remotamente pelo líder após confirmar a sua própria promoção.
+ * <p>Após a promoção, o outro nó com PostgreSQL (o antigo primary) volta como
+ * standby do novo PRIMARY pelo self-healing ({@link #fenceAndRecover}): o
+ * {@code pg_basebackup -R} do {@code recovery-standby.sh} grava o
+ * {@code primary_conninfo} apontando para o líder. Na topologia do TCC (dois nós
+ * com PostgreSQL e um árbitro) não sobra nenhum outro standby para redirecionar,
+ * por isso {@link #reconfigureStandby(String, int, String, String)} não é chamado.
  */
 public class FailoverExecutor {
 
@@ -40,6 +42,9 @@ public class FailoverExecutor {
      * standby recém-clonado.
      */
     static final long DEFAULT_RECOVERY_COOLDOWN_MS = 30_000;
+
+    /** Saída do recovery-standby.sh quando a origem não é PRIMARY: nada foi alterado. */
+    static final int RECOVERY_SOURCE_NOT_PRIMARY = 2;
 
     private final PostgresConfig config;
     private final long recoveryCooldownMs;
@@ -98,6 +103,11 @@ public class FailoverExecutor {
      *
      * <p>Usado quando este nó (que estava como standby do antigo primary) precisa
      * reconectar como standby do novo primary após um failover.
+     *
+     * <p><b>Não é chamado hoje.</b> Só seria necessário com três ou mais nós com
+     * PostgreSQL (um standby que continua vivo depois do failover). Para isso falta
+     * um RPC para o líder acioná-lo e um usuário com permissão de
+     * {@code ALTER SYSTEM} (o {@code raft_monitor} não é superusuário).
      *
      * <p>Usa {@code ALTER SYSTEM SET primary_conninfo} seguido de
      * {@code SELECT pg_reload_conf()} para aplicar a mudança sem reiniciar.
@@ -211,6 +221,9 @@ public class FailoverExecutor {
             recoverProc.waitFor(5, TimeUnit.MINUTES);
             if (recoverProc.exitValue() == 0) {
                 log.info("Auto-Healing concluído com sucesso. O PostgreSQL local agora é STANDBY.");
+            } else if (recoverProc.exitValue() == RECOVERY_SOURCE_NOT_PRIMARY) {
+                log.error("Auto-Healing abortado: o líder {} não é PRIMARY ou não respondeu. Nenhum dado "
+                    + "foi apagado e o PostgreSQL local foi religado.", leaderIp);
             } else {
                 log.error("Auto-Healing falhou com código de saída {}", recoverProc.exitValue());
             }

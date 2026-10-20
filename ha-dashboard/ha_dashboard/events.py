@@ -14,10 +14,15 @@ from dataclasses import dataclass
 _PATTERNS: list[tuple[str, re.Pattern[str]]] = [
     ("SPLIT_BRAIN", re.compile(r"SPLIT-BRAIN DETECTADO|estado Rogue Primary")),
     ("HEAL_FAILED", re.compile(r"Auto-Healing falhou|Falha catastrófica ao tentar executar Fencing")),
+    ("HEAL_ABORTED", re.compile(r"Auto-Healing abortado")),
     ("HEALED", re.compile(r"Auto-Healing concluído com sucesso")),
     ("ELECTION", re.compile(r"iniciou eleição para o mandato (?P<term>\d+)")),
     ("LEADER", re.compile(r"eleito LÍDER para o mandato (?P<term>\d+)")),
     ("QUORUM_LOST", re.compile(r"Renunciando à liderança: sem resposta da maioria")),
+    # Alinhamento entre o líder do Raft e o PRIMARY do PostgreSQL (item 2 do aperfeiçoamento)
+    ("HANDOVER", re.compile(r"Entregando a liderança: o PostgreSQL PRIMARY está em")),
+    ("DEFER_TO_PRIMARY", re.compile(r"Este nó não se candidata, para que a liderança")),
+    ("FENCING_DEFERRED", re.compile(r"Fencing adiado")),
     ("STEP_DOWN", re.compile(r"deixou de ser LEADER|Renunciando à liderança")),
     # Proteção do líder ativo (pré-votação e proteção contra servidores disruptivos)
     ("PRE_VOTE_DENIED", re.compile(r"Pré-voto negado|Voto negado para \S+ no mandato \d+: ")),
@@ -37,6 +42,7 @@ HIGHLIGHT = {
     "SPLIT_BRAIN", "HEAL_FAILED", "HEALED", "ELECTION", "LEADER", "STEP_DOWN",
     "PG_UNHEALTHY", "PROMOTING", "PROMOTED", "PROMOTE_FAILED",
     "QUORUM_LOST", "PRE_VOTE_DENIED", "PRE_VOTE_LOST",
+    "HANDOVER", "DEFER_TO_PRIMARY", "FENCING_DEFERRED", "HEAL_ABORTED",
 }
 
 

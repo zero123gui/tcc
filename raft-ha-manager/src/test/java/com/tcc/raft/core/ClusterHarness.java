@@ -50,6 +50,7 @@ final class ClusterHarness implements AutoCloseable {
     private final Map<String, Long> lastSeenTerm = new ConcurrentHashMap<>();
     private final List<String> violations = new CopyOnWriteArrayList<>();
     private final Set<String> everCandidate = ConcurrentHashMap.newKeySet();
+    private final Set<String> everLeader = ConcurrentHashMap.newKeySet();
     private final AtomicBoolean sampling = new AtomicBoolean(true);
     private final Thread sampler;
 
@@ -185,6 +186,7 @@ final class ClusterHarness implements AutoCloseable {
     FakeFailover failover(String id) { return failover.get(id); }
     FakeHealth health(String id) { return health.get(id); }
     Set<String> everCandidate() { return everCandidate; }
+    Set<String> everLeader() { return everLeader; }
 
     List<String> violations() { return violations; }
 
@@ -217,6 +219,7 @@ final class ClusterHarness implements AutoCloseable {
                 if (role == RaftRole.LEADER) {
                     Set<String> leaders = leadersByTerm.computeIfAbsent(t, k -> ConcurrentHashMap.newKeySet());
                     leaders.add(id);
+                    everLeader.add(id);
                     if (leaders.size() > 1) {
                         violations.add("mais de um líder no mandato " + t + ": " + leaders);
                     }
@@ -302,7 +305,12 @@ final class ClusterHarness implements AutoCloseable {
     static final class FakeFailover extends FailoverExecutor {
         private final FakeHealth health;
         final List<Long> promotions = new CopyOnWriteArrayList<>();
+        /** Instantes em que a promoção terminou (o status passou a PRIMARY). */
+        final List<Long> promotedAt = new CopyOnWriteArrayList<>();
         final List<String> fences = new CopyOnWriteArrayList<>();
+        final List<Long> fencedAt = new CopyOnWriteArrayList<>();
+        /** Duração simulada do pg_promote(); 0 = imediata. */
+        volatile long promotionDelayMs = 0;
 
         FakeFailover(FakeHealth health) {
             super(null);
@@ -312,11 +320,21 @@ final class ClusterHarness implements AutoCloseable {
         @Override
         public void promote() {
             promotions.add(System.currentTimeMillis());
+            if (promotionDelayMs > 0) {
+                try {
+                    Thread.sleep(promotionDelayMs);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    return;
+                }
+            }
+            promotedAt.add(System.currentTimeMillis()); // antes do status, para o teste comparar sem corrida
             health.set(PostgresHealthChecker.Status.PRIMARY);
         }
 
         @Override
         public void fenceAndRecover(String leaderIp) {
+            fencedAt.add(System.currentTimeMillis());
             fences.add(leaderIp);
             health.set(PostgresHealthChecker.Status.STANDBY);
         }
