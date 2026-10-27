@@ -35,38 +35,19 @@ Abra http://127.0.0.1:8000. O modo demo simula o cluster: as mensagens de log s�
 
 Pré-requisito: o cluster montado conforme `raft-ha-manager/scripts/README.md`.
 
-### 1. Chave SSH (no Windows, uma vez)
+### 1. Chave SSH e acesso do painel em cada VM
 
-```powershell
-ssh-keygen -t ed25519
-```
+Os dois passos estão no guia de instalação (`raft-ha-manager/scripts/README.md`, passos 3 e 7).
+O primeiro `ssh` grava a chave de cada VM no `known_hosts`, que o painel exige por padrão
+(`ssh.strict-host-keys`).
 
-Copie a chave pública para cada VM. O Windows não tem `ssh-copy-id`; use:
-
-```powershell
-foreach ($ip in "192.168.56.101", "192.168.56.102", "192.168.56.103") {
-  Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub | ssh ubuntu@$ip "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
-}
-```
-
-Esse primeiro `ssh` também grava a chave de cada VM no `known_hosts`, que o painel exige por padrão (`ssh.strict-host-keys`).
-
-### 2. Acesso do painel em cada VM
-
-```powershell
-foreach ($ip in "192.168.56.101", "192.168.56.102", "192.168.56.103") {
-  scp vm\ha-partition.sh vm\setup-vm-access.sh ubuntu@${ip}:~/
-  ssh -t ubuntu@$ip "sudo bash setup-vm-access.sh"
-}
-```
-
-O script faz três coisas:
+O `setup-vm-access.sh` faz três coisas:
 
 - instala `/usr/local/sbin/ha-partition`;
 - cria `/etc/sudoers.d/ha-dashboard`, que libera sem senha **somente** `systemctl start|stop` de `raft-ha-manager` e `postgresql` e o `ha-partition`;
 - coloca o usuário `ubuntu` no grupo `systemd-journal`, para ler os logs sem sudo.
 
-### 3. Configuração
+### 2. Configuração
 
 ```powershell
 copy config.example.yaml config.yaml
@@ -78,11 +59,18 @@ A senha do usuário `raft_monitor` do PostgreSQL **não** fica em arquivo: o pai
 
 O painel acessa o PostgreSQL direto do Windows (192.168.56.1). Isso funciona porque o `pg_hba.conf` criado por `02-postgres-primary.sh` já libera o `raft_monitor` para 192.168.56.0/24.
 
-### 4. Executar
+### 3. Executar
 
 ```powershell
-.venv\Scripts\python -m ha_dashboard
+.
+un.ps1
 ```
+
+O `run.ps1` confere o ambiente Python, cria o `config.yaml` a partir do exemplo na primeira vez,
+avisa se a porta 8000 já estiver em uso e pede a senha do `raft_monitor` sem mostrá-la na tela.
+Depois abra http://127.0.0.1:8000.
+
+Sem o script: defina `HA_PG_PASSWORD` e rode `.venv\Scripts\python -m ha_dashboard`.
 
 ---
 
@@ -110,7 +98,8 @@ Estes pontos vêm do código atual do `raft-ha-manager`; o modo demo os reproduz
 
 - **Parar só o `raft-ha-manager` do líder** deixa o PostgreSQL dele rodando como PRIMARY. Depois do failover existem dois primaries até o agente desse nó voltar e executar o fencing.
 - **Proteção do líder ativo** (pré-votação e check-quorum, ligadas por padrão no `node.yaml`). Um nó que volta ao cluster não derruba o líder: o painel mostra **PRÉ-VOTO NEGADO** nos outros nós e **PRÉ-VOTO SEM MAIORIA** no nó que tentou se candidatar. Um líder isolado renuncia depois de `election-timeout-min-ms` e aparece como **SEM QUÓRUM**. Com `pre-vote: false` e `check-quorum: false`, o comportamento antigo volta, o que permite comparar os dois nos experimentos.
-- **Os standbys não são reapontados para o novo primary.** `FailoverExecutor.reconfigureStandby` não é chamado. Num cluster com mais de um standby, o painel avisa quando um deles continua replicando do primary antigo.
+- **Alinhamento entre o líder e o primary.** Se o standby vencer a primeira eleição (cluster religado), ele entrega a liderança ao nó do primary: o painel mostra **ENTREGA AO PRIMARY** no líder, **AGUARDA O PRIMARY** no standby que desiste de se candidatar e **FENCING ADIADO** no primary, que espera o líder ser PRIMARY antes de se clonar dele. **HEALING ABORTADO** aparece se o `recovery-standby.sh` recusar a origem por ela não ser PRIMARY.
+- **Os standbys não são reapontados para o novo primary.** `FailoverExecutor.reconfigureStandby` não é chamado. Com dois nós com PostgreSQL isso não faz falta, porque o antigo primary volta pelo self-healing já apontando para o novo. Num cluster com mais de um standby, o painel avisa quando um deles continua replicando do primary antigo.
 
 ---
 
@@ -137,7 +126,10 @@ Estes pontos vêm do código atual do `raft-ha-manager`; o modo demo os reproduz
 | `ha_dashboard/summary.py` | Visão consolidada e alertas |
 | `ha_dashboard/actions.py` | Catálogo fechado de comandos |
 | `ha_dashboard/static/` | Interface (HTML/CSS/JS, sem dependências externas) |
-| `vm/` | `ha-partition.sh` e `setup-vm-access.sh` |
-| `tests/` | Testes (`.venv\Scripts\python -m pytest`) |
+| `vm/` | Scripts instalados nas VMs: `ha-partition.sh`, `setup-vm-access.sh`, `ha-deploy-agent.sh` e `install-deploy-rule.sh` |
+| `scripts/` | Medições em lote e resumo estatístico (ver `results/README.md`) |
+| `results/` | CSVs dos experimentos e relatórios |
+| `run.ps1` | Inicia o painel pedindo a senha do banco |
+| `tests/` | 56 testes (`.venv\Scripts\python -m pytest`) |
 
 Se as mensagens de log do agente mudarem, atualize os padrões em `events.py`. Os testes em `tests/test_events.py` usam as mensagens atuais.
