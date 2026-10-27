@@ -1,3 +1,5 @@
 # Artigos de referência (PDFs de terceiros): ficam só na máquina local.
-# As referências estão em docs/bibliografia.bib.
 Artigos/
+
+# IDE IntelliJ (o projeto usa VS Code)
+.idea/

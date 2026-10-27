@@ -46,3 +46,6 @@ id,inicio,cenario,alvo,lider_anterior,primary_anterior,novo_lider,novo_mandato,n
 45,2026-10-25T13:14:24.591,raft-stop,node-2,node-2,node-2,node-1,114,node-1,,,30.336,30.337,30.337,32.326,31.449,,,concluído,
 46,2026-10-25T13:16:20.283,pg-stop,node-1,node-1,node-1,node-2,115,node-2,9.704,9.705,32.315,32.315,32.315,33.809,34.793,,,concluído,
 47,2026-10-25T13:18:06.940,partition-on,node-2,node-2,node-2,node-1,116,node-1,35.932,15.664,17.243,17.243,17.245,18.731,17.694,27.265,42.666,concluído,ação partition-off em node-2 (+20.4s)
+48,2026-10-25T20:37:47.841,pg-stop,node-1,node-1,node-1,node-2,119,node-2,9.140,9.142,30.847,30.848,31.283,33.979,35.407,,,concluído,
+49,2026-10-26T15:34:58.100,pg-stop,node-2,node-2,node-2,node-1,108,node-1,7.966,7.967,29.347,29.347,29.348,31.592,33.612,,,concluído,
+50,2026-10-26T15:36:42.269,partition-on,node-1,node-1,node-1,node-2,109,node-2,48.646,20.426,20.563,20.563,20.564,22.300,21.684,40.383,54.931,concluído,ação partition-off em node-1 (+37.3s)

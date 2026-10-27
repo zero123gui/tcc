@@ -7,9 +7,7 @@ node-id: "node-3"
 grpc-address: "192.168.56.103:9090"
 arbiter: true
 
-# A seção 'postgres' é ignorada quando arbiter=true,
-# mas precisa existir para que o NodeConfig não falhe na validação.
-# Esse comportamento será corrigido na validação do NodeConfig.
+# Árbitro: não tem PostgreSQL, por isso não há seção 'postgres'.
 
 raft:
   heartbeat-interval-ms: 5000
