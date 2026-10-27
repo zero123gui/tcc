@@ -1,0 +1,7 @@
+﻿"cenario","rep","alvo","lider_antes","lider_depois","mandato_antes","mandato_depois","eleicoes","pre_votos_negados","sem_mudanca"
+"standby-agente","1","node-1","node-2","node-2","107","107","0","0","True"
+"standby-agente","2","node-1","node-2","node-2","107","107","0","0","True"
+"standby-agente","3","node-1","node-2","node-2","107","107","0","0","True"
+"arbitro-agente","1","node-3","node-2","node-2","107","107","0","0","True"
+"arbitro-agente","2","node-3","node-2","node-2","107","107","0","0","True"
+"arbitro-agente","3","node-3","node-2","node-2","107","107","0","0","True"
