@@ -37,3 +37,12 @@ id,inicio,cenario,alvo,lider_anterior,primary_anterior,novo_lider,novo_mandato,n
 36,2026-10-19T10:47:45.641,raft-stop,node-2,node-2,node-2,node-1,86,node-1,,,19.780,19.780,19.780,21.031,20.352,,,concluído,
 37,2026-10-19T10:49:12.636,pg-stop,node-1,node-1,node-1,node-2,87,node-2,8.284,8.284,31.991,31.991,31.991,33.498,34.341,,,concluído,
 38,2026-10-19T10:50:46.959,partition-on,node-2,node-2,node-2,node-1,88,node-1,,32.927,23.754,23.754,23.754,25.144,24.190,33.789,42.426,concluído,ação partition-off em node-2 (+26.7s)
+39,2026-10-25T13:04:01.158,raft-stop,node-2,node-2,node-2,node-1,108,node-1,,,23.719,23.720,23.721,26.035,25.259,,,concluído,
+40,2026-10-25T13:05:52.063,pg-stop,node-1,node-1,node-1,node-2,109,node-2,7.005,7.005,30.797,30.797,30.797,32.793,33.182,,,concluído,
+41,2026-10-25T13:07:33.487,partition-on,node-2,node-2,node-2,node-1,110,node-1,47.861,19.605,30.208,30.208,30.210,32.006,31.026,40.128,55.602,concluído,ação partition-off em node-2 (+34.8s)
+42,2026-10-25T13:09:19.811,raft-stop,node-1,node-1,node-1,node-2,111,node-2,,,25.329,25.330,25.331,27.766,26.578,,,concluído,
+43,2026-10-25T13:11:08.233,pg-stop,node-2,node-2,node-2,node-1,112,node-1,7.334,7.335,24.699,24.700,24.700,26.695,27.614,,,concluído,
+44,2026-10-25T13:12:44.144,partition-on,node-1,node-1,node-1,node-2,113,node-2,42.536,18.841,25.123,25.124,25.125,26.848,26.002,35.222,49.532,concluído,ação partition-off em node-1 (+28.8s)
+45,2026-10-25T13:14:24.591,raft-stop,node-2,node-2,node-2,node-1,114,node-1,,,30.336,30.337,30.337,32.326,31.449,,,concluído,
+46,2026-10-25T13:16:20.283,pg-stop,node-1,node-1,node-1,node-2,115,node-2,9.704,9.705,32.315,32.315,32.315,33.809,34.793,,,concluído,
+47,2026-10-25T13:18:06.940,partition-on,node-2,node-2,node-2,node-1,116,node-1,35.932,15.664,17.243,17.243,17.245,18.731,17.694,27.265,42.666,concluído,ação partition-off em node-2 (+20.4s)
